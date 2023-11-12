@@ -1,12 +1,13 @@
 package com.niewhic.vetclinic.repository;
 
 import com.niewhic.vetclinic.model.patient.Patient;
+import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-
+@Repository
 public class PatientRepository {
     private Map<Long, Patient> patientMap = new HashMap<>();
 
@@ -49,4 +50,6 @@ public class PatientRepository {
         Optional.ofNullable(updatedPatient.getBreed()).ifPresent(i -> patient.setBreed(updatedPatient.getBreed()));
         patientMap.replace(id, patient);
     }
+
+
 }

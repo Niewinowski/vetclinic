@@ -5,9 +5,10 @@ import com.niewhic.vetclinic.repository.PatientRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.List;
 
 @RestController
-@RequestMapping("/patient")
+@RequestMapping("/patients")
 public class PatientController {
     private PatientRepository patientRepository = new PatientRepository();
     // mappingi analogicznie jak w testcontrollerze
@@ -39,5 +40,10 @@ public class PatientController {
     @PatchMapping("/{id}")
     public void editPatient(@PathVariable long id, @RequestBody Patient updatedPatient) {
         patientRepository.edit(id, updatedPatient);
+    }
+
+    @PostMapping("/addPatients")
+    public void addPatients(@RequestBody List<Patient> patients) {
+        patients.forEach(patientRepository::add);
     }
 }

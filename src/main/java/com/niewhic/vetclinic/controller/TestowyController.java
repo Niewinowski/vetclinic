@@ -88,11 +88,16 @@ public class TestowyController {
                 .filter(p -> p.getId() == id)
                 .findFirst()
                 .ifPresent(osoba -> {
-                    Optional.ofNullable(osoba.getImie()).ifPresent(o -> osoba.setImie(updatedOsoba.getImie()));
-//                    if (updatedOsoba.getImie() != null) osoba.setImie(updatedOsoba.getImie());
-                    if (updatedOsoba.getNazwisko() != null) osoba.setNazwisko(updatedOsoba.getNazwisko());
-                    if (updatedOsoba.getPensja() != null && updatedOsoba.getPensja().compareTo(BigDecimal.ZERO) > 0)
-                        osoba.setPensja(updatedOsoba.getPensja());
+                    // Optional.ofNullable(osoba.getImie()).ifPresent(o -> osoba.setImie(updatedOsoba.getImie()));
+                    // if (updatedOsoba.getImie() != null) osoba.setImie(updatedOsoba.getImie());
+                    //if (updatedOsoba.getNazwisko() != null) osoba.setNazwisko(updatedOsoba.getNazwisko());
+                    //if (updatedOsoba.getPensja() != null && updatedOsoba.getPensja().compareTo(BigDecimal.ZERO) > 0)
+                       //osoba.setPensja(updatedOsoba.getPensja());
+                    Optional.ofNullable(updatedOsoba.getImie()).ifPresent(osoba::setImie);
+                    Optional.ofNullable(updatedOsoba.getNazwisko()).ifPresent(osoba::setNazwisko);
+                    Optional.ofNullable(updatedOsoba.getPensja())
+                            .filter(salary -> salary.compareTo(BigDecimal.ZERO) > 0)
+                            .ifPresent(osoba::setPensja);
                 });
     }
 
