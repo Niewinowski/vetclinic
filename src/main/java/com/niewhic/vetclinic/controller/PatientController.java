@@ -2,15 +2,17 @@ package com.niewhic.vetclinic.controller;
 
 import com.niewhic.vetclinic.model.patient.Patient;
 import com.niewhic.vetclinic.repository.PatientRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/patients")
 public class PatientController {
-    private PatientRepository patientRepository = new PatientRepository();
+    private final PatientRepository patientRepository;
     // mappingi analogicznie jak w testcontrollerze
     @GetMapping
     public Collection<Patient> getAllPatients() {
