@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 @Repository
 public class PatientRepository {
-    private Map<Long, Patient> patientMap = new HashMap<>();
+    private final Map<Long, Patient> patientMap = new HashMap<>();
 
     // metody na dodanie, znajdowanie, edycje itp jak bylo w testcontroller
 
