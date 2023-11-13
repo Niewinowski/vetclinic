@@ -1,11 +1,7 @@
 package com.niewhic.vetclinic.controller;
 
 import com.niewhic.vetclinic.model.appointment.Appointment;
-import com.niewhic.vetclinic.model.doctor.Doctor;
-import com.niewhic.vetclinic.model.patient.Patient;
-import com.niewhic.vetclinic.repository.AppointmentRepository;
-import com.niewhic.vetclinic.repository.DoctorRepository;
-import com.niewhic.vetclinic.repository.PatientRepository;
+import com.niewhic.vetclinic.repository.AppointmentRepository;;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
@@ -20,8 +16,6 @@ import java.util.List;
 @RequestMapping("/appointments")
 public class AppointmentController {
     private final AppointmentRepository appointmentRepository;
-    private final DoctorRepository doctorRepository;
-    private final PatientRepository patientRepository;
 
     @GetMapping
     public Collection<Appointment> getAllAppointments() {
@@ -35,16 +29,6 @@ public class AppointmentController {
 
     @PostMapping
     public ResponseEntity<?> addAppointment(@RequestBody Appointment appointment) {
-        Doctor doctor = doctorRepository.getById(appointment.getDoctorId());
-        Patient patient = patientRepository.getById(appointment.getPatientId());
-
-        if (doctor == null || patient == null) {
-            return ResponseEntity.badRequest().body("Doctor or Patient not found with the given IDs");
-        }
-
-        appointment.setDoctor(doctor);
-        appointment.setPatient(patient);
-
         appointmentRepository.add(appointment);
         return ResponseEntity.ok().build();
     }

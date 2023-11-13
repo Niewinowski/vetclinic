@@ -8,11 +8,12 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Repository
 public class AppointmentRepository {
-    private Map<Long, Appointment> appointments = new HashMap<>();
+    private final Map<Long, Appointment> appointments = new HashMap<>();
     private final DoctorRepository doctorRepository;
     private final PatientRepository patientRepository;
 
@@ -30,15 +31,17 @@ public class AppointmentRepository {
     }
 
     public void add(Appointment appointment) {
-        Doctor doctor = doctorRepository.getById(appointment.getDoctorId());
-        Patient patient = patientRepository.getById(appointment.getPatientId());
-        if (doctor == null) {
-            throw new IllegalArgumentException("Doctor not found with ID: " + appointment.getDoctorId());
-        } else if (patient == null) {
-            throw new IllegalArgumentException("Patient not found with ID: " + appointment.getPatientId());
+        List<Long> doctorsId = doctorRepository.getAll().stream()
+                .map(Doctor::getId)
+                .toList();
+        List<Long> patientsId = patientRepository.getAll().stream()
+                .map(Patient::getId)
+                .toList();
+        if (!doctorsId.contains(appointment.getDoctor().getId())) {
+            throw new IllegalArgumentException("Doctor not found");
+        } else if (!patientsId.contains(appointment.getPatient().getId())) {
+            throw new IllegalArgumentException("Patient not found");
         }
-        appointment.setDoctor(doctor);
-        appointment.setPatient(patient);
         appointments.put(appointment.getId(), appointment);
     }
 

@@ -17,8 +17,6 @@ import java.time.LocalDateTime;
 public class Appointment {
     // appointment(id, doctor, patient, localDateTime, notes, prescription)
     private long id;
-    private long doctorId;
-    private long patientId;
     private Doctor doctor;
     private Patient patient;
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
