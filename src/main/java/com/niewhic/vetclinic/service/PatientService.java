@@ -63,4 +63,51 @@ public class PatientService {
                     return patientToEdit;
                 }).orElseThrow(() -> new NoSuchElementException(String.format("Patient with id %s not found", id)));
     }
+
+    /* Transactional
+    Notatka o Adnotacji @Transactional w Javie
+
+Definicja:
+Adnotacja @Transactional jest używana w Javie do deklarowania zachowania transakcji na poziomie metody lub klasy.
+Jest częścią Spring Framework i używana głównie w kontekście zarządzania transakcjami w aplikacjach baz danych.
+
+Główne Zastosowania:
+
+Zarządzanie Transakcjami: Automatyzuje proces rozpoczynania, zarządzania i kończenia transakcji. Zajmuje się również wycofywaniem transakcji w przypadku wyjątków.
+Deklaratywne Zarządzanie Transakcjami: Pozwala na określenie zachowania transakcji bezpośrednio w kodzie za pomocą adnotacji, eliminując potrzebę ręcznego zarządzania transakcjami.
+Jak Stosować:
+
+Na Poziomie Klasy: Stosowanie @Transactional na poziomie klasy oznacza, że każda metoda publiczna w tej klasie będzie wykonana w kontekście transakcji.
+Na Poziomie Metody: Stosowanie @Transactional bezpośrednio na metodzie pozwala na bardziej szczegółowe kontrolowanie zachowania transakcji.
+Atrybuty Adnotacji:
+
+propagation: Określa typ propagacji transakcji.
+isolation: Definiuje poziom izolacji transakcji.
+timeout: Ustala limit czasu dla transakcji.
+readOnly: Wskazuje, czy transakcja jest tylko do odczytu.
+rollbackFor: Wymienia wyjątki, które spowodują wycofanie transakcji.
+noRollbackFor: Wymienia wyjątki, które nie spowodują wycofania transakcji.
+Dobre Praktyki:
+
+Stosuj @Transactional tylko tam, gdzie jest to konieczne.
+Unikaj długich transakcji, aby zmniejszyć ryzyko blokowania zasobów.
+Bądź świadomy propagacji transakcji, zwłaszcza w złożonych przepływach biznesowych.
+Przykład Użycia:
+
+java
+Copy code
+import org.springframework.transaction.annotation.Transactional;
+
+@Transactional
+public class SomeService {
+
+    public void someTransactionalMethod() {
+        // kod wykonujący operacje w transakcji
+    }
+}
+Uwagi Końcowe:
+Adnotacja @Transactional jest potężnym narzędziem upraszczającym zarządzanie transakcjami w aplikacjach baz danych. Należy jednak stosować ją rozważnie, z uwzględnieniem specyfiki działania aplikacji oraz wydajności.
+
+Ta notatka zawiera podstawowe informacje o adnotacji @Transactional, jej zastosowaniu, atrybutach oraz dobrych praktykach związanych z jej stosowaniem.
+     */
 }

@@ -14,5 +14,9 @@ public class VetclinicApplication {
 	// patient(id, name, ownerName, ownerLastName, dateOfBirth, ownerEmail, species, breed)
 	// appointment(id, doctor, patient, localDateTime, notes, prescription)
 
+	// dokonczyc przerobienie na service/repo patient, doctor, appointment
+	// jak przyjmujemy cos jsonem przez RequestBody niech to bedzie przyjete jako command (czyli stworzyc nowe commandy dla create i edit)
+	// wszedzie gdzie cos zwracamy z kontrolera, zwrocmy jako responseEntity
+
 
 }
