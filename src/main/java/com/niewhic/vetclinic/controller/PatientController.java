@@ -1,7 +1,7 @@
 package com.niewhic.vetclinic.controller;
 
 import com.niewhic.vetclinic.model.patient.Patient;
-import com.niewhic.vetclinic.repository.PatientRepository;
+import com.niewhic.vetclinic.service.PatientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,40 +12,39 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/patients")
 public class PatientController {
-    private final PatientRepository patientRepository;
-    // mappingi analogicznie jak w testcontrollerze
+    private final PatientService patientService;
     @GetMapping
-    public Collection<Patient> getAllPatients() {
-        return patientRepository.getAll();
+    public List<Patient> getAllPatients() {
+        return patientService.findAll();
     }
 
     @GetMapping("/{id}")
     public Patient getPatientById(@PathVariable long id) {
-        return patientRepository.getById(id);
+        return patientService.findById(id);
     }
 
     @PostMapping
-    public void addPatient(@RequestBody Patient patient) {
-        patientRepository.add(patient);
+    public Patient addPatient(@RequestBody Patient patient) {
+        return patientService.save(patient);
     }
 
     @DeleteMapping("/{id}")
     public void deletePatient(@PathVariable long id) {
-        patientRepository.delete(id);
+        patientService.delete(id);
     }
 
     @PutMapping("/{id}")
-    public void updatePatient(@PathVariable long id, @RequestBody Patient patient) {
-        patientRepository.update(id, patient);
+    public Patient updatePatient(@PathVariable long id, @RequestBody Patient patient) {
+        return patientService.edit(id, patient);
     }
 
     @PatchMapping("/{id}")
-    public void editPatient(@PathVariable long id, @RequestBody Patient updatedPatient) {
-        patientRepository.edit(id, updatedPatient);
+    public Patient editPatient(@PathVariable long id, @RequestBody Patient updatedPatient) {
+        return patientService.editPartially(id, updatedPatient);
     }
 
-    @PostMapping("/addPatients")
-    public void addPatients(@RequestBody List<Patient> patients) {
-        patients.forEach(patientRepository::add);
-    }
+//    @PostMapping("/addPatients")
+//    public Patient addPatients(@RequestBody List<Patient> patients) {
+//        return patients.forEach(patientService::save);
+//    }
 }
