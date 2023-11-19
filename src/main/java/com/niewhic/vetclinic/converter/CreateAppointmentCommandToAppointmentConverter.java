@@ -22,8 +22,8 @@ public class CreateAppointmentCommandToAppointmentConverter {
     public Appointment convert(CreateAppointmentCommand command) {
         try {
             Appointment appointment = Appointment.builder()
-                    .patient(patientService.findById(command.getPatientId()))
-                    .doctor(doctorService.findById(command.getDoctorId()))
+                    .patient(command.getPatientId() != null ? patientService.findById(command.getPatientId()) : null)
+                    .doctor(command.getDoctorId() != null ? doctorService.findById(command.getDoctorId()) : null)
                     .notes(command.getNotes())
                     .dateTime(command.getDateTime())
                     .prescription(command.getPrescription())
