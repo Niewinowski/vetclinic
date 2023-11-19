@@ -1,21 +1,50 @@
-//package com.niewhic.vetclinic.controller;
-//
-//import com.niewhic.vetclinic.model.doctor.Doctor;
-//import com.niewhic.vetclinic.service.DoctorService;
-//import lombok.RequiredArgsConstructor;
-//import org.springframework.web.bind.annotation.*;
-//
-//import java.util.Collection;
-//import java.util.List;
-//
-//
-//@RestController
-//@RequiredArgsConstructor
-//@RequestMapping("/doctors")
-//public class DoctorController {
-//
-//    private final DoctorService doctorService;
-//
+package com.niewhic.vetclinic.controller;
+
+import com.niewhic.vetclinic.model.doctor.Doctor;
+import com.niewhic.vetclinic.service.DoctorService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("/doctors")
+
+public class DoctorController {
+
+    private final DoctorService doctorService;
+
+    @GetMapping
+    public List<Doctor> getAllDoctors() {
+        return doctorService.findAll();
+    }
+    @GetMapping("/{id}")
+    public Doctor getDoctorById(@PathVariable long id) {
+        return doctorService.findById(id);
+    }
+    @PostMapping
+    public Doctor addDoctor(@RequestBody Doctor doctor) {
+        return doctorService.save(doctor);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteDoctor(@PathVariable long id) {
+        doctorService.delete(id);
+    }
+
+    @PutMapping("/{id}")
+    public Doctor updateDoctor(@PathVariable long id, @RequestBody Doctor doctor) {
+        return doctorService.edit(id, doctor);
+    }
+
+    @PatchMapping("/{id}")
+    public Doctor editDoctor(@PathVariable long id, @RequestBody Doctor doctor) {
+        return doctorService.editPartially(id, doctor);
+    }
+}
+
 //    @GetMapping
 //    public Collection<Doctor> getAllDoctors() {
 //        return doctorService.getAll();

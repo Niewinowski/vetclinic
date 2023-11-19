@@ -14,6 +14,31 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PatientService {
     // todo co to jest Bean springowy
+    //Bean w Springu to podstawowy element frameworka Spring, reprezentujący obiekt zarządzany przez kontener Springa. Spring Bean to zwykły obiekt Java, który jest zainicjalizowany, zmontowany, zarządzany i dostarczany przez Spring IoC (Inversion of Control) Container. Są one tworzone przez kontener Springa na podstawie definicji zawartej w konfiguracji aplikacji, która może być zrealizowana za pomocą XML, adnotacji lub kodu Java.
+    //
+    //Główne cechy Beanów Springowych:
+    //
+    //Zarządzanie cyklem życia: Spring zarządza całym cyklem życia beana, od jego utworzenia do zniszczenia.
+    //
+    //Wstrzykiwanie zależności (Dependency Injection): Beany mogą być konfigurowane do automatycznego wstrzykiwania zależności przez Springa. Oznacza to, że obiekty, które bean potrzebuje do działania, mogą być automatycznie dostarczane przez Springa.
+    //
+    //Zakres (Scope): Bean może mieć różne zakresy, takie jak singleton (domyślnie), prototype, request, session i global session. Zakres określa, jak często tworzony jest nowy egzemplarz beana.
+    //
+    //Zarządzanie zasobami: Spring zapewnia wygodne zarządzanie zasobami, takimi jak połączenia z bazą danych, sesje Hibernate itp.
+    //
+    //Integracja z różnymi technologiami: Beany mogą być zintegrowane z różnymi technologiami i frameworkami, takimi jak JPA, Hibernate, JMS, JDBC itp.
+    //
+    //Transakcyjność: Beany mogą być konfigurowane do obsługi transakcji.
+    //
+    //Tworzenie beana w Springu może być zrealizowane na kilka sposobów:
+    //
+    //Za pomocą adnotacji: Najczęściej używane adnotacje do tworzenia beana to @Component, @Service, @Repository, @Controller itp., które są stereotypami dla różnych warstw aplikacji.
+    //
+    //Za pomocą konfiguracji XML: Definiowanie beana w plikach konfiguracyjnych XML.
+    //
+    //Za pomocą konfiguracji opartej na Javie: Definiowanie beana w klasach konfiguracyjnych za pomocą adnotacji @Bean.
+    //
+    //Bean w Springu to więc po prostu obiekt, który jest zarządzany przez Spring IoC Container, co daje wiele korzyści w zakresie łatwości konfiguracji, zarządzania zależnościami i integracji z innymi elementami aplikacji.
 
     private final PatientRepository patientRepository;
 

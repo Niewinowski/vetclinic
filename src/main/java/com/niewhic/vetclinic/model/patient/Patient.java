@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 public class Patient {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

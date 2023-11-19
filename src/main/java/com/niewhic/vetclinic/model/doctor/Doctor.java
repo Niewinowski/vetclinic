@@ -10,8 +10,9 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @ToString
-@NoArgsConstructor
 @Entity
+@NoArgsConstructor
+
 public class Doctor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
