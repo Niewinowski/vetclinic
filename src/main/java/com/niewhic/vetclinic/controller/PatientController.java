@@ -45,9 +45,4 @@ public class PatientController {
     public ResponseEntity<Patient> editPatient(@PathVariable long id, @RequestBody Patient updatedPatient) {
         return ResponseEntity.ok(patientService.editPartially(id, updatedPatient));
     }
-
-//    @PostMapping("/addPatients")
-//    public Patient addPatients(@RequestBody List<Patient> patients) {
-//        return patients.forEach(patientService::save);
-//    }
 }

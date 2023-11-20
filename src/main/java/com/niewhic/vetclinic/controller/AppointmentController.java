@@ -28,9 +28,9 @@ public class AppointmentController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> addAppointment(@RequestBody CreateAppointmentCommand command) {
-        appointmentService.save(command);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<Appointment> addAppointment(@RequestBody CreateAppointmentCommand command) {
+        Appointment savedAppointment = appointmentService.save(command);
+        return new ResponseEntity<>(savedAppointment, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
