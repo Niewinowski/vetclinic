@@ -31,7 +31,9 @@ public class VetclinicApplication {
 	// zaimplementowac modelmapper i uzywac jego konwerterow dla appointment
 
 	// po skonczeniu powyzszego napiszemy testy jednostkowe dla konwerterow i warstwy serwisowej
-
+	// TODO
+	// wszedzie uzywac DTO i konwertera tak gdzie go nie ma
+	//
 //	https://www.baeldung.com/java-command-pattern
 
 }

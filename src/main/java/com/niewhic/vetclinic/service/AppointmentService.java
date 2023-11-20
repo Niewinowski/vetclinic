@@ -15,7 +15,6 @@ import java.util.*;
 @RequiredArgsConstructor
 public class AppointmentService {
     private final AppointmentRepository appointmentRepository;
-    private final CreateAppointmentCommandToAppointmentConverter converter;
     private final ModelMapper modelMapper;
 
     public List<Appointment> findAll() {
