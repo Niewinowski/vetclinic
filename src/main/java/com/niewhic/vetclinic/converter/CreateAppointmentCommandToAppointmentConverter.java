@@ -5,6 +5,8 @@ import com.niewhic.vetclinic.model.appointment.CreateAppointmentCommand;
 import com.niewhic.vetclinic.service.DoctorService;
 import com.niewhic.vetclinic.service.PatientService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.Converter;
+import org.modelmapper.spi.MappingContext;
 import org.springframework.stereotype.Component;
 
 import java.util.NoSuchElementException;
@@ -13,13 +15,14 @@ import org.slf4j.LoggerFactory;
 
 @RequiredArgsConstructor
 @Component
-public class CreateAppointmentCommandToAppointmentConverter {
+public class CreateAppointmentCommandToAppointmentConverter implements Converter<CreateAppointmentCommand, Appointment> {
     private static final Logger LOGGER = LoggerFactory.getLogger(CreateAppointmentCommandToAppointmentConverter.class);
-
     private final DoctorService doctorService;
     private final PatientService patientService;
 
-    public Appointment convert(CreateAppointmentCommand command) {
+    @Override
+    public Appointment convert(MappingContext<CreateAppointmentCommand, Appointment> mappingContext) {
+        CreateAppointmentCommand command = mappingContext.getSource();
         try {
             Appointment appointment = Appointment.builder()
                     .patient(command.getPatientId() != null ? patientService.findById(command.getPatientId()) : null)
@@ -36,12 +39,4 @@ public class CreateAppointmentCommandToAppointmentConverter {
             throw e;
         }
     }
-    //    return Appointment.builder()
-    //            .patient(patientService.findById(command.getPatientId()))
-    //            .doctor(doctorService.findById(command.getDoctorId()))
-    //            .notes(command.getNotes())
-     //           .dateTime(command.getDateTime())
-     //           .prescription(command.getPrescription())
-     //           .build();
-   // }
 }

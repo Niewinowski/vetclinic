@@ -32,5 +32,6 @@ public class VetclinicApplication {
 
 	// po skonczeniu powyzszego napiszemy testy jednostkowe dla konwerterow i warstwy serwisowej
 
+//	https://www.baeldung.com/java-command-pattern
 
 }

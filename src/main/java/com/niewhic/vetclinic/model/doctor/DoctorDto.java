@@ -5,6 +5,8 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class DoctorDto {
     private long id;
     private String name;

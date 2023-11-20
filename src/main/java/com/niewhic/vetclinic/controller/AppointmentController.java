@@ -5,6 +5,7 @@ import com.niewhic.vetclinic.model.appointment.CreateAppointmentCommand;
 import com.niewhic.vetclinic.service.AppointmentService;;
 import lombok.RequiredArgsConstructor;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import java.util.List;
 @RequestMapping("/appointments")
 public class AppointmentController {
     private final AppointmentService appointmentService;
+    private final ModelMapper modelMapper;
 
     @GetMapping
     public ResponseEntity<List<Appointment>> getAllAppointments() {

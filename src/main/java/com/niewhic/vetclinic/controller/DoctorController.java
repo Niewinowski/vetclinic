@@ -1,8 +1,10 @@
 package com.niewhic.vetclinic.controller;
 
 import com.niewhic.vetclinic.model.doctor.Doctor;
+import com.niewhic.vetclinic.model.doctor.DoctorDto;
 import com.niewhic.vetclinic.service.DoctorService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,14 +18,16 @@ import java.util.List;
 public class DoctorController {
 
     private final DoctorService doctorService;
+    private final ModelMapper modelMapper;
 
     @GetMapping
     public ResponseEntity<List<Doctor>> getAllDoctors() {
         return ResponseEntity.ok(doctorService.findAll());
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Doctor> getDoctorById(@PathVariable long id) {
-        return ResponseEntity.ok(doctorService.findById(id));
+    public ResponseEntity<DoctorDto> getDoctorById(@PathVariable long id) {
+        Doctor doctor = doctorService.findById(id);
+        return ResponseEntity.ok(modelMapper.map(doctor, DoctorDto.class));
     }
     @PostMapping
     public ResponseEntity<Void> addDoctor(@RequestBody Doctor doctor) {

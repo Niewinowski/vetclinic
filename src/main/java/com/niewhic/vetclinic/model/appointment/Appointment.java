@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 @Builder
 @Entity
 public class Appointment {
-    // appointment(id, doctor, patient, localDateTime, notes, prescription)
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

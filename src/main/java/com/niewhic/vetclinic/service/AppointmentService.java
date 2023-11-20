@@ -5,6 +5,7 @@ import com.niewhic.vetclinic.model.appointment.Appointment;
 import com.niewhic.vetclinic.model.appointment.CreateAppointmentCommand;;
 import com.niewhic.vetclinic.repository.AppointmentRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +16,7 @@ import java.util.*;
 public class AppointmentService {
     private final AppointmentRepository appointmentRepository;
     private final CreateAppointmentCommandToAppointmentConverter converter;
+    private final ModelMapper modelMapper;
 
     public List<Appointment> findAll() {
         return appointmentRepository.findAll();
@@ -25,7 +27,8 @@ public class AppointmentService {
     }
 
     public Appointment save(CreateAppointmentCommand command) {
-        return appointmentRepository.save(converter.convert(command));
+        Appointment appointmentToSave = modelMapper.map(command, Appointment.class);
+        return appointmentRepository.save(appointmentToSave);
     }
 
     public void delete(long id) {
@@ -34,7 +37,7 @@ public class AppointmentService {
 
     @Transactional
     public Appointment edit(long id, CreateAppointmentCommand updatedCommand) {
-        Appointment updatedAppointment = converter.convert(updatedCommand);
+        Appointment updatedAppointment = modelMapper.map(updatedCommand, Appointment.class);
         return appointmentRepository.findById(id)
                         .map(appointmentToEdit -> {
                             appointmentToEdit.setDoctor(updatedAppointment.getDoctor());
@@ -48,7 +51,7 @@ public class AppointmentService {
 
     @Transactional
     public Appointment editPartially(long id, CreateAppointmentCommand updatedCommand) {
-        Appointment updatedAppointment = converter.convert(updatedCommand);
+        Appointment updatedAppointment = modelMapper.map(updatedCommand, Appointment.class);
         return appointmentRepository.findById(id)
                 .map(appointmentToEdit -> {
                     Optional.ofNullable(updatedAppointment.getDoctor()).ifPresent(appointmentToEdit::setDoctor);

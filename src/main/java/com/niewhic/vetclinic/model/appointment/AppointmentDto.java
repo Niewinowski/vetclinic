@@ -1,7 +1,7 @@
 package com.niewhic.vetclinic.model.appointment;
 
-import com.niewhic.vetclinic.model.doctor.Doctor;
-import com.niewhic.vetclinic.model.patient.Patient;
+import com.niewhic.vetclinic.model.doctor.DoctorDto;
+import com.niewhic.vetclinic.model.patient.PatientDto;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
 public class AppointmentDto {
 
     private long id;
-    private Doctor doctor;
-    private Patient patient;
+    private DoctorDto doctor;
+    private PatientDto patient;
     private LocalDateTime dateTime;
     private String notes;
     private String prescription;
