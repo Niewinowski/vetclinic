@@ -4,6 +4,7 @@ import com.niewhic.vetclinic.model.doctor.Doctor;
 import com.niewhic.vetclinic.service.DoctorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,31 +18,33 @@ public class DoctorController {
     private final DoctorService doctorService;
 
     @GetMapping
-    public List<Doctor> getAllDoctors() {
-        return doctorService.findAll();
+    public ResponseEntity<List<Doctor>> getAllDoctors() {
+        return ResponseEntity.ok(doctorService.findAll());
     }
     @GetMapping("/{id}")
-    public Doctor getDoctorById(@PathVariable long id) {
-        return doctorService.findById(id);
+    public ResponseEntity<Doctor> getDoctorById(@PathVariable long id) {
+        return ResponseEntity.ok(doctorService.findById(id));
     }
     @PostMapping
-    public Doctor addDoctor(@RequestBody Doctor doctor) {
-        return doctorService.save(doctor);
+    public ResponseEntity<Void> addDoctor(@RequestBody Doctor doctor) {
+        doctorService.save(doctor);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @DeleteMapping("/{id}")
-    public void deleteDoctor(@PathVariable long id) {
+    public ResponseEntity<Void> deleteDoctor(@PathVariable long id) {
         doctorService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")
-    public Doctor updateDoctor(@PathVariable long id, @RequestBody Doctor doctor) {
-        return doctorService.edit(id, doctor);
+    public ResponseEntity<Doctor> updateDoctor(@PathVariable long id, @RequestBody Doctor doctor) {
+        return ResponseEntity.ok(doctorService.edit(id, doctor));
     }
 
     @PatchMapping("/{id}")
-    public Doctor editDoctor(@PathVariable long id, @RequestBody Doctor doctor) {
-        return doctorService.editPartially(id, doctor);
+    public ResponseEntity<Doctor> editDoctor(@PathVariable long id, @RequestBody Doctor doctor) {
+        return ResponseEntity.ok(doctorService.editPartially(id, doctor));
     }
 }
 
