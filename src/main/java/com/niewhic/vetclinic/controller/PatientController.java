@@ -25,9 +25,9 @@ public class PatientController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> addPatient(@RequestBody Patient patient) {
-        patientService.save(patient);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<Patient> addPatient(@RequestBody Patient patient) {
+        Patient savedPatient = patientService.save(patient);
+        return new ResponseEntity<>(savedPatient, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")

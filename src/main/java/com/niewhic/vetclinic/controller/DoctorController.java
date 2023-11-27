@@ -30,9 +30,9 @@ public class DoctorController {
         return ResponseEntity.ok(modelMapper.map(doctor, DoctorDto.class));
     }
     @PostMapping
-    public ResponseEntity<Void> addDoctor(@RequestBody Doctor doctor) {
-        doctorService.save(doctor);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<Doctor> addDoctor(@RequestBody Doctor doctor) {
+        Doctor savedDoctor = doctorService.save(doctor);
+        return new ResponseEntity<>(savedDoctor, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
