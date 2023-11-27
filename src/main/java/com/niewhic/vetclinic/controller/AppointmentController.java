@@ -19,16 +19,19 @@ public class AppointmentController {
     private final AppointmentService appointmentService;
     private final ModelMapper modelMapper;
 
+    // TODO zwracac AppointmentDto
     @GetMapping
     public ResponseEntity<List<Appointment>> getAllAppointments() {
         return ResponseEntity.ok(appointmentService.findAll());
     }
 
+    // TODO zwracac AppointmentDto
     @GetMapping("/{id}")
     public ResponseEntity<Appointment> getAppointmentById(@PathVariable long id) {
         return ResponseEntity.ok(appointmentService.findById(id));
     }
 
+    // TODO zwracac AppointmentDto
     @PostMapping
     public ResponseEntity<Appointment> addAppointment(@RequestBody CreateAppointmentCommand command) {
         Appointment savedAppointment = appointmentService.save(command);
@@ -40,12 +43,12 @@ public class AppointmentController {
         appointmentService.delete(id);
         return ResponseEntity.noContent().build();
     }
-
+    // TODO zwracac AppointmentDto
     @PutMapping("/{id}")
     public ResponseEntity<Appointment> updateAppointment(@PathVariable long id, @RequestBody CreateAppointmentCommand updatedCommand) {
         return ResponseEntity.ok(appointmentService.edit(id, updatedCommand));
     }
-
+    // TODO zwracac AppointmentDto
     @PatchMapping("/{id}")
     public ResponseEntity<Appointment> editAppointment(@PathVariable long id, @RequestBody CreateAppointmentCommand updatedCommand) {
         return ResponseEntity.ok(appointmentService.editPartially(id, updatedCommand));

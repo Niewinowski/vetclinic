@@ -128,10 +128,10 @@ class PatientServiceTest {
                 .build();
 
         when(patientRepository.findById(id)).thenReturn(Optional.of(patient));
-        when(patientRepository.save(patient)).thenReturn(updatedPatient);
 
         Patient editedPatient = patientService.edit(id, updatedPatient);
 
+        // TODO zmienic na porownanie pol pacjentow a nie obiektow bezposrednio
         assertEquals(updatedPatient, editedPatient);
     }
 
@@ -169,7 +169,6 @@ class PatientServiceTest {
                 .build();
 
         when(patientRepository.findById(id)).thenReturn(Optional.of(patient));
-        when(patientRepository.save(patient)).thenReturn(patient);
 
         Patient editedPatient = patientService.editPartially(id, updatedPatient);
 

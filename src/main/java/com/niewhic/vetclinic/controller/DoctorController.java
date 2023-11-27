@@ -29,23 +29,25 @@ public class DoctorController {
         Doctor doctor = doctorService.findById(id);
         return ResponseEntity.ok(modelMapper.map(doctor, DoctorDto.class));
     }
+    // TODO zwracac DoctorDto
     @PostMapping
     public ResponseEntity<Doctor> addDoctor(@RequestBody Doctor doctor) {
         Doctor savedDoctor = doctorService.save(doctor);
         return new ResponseEntity<>(savedDoctor, HttpStatus.CREATED);
     }
 
+    // TODO zwracac DoctorDto
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteDoctor(@PathVariable long id) {
         doctorService.delete(id);
         return ResponseEntity.noContent().build();
     }
-
+    // TODO zwracac DoctorDto
     @PutMapping("/{id}")
     public ResponseEntity<Doctor> updateDoctor(@PathVariable long id, @RequestBody Doctor doctor) {
         return ResponseEntity.ok(doctorService.edit(id, doctor));
     }
-
+    // TODO zwracac DoctorDto
     @PatchMapping("/{id}")
     public ResponseEntity<Doctor> editDoctor(@PathVariable long id, @RequestBody Doctor doctor) {
         return ResponseEntity.ok(doctorService.editPartially(id, doctor));
