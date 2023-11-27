@@ -29,7 +29,6 @@ public class VetclinicApplication {
 	// DoctorDto, PatientDto, AppointmentDto
 	// przy AppointmentDto bedzie ptorzebny konwerter AppointmentToAppointmentDtoConverter
 	// zaimplementowac modelmapper i uzywac jego konwerterow dla appointment
-
 	// po skonczeniu powyzszego napiszemy testy jednostkowe dla konwerterow i warstwy serwisowej
 	// TODO
 	// wszedzie uzywac DTO i konwertera tak gdzie go nie ma

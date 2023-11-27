@@ -14,4 +14,5 @@ public class CreateDoctorDtoCommand {
     private int rate;
     private String specialty;
     private String animalSpecialty;
+
 }

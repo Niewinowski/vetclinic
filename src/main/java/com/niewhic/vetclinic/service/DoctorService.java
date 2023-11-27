@@ -59,6 +59,8 @@ public class DoctorService {
                     return doctorToEdit;
                 }).orElseThrow(() -> new NoSuchElementException(String.format("Doctor with id %s not found", id)));
     }
+
+
 //    private Map<Long, Doctor> doctorMap = new ConcurrentHashMap<>();
 //
 //    public Collection<Doctor> getAll() {
