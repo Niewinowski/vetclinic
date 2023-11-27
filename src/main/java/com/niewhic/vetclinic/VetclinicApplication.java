@@ -35,4 +35,6 @@ public class VetclinicApplication {
 	//
 //	https://www.baeldung.com/java-command-pattern
 
+	// TODO na nastepnych zajeciach: GlobalExceptionHandler i testy controllerow
+
 }

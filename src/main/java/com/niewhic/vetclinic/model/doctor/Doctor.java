@@ -20,7 +20,7 @@ public class Doctor {
     private String name;
     private String lastName;
     private String NIP;
-    private int rate;
+    private Integer rate;
     private String specialty;
     private String animalSpecialty;
 }

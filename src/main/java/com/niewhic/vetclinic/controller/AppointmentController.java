@@ -43,12 +43,12 @@ public class AppointmentController {
         appointmentService.delete(id);
         return ResponseEntity.noContent().build();
     }
-    // TODO zwracac AppointmentDto
+    // TODO zwracac AppointmentDto, przyjmowac EditAppointmentCommand
     @PutMapping("/{id}")
     public ResponseEntity<Appointment> updateAppointment(@PathVariable long id, @RequestBody CreateAppointmentCommand updatedCommand) {
         return ResponseEntity.ok(appointmentService.edit(id, updatedCommand));
     }
-    // TODO zwracac AppointmentDto
+    // TODO zwracac AppointmentDto, przyjmowac EditAppointmentCommand
     @PatchMapping("/{id}")
     public ResponseEntity<Appointment> editAppointment(@PathVariable long id, @RequestBody CreateAppointmentCommand updatedCommand) {
         return ResponseEntity.ok(appointmentService.editPartially(id, updatedCommand));

@@ -25,7 +25,7 @@ public class PatientController {
     public ResponseEntity<Patient> getPatientById(@PathVariable long id) {
         return ResponseEntity.ok(patientService.findById(id));
     }
-    // TODO zwracac PatientDto
+    // TODO zwracac PatientDto, przyjmowac CreatePatientCommand
     @PostMapping
     public ResponseEntity<Patient> addPatient(@RequestBody Patient patient) {
         Patient savedPatient = patientService.save(patient);
@@ -36,12 +36,12 @@ public class PatientController {
         patientService.delete(id);
         return ResponseEntity.noContent().build();
     }
-    // TODO zwracac PatientDto
+    // TODO zwracac PatientDto, przyjmowac EditPatientCommand
     @PutMapping("/{id}")
     public ResponseEntity<Patient> updatePatient(@PathVariable long id, @RequestBody Patient patient) {
         return ResponseEntity.ok(patientService.edit(id, patient));
     }
-    // TODO zwracac PatientDto
+    // TODO zwracac PatientDto, przyjmowac EditPatientCommand
     @PatchMapping("/{id}")
     public ResponseEntity<Patient> editPatient(@PathVariable long id, @RequestBody Patient updatedPatient) {
         return ResponseEntity.ok(patientService.editPartially(id, updatedPatient));

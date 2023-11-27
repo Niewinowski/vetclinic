@@ -13,3 +13,5 @@ public class EditPatientCommand {
     private String ownerLastName;
     private String ownerEmail;
 }
+
+// TODO stworzyc konwerter
