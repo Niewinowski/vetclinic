@@ -62,3 +62,4 @@ class DoctorControllerTest {
                 .andExpect(jsonPath("$.grade").value(5));
 
     }
+}

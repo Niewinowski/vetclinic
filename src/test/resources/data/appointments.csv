@@ -1,11 +1,6 @@
-date,topic,student_id,teacher_id,active
-2022-03-09,generyki,1,1,TRUE
-2022-03-11,stringi,2,1,TRUE
-2022-04-09,petle,1,4,TRUE
-2022-03-03,obiektowosc,1,3,TRUE
-2022-03-09,wielowatkowosc,2,1,TRUE
-2022-07-11,zapis do pliku,1,3,TRUE
-2022-12-09,metody,2,1,TRUE
-2022-03-02,streamy,3,5,TRUE
-2022-05-07,petle,2,1,TRUE
-2022-08-22,zmienne,5,5,TRUE
+doctor_id,patient_id,date_time,notes,prescription
+1,1,2023-09-01T10:00:00,Regular check-up for Scooby after a mystery adventure.,Vitamin snacks for bravery.
+2,2,2023-09-02T11:00:00,Consultation for Garfield's dislike for Mondays.,Lasagna therapy.
+3,3,2023-09-03T09:30:00,Hedwig is in for a magical feather check-up.,Owl treats and a good flight exercise regimen.
+4,4,2023-09-04T13:00:00,Falkor's annual dragon scale polish.,Scale shine and a flight through the clouds.
+5,5,2023-09-05T15:00:00,Toothless needs a night fury energy boost.,Astral fish and relaxation under the stars.
