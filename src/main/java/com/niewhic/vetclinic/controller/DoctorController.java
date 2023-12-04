@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/doctors")
-
 public class DoctorController {
 
     private final DoctorService doctorService;
@@ -61,6 +60,7 @@ public class DoctorController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<DoctorDto> editDoctor(@PathVariable long id, @RequestBody EditDoctorCommand command) {
+        // TODO wywolac faktyczna metode edit partially z DoctorService
         Doctor existingDoctor = doctorService.findById(id);
         if (command.getName() != null) {
             existingDoctor.setName(command.getName());

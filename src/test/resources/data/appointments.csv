@@ -1,0 +1,11 @@
+date,topic,student_id,teacher_id,active
+2022-03-09,generyki,1,1,TRUE
+2022-03-11,stringi,2,1,TRUE
+2022-04-09,petle,1,4,TRUE
+2022-03-03,obiektowosc,1,3,TRUE
+2022-03-09,wielowatkowosc,2,1,TRUE
+2022-07-11,zapis do pliku,1,3,TRUE
+2022-12-09,metody,2,1,TRUE
+2022-03-02,streamy,3,5,TRUE
+2022-05-07,petle,2,1,TRUE
+2022-08-22,zmienne,5,5,TRUE

@@ -37,4 +37,8 @@ public class VetclinicApplication {
 
 	// TODO na nastepnych zajeciach: GlobalExceptionHandler i testy controllerow
 
+	// TODO naprawic editAppointment, trzeba dodac konwerter dla EditAppointmentCommand
+	// TODO dodac konkretne wyjatki pod model: DoctorNotFoundException, PatientNotFoundException, AppointmentNotFoundException
+	// TODO i obsluzyc je w globalExceptionHandler
+
 }

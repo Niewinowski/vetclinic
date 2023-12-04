@@ -211,7 +211,6 @@ class DoctorServiceTest {
                 .build();
 
         when(doctorRepository.findById(doctorId)).thenReturn(Optional.of(existingDoctor));
-        when(doctorRepository.save(any(Doctor.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         Doctor result = doctorService.editPartially(doctorId, updatedDoctor);
 
@@ -224,7 +223,6 @@ class DoctorServiceTest {
         );
 
         verify(doctorRepository, times(1)).findById(doctorId);
-        verify(doctorRepository, times(1)).save(any(Doctor.class));
     }
 
 

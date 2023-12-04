@@ -1,14 +1,14 @@
 package com.niewhic.vetclinic.model.patient;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class PatientDto {
     private long id;
     private String name;
