@@ -14,4 +14,3 @@ public class EditPatientCommand {
     private String ownerEmail;
 }
 
-// TODO stworzyc konwerter

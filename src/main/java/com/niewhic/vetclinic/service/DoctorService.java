@@ -19,6 +19,7 @@ public class DoctorService {
     public List<Doctor> findAll() {
         return doctorRepository.findAll();
     }
+
     public Doctor findById(long id) {
         return doctorRepository.findById(id).orElseThrow(() -> new NoSuchElementException(String.format("Doctor with id %s not found", id)));
     }
@@ -46,6 +47,7 @@ public class DoctorService {
                 }).orElseThrow(() -> new NoSuchElementException(String.format("Doctor with id %s not found", id)));
     }
 
+
     @Transactional
     public Doctor editPartially(long id, Doctor updatedDoctor) {
         return doctorRepository.findById(id)
@@ -57,6 +59,9 @@ public class DoctorService {
                     Optional.ofNullable(updatedDoctor.getSpecialty()).ifPresent(doctorToEdit::setSpecialty);
                     Optional.ofNullable(updatedDoctor.getAnimalSpecialty()).ifPresent(doctorToEdit::setAnimalSpecialty);
                     return doctorToEdit;
-                }).orElseThrow(() -> new NoSuchElementException(String.format("Doctor with id %s not found", id)));
+                })
+                .orElseThrow(() -> new NoSuchElementException(String.format("Doctor with id %s not found", id)));
     }
+
+
 }

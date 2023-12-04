@@ -1,8 +1,8 @@
 package com.niewhic.vetclinic.service;
 
-import com.niewhic.vetclinic.converter.CreateAppointmentCommandToAppointmentConverter;
 import com.niewhic.vetclinic.model.appointment.Appointment;
 import com.niewhic.vetclinic.model.appointment.CreateAppointmentCommand;;
+import com.niewhic.vetclinic.model.appointment.EditAppointmentCommand;
 import com.niewhic.vetclinic.repository.AppointmentRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -35,7 +35,7 @@ public class AppointmentService {
     }
 
     @Transactional
-    public Appointment edit(long id, CreateAppointmentCommand updatedCommand) {
+    public Appointment edit(long id, EditAppointmentCommand updatedCommand) {
         Appointment updatedAppointment = modelMapper.map(updatedCommand, Appointment.class);
         return appointmentRepository.findById(id)
                         .map(appointmentToEdit -> {
@@ -49,7 +49,7 @@ public class AppointmentService {
     }
 
     @Transactional
-    public Appointment editPartially(long id, CreateAppointmentCommand updatedCommand) {
+    public Appointment editPartially(long id, EditAppointmentCommand updatedCommand) {
         Appointment updatedAppointment = modelMapper.map(updatedCommand, Appointment.class);
         return appointmentRepository.findById(id)
                 .map(appointmentToEdit -> {

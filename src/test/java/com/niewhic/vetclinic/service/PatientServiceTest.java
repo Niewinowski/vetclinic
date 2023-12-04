@@ -201,4 +201,5 @@ class PatientServiceTest {
 
         assertThrows(NoSuchElementException.class, () -> patientService.editPartially(id, updatedPatient));
     }
+
 }

@@ -8,7 +8,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -113,4 +117,115 @@ class DoctorServiceTest {
         doctorService.delete(doctorId);
         verify(doctorRepository, times(1)).deleteById(doctorId);
     }
+
+
+    @Test
+    void findAllDoctors() {
+        Doctor doctor1 = Doctor.builder()
+                .id(1L)
+                .name("John")
+                .lastName("Smith")
+                .rate(5)
+                .specialty("Cardiology")
+                .animalSpecialty("Dogs")
+                .build();
+
+        Doctor doctor2 = Doctor.builder()
+                .id(2L)
+                .name("Jane")
+                .lastName("Doe")
+                .rate(4)
+                .specialty("Neurology")
+                .animalSpecialty("Cats")
+                .build();
+
+
+        when(doctorRepository.findAll()).thenReturn(List.of(doctor1, doctor2));
+
+        List<Doctor> doctorList = doctorService.findAll();
+
+        assertNotNull(doctorList);
+        assertEquals(2, doctorList.size());
+    }
+
+    @Test
+    void givenNonExistingDoctorId_whenFindById_thenThrowsException() {
+        long id = 100L;
+        when(doctorRepository.findById(id)).thenReturn(Optional.empty());
+
+        assertThrows(NoSuchElementException.class, () -> doctorService.findById(id));
+    }
+
+
+    @Test
+    void findAllDoctors_whenNoDoctorsExist() {
+        when(doctorRepository.findAll()).thenReturn(List.of());
+
+        List<Doctor> doctorList = doctorService.findAll();
+
+        assertTrue(doctorList.isEmpty());
+    }
+    @Test
+    void deleteNonExistingDoctor() {
+        long nonExistingDoctorId = 999L;
+        doThrow(new NoSuchElementException()).when(doctorRepository).deleteById(nonExistingDoctorId);
+
+        assertThrows(NoSuchElementException.class, () -> doctorService.delete(nonExistingDoctorId));
+
+        verify(doctorRepository, times(1)).deleteById(nonExistingDoctorId);
+    }
+    @Test
+    void addDoctor_withMissingFields() {
+        Doctor incompleteDoctor = Doctor.builder()
+                .id(3L)
+                .name("Alice")
+                .build();
+
+        when(doctorRepository.save(incompleteDoctor)).thenReturn(incompleteDoctor);
+
+        Doctor savedDoctor = doctorService.save(incompleteDoctor);
+
+        assertNotNull(savedDoctor);
+        assertEquals(incompleteDoctor.getName(), savedDoctor.getName());
+        assertNull(savedDoctor.getLastName());
+
+    }
+
+    @Test
+    void updateDoctorPartially() {
+        long doctorId = 1L;
+        Doctor existingDoctor = Doctor.builder()
+                .id(doctorId)
+                .name("John")
+                .lastName("Doe")
+                .specialty("Cardiology")
+                .rate(5)
+                .animalSpecialty("Dogs")
+                .build();
+
+        Doctor updatedDoctor = Doctor.builder()
+                .id(doctorId)
+                .name("Jane")
+                .lastName(null)
+                .specialty("Neurology")
+                .build();
+
+        when(doctorRepository.findById(doctorId)).thenReturn(Optional.of(existingDoctor));
+        when(doctorRepository.save(any(Doctor.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        Doctor result = doctorService.editPartially(doctorId, updatedDoctor);
+
+        assertAll(
+                () -> assertEquals("Jane", result.getName()),
+                () -> assertEquals("Doe", result.getLastName()),
+                () -> assertEquals("Neurology", result.getSpecialty()),
+                () -> assertEquals(5, result.getRate()),
+                () -> assertEquals("Dogs", result.getAnimalSpecialty())
+        );
+
+        verify(doctorRepository, times(1)).findById(doctorId);
+        verify(doctorRepository, times(1)).save(any(Doctor.class));
+    }
+
+
 }

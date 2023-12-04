@@ -1,7 +1,9 @@
 package com.niewhic.vetclinic.controller;
 
 import com.niewhic.vetclinic.model.appointment.Appointment;
+import com.niewhic.vetclinic.model.appointment.AppointmentDto;
 import com.niewhic.vetclinic.model.appointment.CreateAppointmentCommand;
+import com.niewhic.vetclinic.model.appointment.EditAppointmentCommand;
 import com.niewhic.vetclinic.service.AppointmentService;;
 import lombok.RequiredArgsConstructor;
 
@@ -11,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,23 +22,22 @@ public class AppointmentController {
     private final AppointmentService appointmentService;
     private final ModelMapper modelMapper;
 
-    // TODO zwracac AppointmentDto
     @GetMapping
-    public ResponseEntity<List<Appointment>> getAllAppointments() {
-        return ResponseEntity.ok(appointmentService.findAll());
+    public ResponseEntity<List<AppointmentDto>> getAllAppointments() {
+        return ResponseEntity.ok(appointmentService.findAll().stream()
+                .map(appointment -> modelMapper.map(appointment, AppointmentDto.class))
+                .collect(Collectors.toList()));
     }
 
-    // TODO zwracac AppointmentDto
     @GetMapping("/{id}")
-    public ResponseEntity<Appointment> getAppointmentById(@PathVariable long id) {
-        return ResponseEntity.ok(appointmentService.findById(id));
+    public ResponseEntity<AppointmentDto> getAppointmentById(@PathVariable long id) {
+        return ResponseEntity.ok(modelMapper.map(appointmentService.findById(id), AppointmentDto.class));
     }
 
-    // TODO zwracac AppointmentDto
     @PostMapping
-    public ResponseEntity<Appointment> addAppointment(@RequestBody CreateAppointmentCommand command) {
+    public ResponseEntity<AppointmentDto> addAppointment(@RequestBody CreateAppointmentCommand command) {
         Appointment savedAppointment = appointmentService.save(command);
-        return new ResponseEntity<>(savedAppointment, HttpStatus.CREATED);
+        return new ResponseEntity<>(modelMapper.map(savedAppointment, AppointmentDto.class), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
@@ -43,15 +45,16 @@ public class AppointmentController {
         appointmentService.delete(id);
         return ResponseEntity.noContent().build();
     }
-    // TODO zwracac AppointmentDto, przyjmowac EditAppointmentCommand
     @PutMapping("/{id}")
-    public ResponseEntity<Appointment> updateAppointment(@PathVariable long id, @RequestBody CreateAppointmentCommand updatedCommand) {
-        return ResponseEntity.ok(appointmentService.edit(id, updatedCommand));
+    public ResponseEntity<AppointmentDto> updateAppointment(@PathVariable long id, @RequestBody EditAppointmentCommand updatedCommand) {
+        Appointment updatedAppointment = appointmentService.edit(id, updatedCommand);
+        return ResponseEntity.ok(modelMapper.map(updatedAppointment, AppointmentDto.class));
     }
-    // TODO zwracac AppointmentDto, przyjmowac EditAppointmentCommand
     @PatchMapping("/{id}")
-    public ResponseEntity<Appointment> editAppointment(@PathVariable long id, @RequestBody CreateAppointmentCommand updatedCommand) {
-        return ResponseEntity.ok(appointmentService.editPartially(id, updatedCommand));
-
+    public ResponseEntity<AppointmentDto> editAppointment(@PathVariable long id, @RequestBody EditAppointmentCommand updatedCommand) {
+        Appointment updatedAppointment = appointmentService.editPartially(id, updatedCommand);
+        return ResponseEntity.ok(modelMapper.map(updatedAppointment, AppointmentDto.class));
     }
+
+
 }

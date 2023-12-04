@@ -2,8 +2,6 @@ package com.niewhic.vetclinic.converter;
 
 import com.niewhic.vetclinic.model.appointment.Appointment;
 import com.niewhic.vetclinic.model.appointment.AppointmentDto;
-import com.niewhic.vetclinic.model.doctor.CreateDoctorDtoCommand;
-import com.niewhic.vetclinic.model.patient.CreatePatientCommand;
 
 public class AppointmentToAppointmentDtoConverter {
     private final DoctorToDoctorDtoConverter doctorConverter;
