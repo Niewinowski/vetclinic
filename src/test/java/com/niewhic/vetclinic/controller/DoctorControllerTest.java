@@ -56,10 +56,11 @@ class DoctorControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
-                .andExpect(jsonPath("$.email").value("maciekplacek@gmail.com"))
-                .andExpect(jsonPath("$.name").value("Maciej Placek"))
-                .andExpect(jsonPath("$.rate").value(150))
-                .andExpect(jsonPath("$.grade").value(5));
+                .andExpect(jsonPath("$.lastName").value("Dolittle"))
+                .andExpect(jsonPath("$.name").value("John"))
+                .andExpect(jsonPath("$.rate").value(500))
+                .andExpect(jsonPath("$.specialty").value("Veterinary Medicine"))
+                .andExpect(jsonPath("$.animalSpecialty").value("All Animals"));
 
     }
 }
