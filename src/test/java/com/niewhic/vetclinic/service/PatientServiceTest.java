@@ -131,8 +131,15 @@ class PatientServiceTest {
 
         Patient editedPatient = patientService.edit(id, updatedPatient);
 
-        // TODO zmienic na porownanie pol pacjentow a nie obiektow bezposrednio
-        assertEquals(updatedPatient, editedPatient);
+        assertAll(
+                () -> assertEquals(updatedPatient.getName(), editedPatient.getName()),
+                () -> assertEquals(updatedPatient.getOwnerName(), editedPatient.getOwnerName()),
+                () -> assertEquals(updatedPatient.getOwnerLastName(), editedPatient.getOwnerLastName()),
+                () -> assertEquals(updatedPatient.getDateOfBirth(), editedPatient.getDateOfBirth()),
+                () -> assertEquals(updatedPatient.getOwnerEmail(), editedPatient.getOwnerEmail()),
+                () -> assertEquals(updatedPatient.getSpecies(), editedPatient.getSpecies()),
+                () -> assertEquals(updatedPatient.getBreed(), editedPatient.getBreed())
+        );
     }
 
     @Test
