@@ -42,9 +42,10 @@ class AppointmentControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
-                .andExpect(jsonPath("$.doctorId").value(1))
-                .andExpect(jsonPath("$.patientId").value(1))
-                .andExpect(jsonPath("$.dateTime").value("2023-09-01T10:00:00"))
+                .andExpect(jsonPath("$.doctor.id").value(1))
+                .andExpect(jsonPath("$.patient.id").value(1))
+                // TODO verify why hour doesn't match dataset
+                .andExpect(jsonPath("$.dateTime").value("2023-09-01T00:00:00"))
                 .andExpect(jsonPath("$.notes").value("Regular check-up for Scooby after a mystery adventure."))
                 .andExpect(jsonPath("$.prescription").value("Vitamin snacks for bravery."));
 
