@@ -15,9 +15,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -41,7 +41,7 @@ class AppointmentServiceTest {
                 .name("Puppy")
                 .ownerName("Jan")
                 .ownerLastName("Nowak")
-                .dateOfBirth(LocalDateTime.now())
+                .dateOfBirth(LocalDate.now())
                 .ownerEmail("jan@nowak.com")
                 .species("species")
                 .breed("breed")

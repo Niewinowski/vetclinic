@@ -7,7 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -25,7 +25,7 @@ public class Patient {
     private String ownerName;
     private String ownerLastName;
 //    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime dateOfBirth;
+    private LocalDate dateOfBirth;
     private String ownerEmail;
     private String species;
     private String breed;

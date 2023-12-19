@@ -11,13 +11,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -34,7 +32,7 @@ class PatientServiceTest {
                 .name("name")
                 .ownerName("ownerName")
                 .ownerLastName("ownerLastName")
-                .dateOfBirth(LocalDateTime.now())
+                .dateOfBirth(LocalDate.now())
                 .ownerEmail("ownerEmail")
                 .species("species")
                 .breed("breed")
@@ -49,7 +47,7 @@ class PatientServiceTest {
                 .name("name")
                 .ownerName("ownerName")
                 .ownerLastName("ownerLastName")
-                .dateOfBirth(LocalDateTime.now())
+                .dateOfBirth(LocalDate.now())
                 .ownerEmail("ownerEmail")
                 .species("species")
                 .breed("breed")
@@ -92,7 +90,7 @@ class PatientServiceTest {
                 .name("name1")
                 .ownerName("ownerName1")
                 .ownerLastName("ownerLastName")
-                .dateOfBirth(LocalDateTime.now())
+                .dateOfBirth(LocalDate.now())
                 .ownerEmail("ownerEmail")
                 .species("species")
                 .breed("breed")
@@ -149,7 +147,7 @@ class PatientServiceTest {
                 .name("name1")
                 .ownerName("ownerName")
                 .ownerLastName("ownerLastName")
-                .dateOfBirth(LocalDateTime.now())
+                .dateOfBirth(LocalDate.now())
                 .ownerEmail("ownerEmail")
                 .species("species")
                 .breed("breed")
@@ -197,7 +195,7 @@ class PatientServiceTest {
                 .name("name1")
                 .ownerName("ownerName")
                 .ownerLastName("ownerLastName")
-                .dateOfBirth(LocalDateTime.now())
+                .dateOfBirth(LocalDate.now())
                 .ownerEmail("ownerEmail")
                 .species("species")
                 .breed("breed")

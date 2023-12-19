@@ -2,7 +2,7 @@ package com.niewhic.vetclinic.model.patient;
 
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -14,7 +14,7 @@ public class PatientDto {
     private String name;
     private String ownerName;
     private String ownerLastName;
-    private LocalDateTime dateOfBirth;
+    private LocalDate dateOfBirth;
     private String ownerEmail;
     private String species;
     private String breed;
