@@ -1,5 +1,6 @@
 package com.niewhic.vetclinic.service;
 
+import com.niewhic.vetclinic.exception.AppointmentNotFoundException;
 import com.niewhic.vetclinic.model.appointment.Appointment;
 import com.niewhic.vetclinic.model.appointment.CreateAppointmentCommand;;
 import com.niewhic.vetclinic.model.appointment.EditAppointmentCommand;
@@ -22,7 +23,7 @@ public class AppointmentService {
     }
 
     public Appointment findById(long id) {
-        return appointmentRepository.findById(id).orElseThrow(() -> new NoSuchElementException(String.format("Appointment with id %s not found", id)));
+        return appointmentRepository.findById(id).orElseThrow(() -> new AppointmentNotFoundException(String.format("Appointment with id %s not found", id)));
     }
 
     public Appointment save(CreateAppointmentCommand command) {
@@ -40,12 +41,11 @@ public class AppointmentService {
         return appointmentRepository.findById(id)
                         .map(appointmentToEdit -> {
                             appointmentToEdit.setDoctor(updatedAppointment.getDoctor());
-                            appointmentToEdit.setPatient(updatedAppointment.getPatient());
                             appointmentToEdit.setDateTime(updatedAppointment.getDateTime());
                             appointmentToEdit.setNotes(updatedAppointment.getNotes());
                             appointmentToEdit.setPrescription(updatedAppointment.getPrescription());
                             return appointmentToEdit;
-                        }).orElseThrow(() -> new NoSuchElementException(String.format("Appointment with id %s not found", id)));
+                        }).orElseThrow(() -> new AppointmentNotFoundException(String.format("Appointment with id %s not found", id)));
     }
 
     @Transactional
@@ -54,11 +54,10 @@ public class AppointmentService {
         return appointmentRepository.findById(id)
                 .map(appointmentToEdit -> {
                     Optional.ofNullable(updatedAppointment.getDoctor()).ifPresent(appointmentToEdit::setDoctor);
-                    Optional.ofNullable(updatedAppointment.getPatient()).ifPresent(appointmentToEdit::setPatient);
                     Optional.ofNullable(updatedAppointment.getDateTime()).ifPresent(appointmentToEdit::setDateTime);
                     Optional.ofNullable(updatedAppointment.getNotes()).ifPresent(appointmentToEdit::setNotes);
                     Optional.ofNullable(updatedAppointment.getPrescription()).ifPresent(appointmentToEdit::setPrescription);
                     return appointmentToEdit;
-                }).orElseThrow(() -> new NoSuchElementException(String.format("Appointment with id %s not found", id)));
+                }).orElseThrow(() -> new AppointmentNotFoundException(String.format("Appointment with id %s not found", id)));
     }
 }

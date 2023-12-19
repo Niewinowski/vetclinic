@@ -2,6 +2,7 @@ package com.niewhic.vetclinic.service;
 
 import com.niewhic.vetclinic.model.appointment.Appointment;
 import com.niewhic.vetclinic.model.appointment.CreateAppointmentCommand;
+import com.niewhic.vetclinic.model.appointment.EditAppointmentCommand;
 import com.niewhic.vetclinic.model.doctor.Doctor;
 import com.niewhic.vetclinic.model.patient.Patient;
 import com.niewhic.vetclinic.repository.AppointmentRepository;
@@ -91,7 +92,6 @@ class AppointmentServiceTest {
     @Test
     void givenCreateCommand_whenSave_thenReturnAppointmentObject() {
         CreateAppointmentCommand command = CreateAppointmentCommand.builder()
-                .patientId(1L)
                 .doctorId(1L)
                 .dateTime(LocalDateTime.now())
                 .notes("notes")
@@ -117,115 +117,113 @@ class AppointmentServiceTest {
         verify(appointmentRepository, times(1)).deleteById(id);
     }
 
-//    @Test
-//    void givenAppointmentIdAndCreateCommand_whenEdit_thenReturnAppointmentObject() {
-//        long id = 1;
-//        CreateAppointmentCommand command = CreateAppointmentCommand.builder()
-//                .patientId(1L)
-//                .doctorId(1L)
-//                .dateTime(LocalDateTime.now())
-//                .notes("editedNotes")
-//                .prescription("prescription")
-//                .build();
-//        Appointment updatedAppointment = Appointment.builder()
-//                .id(1L)
-//                .doctor(doctor)
-//                .patient(patient)
-//                .dateTime(LocalDateTime.now())
-//                .notes("editedNotes")
-//                .prescription("prescription")
-//                .build();
-//        when(modelMapper.map(command, Appointment.class)).thenReturn(updatedAppointment);
-//        when(appointmentRepository.findById(id)).thenReturn(Optional.of(appointment));
-//
-//        Appointment mappedAppointment = modelMapper.map(command, Appointment.class);
-//        Appointment editedAppointment = appointmentService.edit(id, command);
-//
-//        assertNotNull(mappedAppointment);
-//        assertAll(
-//                () -> assertEquals(updatedAppointment.getId(), editedAppointment.getId()),
-//                () -> assertEquals(updatedAppointment.getDoctor(), editedAppointment.getDoctor()),
-//                () -> assertEquals(updatedAppointment.getPatient(), editedAppointment.getPatient()),
-//                () -> assertEquals(updatedAppointment.getDateTime(), editedAppointment.getDateTime()),
-//                () -> assertEquals(updatedAppointment.getNotes(), editedAppointment.getNotes()),
-//                () -> assertEquals(updatedAppointment.getPrescription(), editedAppointment.getPrescription())
-//        );
-//    }
-//
-//    @Test
-//    void givenNonExistingAppointmentId_whenEdit_thenThrowsException() {
-//        long id = 10;
-//        CreateAppointmentCommand command = CreateAppointmentCommand.builder()
-//                .patientId(1L)
-//                .doctorId(1L)
-//                .dateTime(LocalDateTime.now())
-//                .notes("editedNotes")
-//                .prescription("prescription")
-//                .build();
-//        Appointment updatedAppointment = Appointment.builder()
-//                .id(1L)
-//                .doctor(doctor)
-//                .patient(patient)
-//                .dateTime(LocalDateTime.now())
-//                .notes("editedNotes")
-//                .prescription("prescription")
-//                .build();
-//        when(modelMapper.map(command, Appointment.class)).thenReturn(updatedAppointment);
-//        when(appointmentRepository.findById(id)).thenReturn(Optional.empty());
-//
-//        assertThrows(NoSuchElementException.class, () -> appointmentService.edit(id, command));
-//    }
-//
-//    @Test
-//    void givenAppointmentIdAndCreateCommand_whenEditPartially_thenReturnAppointmentObject() {
-//        long id = 1;
-//        CreateAppointmentCommand command = CreateAppointmentCommand.builder()
-//                .patientId(1L)
-//                .notes("editedNotes")
-//                .prescription("editedPrescription")
-//                .build();
-//        Appointment updatedAppointment = Appointment.builder()
-//                .id(1L)
-//                .doctor(null)
-//                .patient(patient)
-//                .dateTime(null)
-//                .notes("editedNotes")
-//                .prescription("editedPrescription")
-//                .build();
-//        when(modelMapper.map(command, Appointment.class)).thenReturn(updatedAppointment);
-//        when(appointmentRepository.findById(id)).thenReturn(Optional.of(appointment));
-//
-//        Appointment editedAppointment = appointmentService.edit(id, command);
-//        verify(appointmentRepository, times(1)).findById(id);
-//
-//        assertAll(
-//                () -> assertEquals(appointment.getId(), editedAppointment.getId()),
-//                () -> assertEquals(appointment.getDoctor(), editedAppointment.getDoctor()),
-//                () -> assertEquals(updatedAppointment.getPatient(), editedAppointment.getPatient()),
-//                () -> assertEquals(appointment.getDateTime(), editedAppointment.getDateTime()),
-//                () -> assertEquals(updatedAppointment.getNotes(), editedAppointment.getNotes()),
-//                () -> assertEquals(updatedAppointment.getPrescription(), editedAppointment.getPrescription())
-//        );
-//    }
-//
-//    @Test
-//    void givenNonExistingAppointmentId_whenEditPartially_thenReturnAppointmentObject() {
-//        long id = 10;
-//        CreateAppointmentCommand command = CreateAppointmentCommand.builder()
-//                .patientId(1L)
-//                .notes("editedNotes")
-//                .build();
-//        Appointment updatedAppointment = Appointment.builder()
-//                .id(1L)
-//                .doctor(null)
-//                .patient(patient)
-//                .dateTime(null)
-//                .notes("editedNotes")
-//                .prescription(null)
-//                .build();
-//        when(modelMapper.map(command, Appointment.class)).thenReturn(updatedAppointment);
-//        when(appointmentRepository.findById(id)).thenReturn(Optional.empty());
-//
-//        assertThrows(NoSuchElementException.class, () -> appointmentService.editPartially(id, command));
-//    }
+    @Test
+    void givenAppointmentIdAndCreateCommand_whenEdit_thenReturnAppointmentObject() {
+        long id = 1;
+        EditAppointmentCommand command = EditAppointmentCommand.builder()
+                .doctorId(1L)
+                .dateTime(LocalDateTime.now())
+                .notes("editedNotes")
+                .prescription("prescription")
+                .build();
+        Appointment updatedAppointment = Appointment.builder()
+                .id(1L)
+                .doctor(doctor)
+                .patient(patient)
+                .dateTime(LocalDateTime.now())
+                .notes("editedNotes")
+                .prescription("prescription")
+                .build();
+        when(modelMapper.map(command, Appointment.class)).thenReturn(updatedAppointment);
+        when(appointmentRepository.findById(id)).thenReturn(Optional.of(appointment));
+
+        Appointment mappedAppointment = modelMapper.map(command, Appointment.class);
+        Appointment editedAppointment = appointmentService.edit(id, command);
+
+        assertNotNull(mappedAppointment);
+        assertAll(
+                () -> assertEquals(updatedAppointment.getId(), editedAppointment.getId()),
+                () -> assertEquals(updatedAppointment.getDoctor(), editedAppointment.getDoctor()),
+                () -> assertEquals(updatedAppointment.getPatient(), editedAppointment.getPatient()),
+                () -> assertEquals(updatedAppointment.getDateTime(), editedAppointment.getDateTime()),
+                () -> assertEquals(updatedAppointment.getNotes(), editedAppointment.getNotes()),
+                () -> assertEquals(updatedAppointment.getPrescription(), editedAppointment.getPrescription())
+        );
+    }
+
+    @Test
+    void givenNonExistingAppointmentId_whenEdit_thenThrowsException() {
+        long id = 10;
+        EditAppointmentCommand command = EditAppointmentCommand.builder()
+                .doctorId(1L)
+                .dateTime(LocalDateTime.now())
+                .notes("editedNotes")
+                .prescription("prescription")
+                .build();
+        Appointment updatedAppointment = Appointment.builder()
+                .id(1L)
+                .doctor(doctor)
+                .patient(patient)
+                .dateTime(LocalDateTime.now())
+                .notes("editedNotes")
+                .prescription("prescription")
+                .build();
+        when(modelMapper.map(command, Appointment.class)).thenReturn(updatedAppointment);
+        when(appointmentRepository.findById(id)).thenReturn(Optional.empty());
+
+        assertThrows(NoSuchElementException.class, () -> appointmentService.edit(id, command));
+    }
+
+    @Test
+    void givenAppointmentIdAndCreateCommand_whenEditPartially_thenReturnAppointmentObject() {
+        long id = 1;
+        EditAppointmentCommand command = EditAppointmentCommand.builder()
+                .doctorId(1L)
+                .notes("editedNotes")
+                .prescription("editedPrescription")
+                .build();
+        Appointment updatedAppointment = Appointment.builder()
+                .id(1L)
+                .doctor(null)
+                .patient(patient)
+                .dateTime(null)
+                .notes("editedNotes")
+                .prescription("editedPrescription")
+                .build();
+        when(modelMapper.map(command, Appointment.class)).thenReturn(updatedAppointment);
+        when(appointmentRepository.findById(id)).thenReturn(Optional.of(appointment));
+
+        Appointment editedAppointment = appointmentService.edit(id, command);
+        verify(appointmentRepository, times(1)).findById(id);
+
+        assertAll(
+                () -> assertEquals(appointment.getId(), editedAppointment.getId()),
+                () -> assertEquals(appointment.getDoctor(), editedAppointment.getDoctor()),
+                () -> assertEquals(updatedAppointment.getPatient(), editedAppointment.getPatient()),
+                () -> assertEquals(appointment.getDateTime(), editedAppointment.getDateTime()),
+                () -> assertEquals(updatedAppointment.getNotes(), editedAppointment.getNotes()),
+                () -> assertEquals(updatedAppointment.getPrescription(), editedAppointment.getPrescription())
+        );
+    }
+
+    @Test
+    void givenNonExistingAppointmentId_whenEditPartially_thenReturnAppointmentObject() {
+        long id = 10;
+        EditAppointmentCommand command = EditAppointmentCommand.builder()
+                .doctorId(1L)
+                .notes("editedNotes")
+                .build();
+        Appointment updatedAppointment = Appointment.builder()
+                .id(1L)
+                .doctor(null)
+                .patient(patient)
+                .dateTime(null)
+                .notes("editedNotes")
+                .prescription(null)
+                .build();
+        when(modelMapper.map(command, Appointment.class)).thenReturn(updatedAppointment);
+        when(appointmentRepository.findById(id)).thenReturn(Optional.empty());
+
+        assertThrows(NoSuchElementException.class, () -> appointmentService.editPartially(id, command));
+    }
 }

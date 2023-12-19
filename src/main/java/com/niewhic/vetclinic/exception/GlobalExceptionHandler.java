@@ -24,4 +24,28 @@ public class GlobalExceptionHandler {
                 .method(request.getMethod())
                 .build(), NOT_FOUND);
     }
+
+    @ExceptionHandler(PatientNotFoundException.class)
+    public ResponseEntity<ErrorMessage> patientNotFoundException(PatientNotFoundException ex, HttpServletRequest request) {
+        return new ResponseEntity<>(ErrorMessage.builder()
+                .timestamp(LocalDateTime.now())
+                .code(NOT_FOUND.value())
+                .status(NOT_FOUND.getReasonPhrase())
+                .message(ex.getMessage())
+                .uri(request.getRequestURI())
+                .method(request.getMethod())
+                .build(), NOT_FOUND);
+    }
+
+    @ExceptionHandler(AppointmentNotFoundException.class)
+    public ResponseEntity<ErrorMessage> appointmentNotFoundException(AppointmentNotFoundException ex, HttpServletRequest request) {
+        return new ResponseEntity<>(ErrorMessage.builder()
+                .timestamp(LocalDateTime.now())
+                .code(NOT_FOUND.value())
+                .status(NOT_FOUND.getReasonPhrase())
+                .message(ex.getMessage())
+                .uri(request.getRequestURI())
+                .method(request.getMethod())
+                .build(), NOT_FOUND);
+    }
 }

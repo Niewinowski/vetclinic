@@ -1,5 +1,6 @@
 package com.niewhic.vetclinic.service;
 
+import com.niewhic.vetclinic.exception.PatientNotFoundException;
 import com.niewhic.vetclinic.repository.PatientRepository;
 import com.niewhic.vetclinic.model.patient.Patient;
 import lombok.RequiredArgsConstructor;
@@ -47,7 +48,7 @@ public class PatientService {
     }
 
     public Patient findById(long id) {
-        return patientRepository.findById(id).orElseThrow(() -> new NoSuchElementException(String.format("Patient with id %s not found", id)));
+        return patientRepository.findById(id).orElseThrow(() -> new PatientNotFoundException(String.format("Patient with id %s not found", id)));
     }
 
     public Patient save(Patient newPatient) {
@@ -64,14 +65,14 @@ public class PatientService {
                 .map(patientToEdit -> {
                     patientToEdit.setId(id);
                     patientToEdit.setName(patient.getName());
-                    patientToEdit.setBreed(patient.getBreed());
-                    patientToEdit.setSpecies(patient.getSpecies());
-                    patientToEdit.setOwnerEmail(patient.getOwnerEmail());
                     patientToEdit.setOwnerName(patient.getOwnerName());
                     patientToEdit.setOwnerLastName(patient.getOwnerLastName());
                     patientToEdit.setDateOfBirth(patient.getDateOfBirth());
+                    patientToEdit.setOwnerEmail(patient.getOwnerEmail());
+                    patientToEdit.setSpecies(patient.getSpecies());
+                    patientToEdit.setBreed(patient.getBreed());
                     return patientToEdit;
-                }).orElseThrow(() -> new NoSuchElementException(String.format("Patient with id %s not found", id)));
+                }).orElseThrow(() -> new PatientNotFoundException(String.format("Patient with id %s not found", id)));
     }
 
     @Transactional
@@ -86,7 +87,7 @@ public class PatientService {
                     Optional.ofNullable(updatedPatient.getSpecies()).ifPresent(i -> patientToEdit.setSpecies(updatedPatient.getSpecies()));
                     Optional.ofNullable(updatedPatient.getBreed()).ifPresent(i -> patientToEdit.setBreed(updatedPatient.getBreed()));
                     return patientToEdit;
-                }).orElseThrow(() -> new NoSuchElementException(String.format("Patient with id %s not found", id)));
+                }).orElseThrow(() -> new PatientNotFoundException(String.format("Patient with id %s not found", id)));
     }
 
     /* Transactional

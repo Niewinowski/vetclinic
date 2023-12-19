@@ -1,5 +1,6 @@
 package com.niewhic.vetclinic.service;
 
+import com.niewhic.vetclinic.exception.PatientNotFoundException;
 import com.niewhic.vetclinic.model.appointment.Appointment;
 import com.niewhic.vetclinic.model.patient.Patient;
 import com.niewhic.vetclinic.repository.PatientRepository;
@@ -81,7 +82,7 @@ class PatientServiceTest {
         long id = 100;
         when(patientRepository.findById(id)).thenReturn(Optional.empty());
 
-        assertThrows(NoSuchElementException.class, () -> patientService.findById(id));
+        assertThrows(PatientNotFoundException.class, () -> patientService.findById(id));
     }
 
     @Test
@@ -158,7 +159,7 @@ class PatientServiceTest {
 
         when(patientRepository.findById(id)).thenReturn(Optional.empty());
 
-        assertThrows(NoSuchElementException.class, () -> patientService.edit(id, updatedPatient));
+        assertThrows(PatientNotFoundException.class, () -> patientService.edit(id, updatedPatient));
     }
 
     @Test
@@ -206,7 +207,7 @@ class PatientServiceTest {
 
         when(patientRepository.findById(id)).thenReturn(Optional.empty());
 
-        assertThrows(NoSuchElementException.class, () -> patientService.editPartially(id, updatedPatient));
+        assertThrows(PatientNotFoundException.class, () -> patientService.editPartially(id, updatedPatient));
     }
 
 }
