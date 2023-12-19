@@ -67,7 +67,6 @@ public class PatientService {
                     patientToEdit.setName(patient.getName());
                     patientToEdit.setOwnerName(patient.getOwnerName());
                     patientToEdit.setOwnerLastName(patient.getOwnerLastName());
-                    patientToEdit.setDateOfBirth(patient.getDateOfBirth());
                     patientToEdit.setOwnerEmail(patient.getOwnerEmail());
                     patientToEdit.setSpecies(patient.getSpecies());
                     patientToEdit.setBreed(patient.getBreed());

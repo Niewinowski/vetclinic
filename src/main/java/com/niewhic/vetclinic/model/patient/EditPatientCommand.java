@@ -13,7 +13,6 @@ public class EditPatientCommand {
     private String name;
     private String ownerName;
     private String ownerLastName;
-    private LocalDateTime dateOfBirth;
     private String ownerEmail;
     private String species;
     private String breed;

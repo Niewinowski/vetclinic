@@ -122,7 +122,6 @@ class PatientServiceTest {
                 .name("name1")
                 .ownerName("ownerName")
                 .ownerLastName("ownerLastName")
-                .dateOfBirth(LocalDateTime.now())
                 .ownerEmail("ownerEmail")
                 .species("species")
                 .breed("breed")
@@ -136,7 +135,6 @@ class PatientServiceTest {
                 () -> assertEquals(updatedPatient.getName(), editedPatient.getName()),
                 () -> assertEquals(updatedPatient.getOwnerName(), editedPatient.getOwnerName()),
                 () -> assertEquals(updatedPatient.getOwnerLastName(), editedPatient.getOwnerLastName()),
-                () -> assertEquals(updatedPatient.getDateOfBirth(), editedPatient.getDateOfBirth()),
                 () -> assertEquals(updatedPatient.getOwnerEmail(), editedPatient.getOwnerEmail()),
                 () -> assertEquals(updatedPatient.getSpecies(), editedPatient.getSpecies()),
                 () -> assertEquals(updatedPatient.getBreed(), editedPatient.getBreed())

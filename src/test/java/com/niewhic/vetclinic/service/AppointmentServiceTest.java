@@ -1,5 +1,6 @@
 package com.niewhic.vetclinic.service;
 
+import com.niewhic.vetclinic.exception.AppointmentNotFoundException;
 import com.niewhic.vetclinic.model.appointment.Appointment;
 import com.niewhic.vetclinic.model.appointment.CreateAppointmentCommand;
 import com.niewhic.vetclinic.model.appointment.EditAppointmentCommand;
@@ -86,7 +87,7 @@ class AppointmentServiceTest {
     void givenNonExistingId_whenFindById_thenThrowsException() {
         long id = 10;
         when(appointmentRepository.findById(id)).thenReturn(Optional.empty());
-        assertThrows(NoSuchElementException.class, () -> appointmentService.findById(id));
+        assertThrows(AppointmentNotFoundException.class, () -> appointmentService.findById(id));
     }
 
     @Test
@@ -171,7 +172,7 @@ class AppointmentServiceTest {
         when(modelMapper.map(command, Appointment.class)).thenReturn(updatedAppointment);
         when(appointmentRepository.findById(id)).thenReturn(Optional.empty());
 
-        assertThrows(NoSuchElementException.class, () -> appointmentService.edit(id, command));
+        assertThrows(AppointmentNotFoundException.class, () -> appointmentService.edit(id, command));
     }
 
     @Test
@@ -224,6 +225,6 @@ class AppointmentServiceTest {
         when(modelMapper.map(command, Appointment.class)).thenReturn(updatedAppointment);
         when(appointmentRepository.findById(id)).thenReturn(Optional.empty());
 
-        assertThrows(NoSuchElementException.class, () -> appointmentService.editPartially(id, command));
+        assertThrows(AppointmentNotFoundException.class, () -> appointmentService.editPartially(id, command));
     }
 }
