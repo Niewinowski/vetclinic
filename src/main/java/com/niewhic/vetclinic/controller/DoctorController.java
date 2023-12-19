@@ -60,27 +60,10 @@ public class DoctorController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<DoctorDto> editDoctor(@PathVariable long id, @RequestBody EditDoctorCommand command) {
-        // TODO wywolac faktyczna metode edit partially z DoctorService
-        Doctor existingDoctor = doctorService.findById(id);
-        if (command.getName() != null) {
-            existingDoctor.setName(command.getName());
-        }
-        if (command.getLastName() != null) {
-            existingDoctor.setLastName(command.getLastName());
-        }
-        if (command.getSpecialty() != null) {
-            existingDoctor.setSpecialty(command.getSpecialty());
-        }
-        if (command.getAnimalSpecialty() != null) {
-            existingDoctor.setAnimalSpecialty(command.getAnimalSpecialty());
-        }
-        if (command.getRate() != 0) {
-            existingDoctor.setRate(command.getRate());
-        }
-        Doctor updatedDoctor = doctorService.save(existingDoctor);
-
+        Doctor partialUpdateDoctor = modelMapper.map(command, Doctor.class);
+        Doctor updatedDoctor = doctorService.editPartially(id, partialUpdateDoctor);
         DoctorDto doctorDto = modelMapper.map(updatedDoctor, DoctorDto.class);
-
         return ResponseEntity.ok(doctorDto);
     }
+
 }
