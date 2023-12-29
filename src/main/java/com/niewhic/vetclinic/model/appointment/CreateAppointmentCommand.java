@@ -13,11 +13,9 @@ import java.time.LocalDateTime;
 @Setter
 @Builder
 public class CreateAppointmentCommand {
-
     private Long doctorId;
     private Long patientId;
     private LocalDateTime dateTime;
     private String notes;
     private String prescription;
-
 }
