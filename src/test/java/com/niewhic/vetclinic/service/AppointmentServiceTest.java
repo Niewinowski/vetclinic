@@ -184,18 +184,17 @@ class AppointmentServiceTest {
                 .prescription("editedPrescription")
                 .build();
         Appointment updatedAppointment = Appointment.builder()
-                .id(1L)
-                .doctor(null)
+                .id(id)
+                .doctor(doctor)
                 .patient(patient)
-                .dateTime(null)
+                .dateTime(appointment.getDateTime())
                 .notes("editedNotes")
                 .prescription("editedPrescription")
                 .build();
         when(modelMapper.map(command, Appointment.class)).thenReturn(updatedAppointment);
         when(appointmentRepository.findById(id)).thenReturn(Optional.of(appointment));
 
-        Appointment editedAppointment = appointmentService.edit(id, command);
-        verify(appointmentRepository, times(1)).findById(id);
+        Appointment editedAppointment = appointmentService.editPartially(id, command);
 
         assertAll(
                 () -> assertEquals(appointment.getId(), editedAppointment.getId()),
