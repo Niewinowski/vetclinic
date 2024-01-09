@@ -43,4 +43,7 @@ public class VetclinicApplication {
 
 	//TODO 2023-12-19 | Update, Add, FindById - Janek, Delete, FindAllEditPartially - Wojciech
 
+	// TODO 09012024 - zaimplementowac softDelete w patient i w appointment
+	// naprawic dane testowe - stworzyc nowe changesety do modyfikacji istniejacych tabel
+	// zmodyfikowac pliki csv z ktorych ladujemy dane
 }
