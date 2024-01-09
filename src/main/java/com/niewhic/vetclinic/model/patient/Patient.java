@@ -6,6 +6,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.time.LocalDate;
 
@@ -17,6 +19,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Builder
 @EqualsAndHashCode
+@Where(clause = "active=TRUE")
+@SQLDelete(sql = "UPDATE Patient SET active = false WHERE id=?")
 public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,4 +33,5 @@ public class Patient {
     private String ownerEmail;
     private String species;
     private String breed;
+    private boolean active = true;
 }
