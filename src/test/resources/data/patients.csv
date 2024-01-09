@@ -1,6 +1,6 @@
-name,owner_name,owner_last_name,date_of_birth,owner_email,species,breed
-Scooby,Shaggy,Rogers,1969-09-13,shaggy@mysterymachine.com,Dog,Great Dane
-Garfield,Jon,Arbuckle,1978-06-19,jon@arbuckle.com,Cat,Exotic Shorthair
-Hedwig,Harry,Potter,1991-07-31,harry@hogwarts.ac.uk,Bird,Snowy Owl
-Falkor,Atreyu,N/A,1984-04-06,atreyu@fantasia.com,Dragon,Luck Dragon
-Toothless,Hiccup,Haddock,2010-03-26,hiccup@berk.com,Dragon,Night Fury
+name,owner_name,owner_last_name,date_of_birth,owner_email,species,breed,active
+Scooby,Shaggy,Rogers,1969-09-13,shaggy@mysterymachine.com,Dog,Great Dane,true
+Garfield,Jon,Arbuckle,1978-06-19,jon@arbuckle.com,Cat,Exotic Shorthair,true
+Hedwig,Harry,Potter,1991-07-31,harry@hogwarts.ac.uk,Bird,Snowy Owl,true
+Falkor,Atreyu,N/A,1984-04-06,atreyu@fantasia.com,Dragon,Luck Dragon,true
+Toothless,Hiccup,Haddock,2010-03-26,hiccup@berk.com,Dragon,Night Fury,true

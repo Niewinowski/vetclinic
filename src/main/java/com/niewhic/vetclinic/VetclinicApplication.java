@@ -46,4 +46,5 @@ public class VetclinicApplication {
 	// TODO 09012024 - zaimplementowac softDelete w patient i w appointment
 	// naprawic dane testowe - stworzyc nowe changesety do modyfikacji istniejacych tabel
 	// zmodyfikowac pliki csv z ktorych ladujemy dane
+	// changesets naming convention modify-table-patient.xml, modify-table-doctor.xml, modify-table-appointment.xml
 }
