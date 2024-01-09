@@ -5,6 +5,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Getter
 @Setter
@@ -13,6 +15,8 @@ import lombok.*;
 @Entity
 @NoArgsConstructor
 @Builder
+@Where(clause = "active=TRUE")
+@SQLDelete(sql = "UPDATE Doctor SET active = false WHERE id=?")
 public class Doctor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,4 +27,5 @@ public class Doctor {
     private Integer rate;
     private String specialty;
     private String animalSpecialty;
+    private boolean active = true;
 }
