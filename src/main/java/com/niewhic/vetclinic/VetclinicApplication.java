@@ -41,4 +41,6 @@ public class VetclinicApplication {
 	// TODO dodac konkretne wyjatki pod model: DoctorNotFoundException, PatientNotFoundException, AppointmentNotFoundException
 	// TODO i obsluzyc je w globalExceptionHandler
 
+	//TODO 2023-12-19 | Update, Add, FindById - Janek, Delete, FindAllEditPartially - Wojciech
+
 }

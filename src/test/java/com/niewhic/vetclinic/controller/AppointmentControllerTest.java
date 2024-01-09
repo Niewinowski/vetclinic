@@ -1,13 +1,14 @@
 package com.niewhic.vetclinic.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.niewhic.vetclinic.DatabaseCleaner;
 import com.niewhic.vetclinic.VetclinicApplication;
+import com.niewhic.vetclinic.model.appointment.AppointmentDto;
 import com.niewhic.vetclinic.model.appointment.CreateAppointmentCommand;
 import com.niewhic.vetclinic.model.appointment.EditAppointmentCommand;
 import liquibase.exception.LiquibaseException;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,9 +16,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.web.servlet.MvcResult;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -97,7 +101,26 @@ class AppointmentControllerTest {
                 .andExpect(jsonPath("$.notes").value(command.getNotes()))
                 .andExpect(jsonPath("$.prescription").value(command.getPrescription()));
     }
+    @Test
+    void shouldDelete() throws Exception {
+        // Given
+        long appointmentId = 1;
 
+        // When
+        postman.perform(delete("/appointments/" + appointmentId))
+                .andDo(print())
+                .andExpect(status().isNoContent());
+
+        // Then
+        postman.perform(get("/appointments/" + appointmentId))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.code").value(404))
+                .andExpect(jsonPath("$.status").value("Not Found"))
+                .andExpect(jsonPath("$.message").value("Appointment with id " + appointmentId + " not found"))
+                .andExpect(jsonPath("$.uri").value("/appointments/" + appointmentId))
+                .andExpect(jsonPath("$.method").value("GET"));
+    }
     @Test
     void shouldEditAppointment() throws Exception {
         EditAppointmentCommand command = EditAppointmentCommand.builder()
