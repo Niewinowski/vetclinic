@@ -18,4 +18,5 @@ public class PatientDto {
     private String ownerEmail;
     private String species;
     private String breed;
+    private boolean active;
 }

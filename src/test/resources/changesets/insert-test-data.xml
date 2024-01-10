@@ -10,10 +10,11 @@
             <column header="name" name="name"/>
             <column header="owner_name" name="owner_name"/>
             <column header="owner_last_name" name="owner_last_name"/>
-            <column header="dateOfBirth" name="dateOfBirth"/>
-            <column header="ownerEmail" name="ownerEmail"/>
+            <column header="dateOfBirth" name="date_of_birth"/>
+            <column header="ownerEmail" name="owner_email"/>
             <column header="species" name="species"/>
             <column header="breed" name="breed"/>
+            <column header="active" name="active"/>
         </loadData>
         <loadData encoding="UTF-8" file="data/doctors.csv" quotchar="&quot;" separator="," tableName="doctor">
             <column header="id" name="id"/>
