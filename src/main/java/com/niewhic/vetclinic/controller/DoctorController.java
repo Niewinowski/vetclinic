@@ -1,12 +1,14 @@
 package com.niewhic.vetclinic.controller;
 
-import com.niewhic.vetclinic.model.doctor.CreateDoctorCommand;
+import com.niewhic.vetclinic.model.doctor.command.CreateDoctorCommand;
 import com.niewhic.vetclinic.model.doctor.Doctor;
 import com.niewhic.vetclinic.model.doctor.DoctorDto;
-import com.niewhic.vetclinic.model.doctor.EditDoctorCommand;
+import com.niewhic.vetclinic.model.doctor.command.CreateDoctorPageCommand;
+import com.niewhic.vetclinic.model.doctor.command.EditDoctorCommand;
 import com.niewhic.vetclinic.service.DoctorService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,8 +25,9 @@ public class DoctorController {
     private final ModelMapper modelMapper;
 
     @GetMapping
-    public ResponseEntity<List<DoctorDto>> getAllDoctors() {
-        List<DoctorDto> doctors = doctorService.findAll().stream()
+    public ResponseEntity<List<DoctorDto>> getAllDoctors(CreateDoctorPageCommand command) {
+        Pageable pageable = modelMapper.map(command, Pageable.class);
+        List<DoctorDto> doctors = doctorService.findAll(pageable).stream()
                 .map(doctor -> modelMapper.map(doctor, DoctorDto.class))
                 .collect(Collectors.toList());
         return ResponseEntity.ok(doctors);

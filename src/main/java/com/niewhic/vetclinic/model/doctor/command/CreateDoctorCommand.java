@@ -1,4 +1,4 @@
-package com.niewhic.vetclinic.model.doctor;
+package com.niewhic.vetclinic.model.doctor.command;
 
 import lombok.Builder;
 import lombok.Getter;

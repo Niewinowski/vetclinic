@@ -47,4 +47,13 @@ public class VetclinicApplication {
 	// naprawic dane testowe - stworzyc nowe changesety do modyfikacji istniejacych tabel
 	// zmodyfikowac pliki csv z ktorych ladujemy dane
 	// changesets naming convention modify-table-patient.xml, modify-table-doctor.xml, modify-table-appointment.xml
+
+
+	// TODO 16.01.2024
+	// dokonczyc paginacje i sortowanie w pozostalych klasach, naprawic sortDirection :)
+	// TESTY TESTY TESTY
+	//popraqwic testy
+	// dodac walidacje danych w commandach - wszystkie/wiekszosc (do waszego uznania) pol np nie powinno byc puste
+	// adnotacje @NotBlank/@NotEmpty/@NotNull - poczytajcie
+	// @Validated/@Valid w controllerze - tez poczytajcie
 }
