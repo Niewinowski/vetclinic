@@ -37,5 +37,6 @@ public class Appointment {
     private LocalDateTime dateTime;
     private String notes;
     private String prescription;
+    @Builder.Default
     private boolean active = true;
 }

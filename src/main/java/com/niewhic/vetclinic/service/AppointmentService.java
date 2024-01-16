@@ -28,6 +28,8 @@ public class AppointmentService {
 
     public Appointment save(CreateAppointmentCommand command) {
         Appointment appointmentToSave = modelMapper.map(command, Appointment.class);
+        System.out.println("szukaj");
+        System.out.println(appointmentToSave);
         return appointmentRepository.save(appointmentToSave);
     }
 

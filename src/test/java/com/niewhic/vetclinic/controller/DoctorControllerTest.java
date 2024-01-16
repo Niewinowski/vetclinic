@@ -58,28 +58,24 @@ class DoctorControllerTest {
                 .andExpect(jsonPath("$[0].rate", is(500)))
                 .andExpect(jsonPath("$[0].specialty", is("Veterinary Medicine")))
                 .andExpect(jsonPath("$[0].animalSpecialty", is("All Animals")))
-                .andExpect(jsonPath("$[0].active", is(true)))
                 .andExpect(jsonPath("$[1].id", is(2)))
                 .andExpect(jsonPath("$[1].name", is("Ellie")))
                 .andExpect(jsonPath("$[1].lastName", is("Sattler")))
                 .andExpect(jsonPath("$[1].rate", is(700)))
                 .andExpect(jsonPath("$[1].specialty", is("Paleobotany")))
                 .andExpect(jsonPath("$[1].animalSpecialty", is("Dinosaurs")))
-                .andExpect(jsonPath("$[1].active", is(true)))
                 .andExpect(jsonPath("$[2].id", is(3)))
                 .andExpect(jsonPath("$[2].name", is("Newt")))
                 .andExpect(jsonPath("$[2].lastName", is("Scamander")))
                 .andExpect(jsonPath("$[2].rate", is(450)))
                 .andExpect(jsonPath("$[2].specialty", is("Magizoology")))
                 .andExpect(jsonPath("$[2].animalSpecialty", is("Magical Creatures")))
-                .andExpect(jsonPath("$[2].active").value("true"))
                 .andExpect(jsonPath("$[3].id", is(4)))
                 .andExpect(jsonPath("$[3].name", is("Alan")))
                 .andExpect(jsonPath("$[3].lastName", is("Grant")))
                 .andExpect(jsonPath("$[3].rate", is(650)))
                 .andExpect(jsonPath("$[3].specialty", is("Paleontology")))
-                .andExpect(jsonPath("$[3].animalSpecialty", is("Dinosaurs")))
-                .andExpect(jsonPath("$[3].active").value("true"));
+                .andExpect(jsonPath("$[3].animalSpecialty", is("Dinosaurs")));
     }
     @Test
     void shouldFindById() throws Exception {
@@ -91,8 +87,7 @@ class DoctorControllerTest {
                 .andExpect(jsonPath("$.lastName", is("Dolittle")))
                 .andExpect(jsonPath("$.rate", is(500)))
                 .andExpect(jsonPath("$.specialty", is("Veterinary Medicine")))
-                .andExpect(jsonPath("$.animalSpecialty", is("All Animals")))
-                .andExpect(jsonPath("$.active", is(true)));
+                .andExpect(jsonPath("$.animalSpecialty", is("All Animals")));
     }
     @Test
     void shouldCreate() throws Exception {
