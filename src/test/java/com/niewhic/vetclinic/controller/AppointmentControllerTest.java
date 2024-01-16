@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -58,10 +59,10 @@ class AppointmentControllerTest {
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.doctor.id").value(1))
                 .andExpect(jsonPath("$.patient.id").value(1))
-                // TODO verify why hour doesn't match dataset
                 .andExpect(jsonPath("$.dateTime").value("2023-09-01T00:00:00"))
                 .andExpect(jsonPath("$.notes").value("Regular check-up for Scooby after a mystery adventure."))
-                .andExpect(jsonPath("$.prescription").value("Vitamin snacks for bravery."));
+                .andExpect(jsonPath("$.prescription").value("Vitamin snacks for bravery."))
+                .andExpect(jsonPath("$.active", is(true)));
 
     }
 
@@ -82,7 +83,8 @@ class AppointmentControllerTest {
                 .andExpect(jsonPath("$.status").value("Not Found"))
                 .andExpect(jsonPath("$.message").value("Appointment with id 6 not found"))
                 .andExpect(jsonPath("$.uri").value("/appointments/6"))
-                .andExpect(jsonPath("$.method").value("GET"));
+                .andExpect(jsonPath("$.method").value("GET"))
+                .andExpect(jsonPath("$.active", is(true)));
         postman.perform(post("/appointments")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(commandJson))
@@ -92,14 +94,17 @@ class AppointmentControllerTest {
                 .andExpect(jsonPath("$.patient.id").value(command.getPatientId()))
                 .andExpect(jsonPath("$.dateTime").value("2020-10-10T00:00:00"))
                 .andExpect(jsonPath("$.notes").value(command.getNotes()))
-                .andExpect(jsonPath("$.prescription").value(command.getPrescription()));
+                .andExpect(jsonPath("$.prescription").value(command.getPrescription()))
+                .andExpect(jsonPath("$.active", is(true)));
+
         postman.perform(get("/appointments/6"))
                 .andDo(print())
                 .andExpect(jsonPath("$.doctor.id").value(command.getDoctorId()))
                 .andExpect(jsonPath("$.patient.id").value(command.getPatientId()))
                 .andExpect(jsonPath("$.dateTime").value("2020-10-10T00:00:00"))
                 .andExpect(jsonPath("$.notes").value(command.getNotes()))
-                .andExpect(jsonPath("$.prescription").value(command.getPrescription()));
+                .andExpect(jsonPath("$.prescription").value(command.getPrescription()))
+                .andExpect(jsonPath("$.active", is(true)));
     }
     @Test
     void shouldDelete() throws Exception {
@@ -138,7 +143,8 @@ class AppointmentControllerTest {
                 .andExpect(jsonPath("$.patient.id").value(1))
                 .andExpect(jsonPath("$.dateTime").value("2023-09-01T00:00:00"))
                 .andExpect(jsonPath("$.notes").value("Regular check-up for Scooby after a mystery adventure."))
-                .andExpect(jsonPath("$.prescription").value("Vitamin snacks for bravery."));
+                .andExpect(jsonPath("$.prescription").value("Vitamin snacks for bravery."))
+                .andExpect(jsonPath("$.active", is(true)));
         postman.perform(put("/appointments/1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(commandJson))
@@ -153,11 +159,12 @@ class AppointmentControllerTest {
                 .andExpect(jsonPath("$.doctor.id").value(command.getDoctorId()))
                 .andExpect(jsonPath("$.dateTime").value("2022-10-10T00:00:00"))
                 .andExpect(jsonPath("$.notes").value(command.getNotes()))
-                .andExpect(jsonPath("$.prescription").value(command.getPrescription()));
+                .andExpect(jsonPath("$.prescription").value(command.getPrescription()))
+                .andExpect(jsonPath("$.active", is(true)));
     }
 
     @Test
-    void shouldNotEditPatient() throws Exception {
+    void shouldNotEditAppointment() throws Exception {
         EditAppointmentCommand command = EditAppointmentCommand.builder()
                 .doctorId(1L)
                 .dateTime(LocalDateTime.of(2022, 10, 10, 0, 0, 0))

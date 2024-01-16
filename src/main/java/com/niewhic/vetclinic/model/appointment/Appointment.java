@@ -5,6 +5,8 @@ import com.niewhic.vetclinic.model.doctor.Doctor;
 import com.niewhic.vetclinic.model.patient.Patient;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.time.LocalDateTime;
 
@@ -15,6 +17,8 @@ import java.time.LocalDateTime;
 @ToString
 @Builder
 @Entity
+@Where(clause = "active = true")
+@SQLDelete(sql = "UPDATE Appointment SET active = false WHERE id=?")
 public class Appointment {
 
     @Id
@@ -33,6 +37,5 @@ public class Appointment {
     private LocalDateTime dateTime;
     private String notes;
     private String prescription;
-
-
+    private boolean active = true;
 }

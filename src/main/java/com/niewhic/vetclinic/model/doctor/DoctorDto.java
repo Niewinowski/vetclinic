@@ -14,4 +14,5 @@ public class DoctorDto {
     private int rate;
     private String specialty;
     private String animalSpecialty;
+    private boolean active;
 }

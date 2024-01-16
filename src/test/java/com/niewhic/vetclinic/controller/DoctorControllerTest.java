@@ -1,12 +1,11 @@
 package com.niewhic.vetclinic.controller;
 
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jayway.jsonpath.JsonPath;
 import com.niewhic.vetclinic.DatabaseCleaner;
 import com.niewhic.vetclinic.VetclinicApplication;
 import com.niewhic.vetclinic.model.doctor.CreateDoctorCommand;
-import com.niewhic.vetclinic.model.doctor.DoctorDto;
 import com.niewhic.vetclinic.model.doctor.EditDoctorCommand;
 import com.niewhic.vetclinic.model.doctor.EditDoctorPartiallyCommand;
 import org.junit.jupiter.api.AfterEach;
@@ -17,14 +16,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 
-
-import java.util.List;
 import java.util.Optional;
 
 import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -52,7 +47,6 @@ class DoctorControllerTest {
         databaseCleaner.cleanUp();
     }
 
-    // TODO test findById
     @Test
     void shouldFindAll() throws Exception {
         postman.perform(get("/doctors"))
@@ -64,26 +58,42 @@ class DoctorControllerTest {
                 .andExpect(jsonPath("$[0].rate", is(500)))
                 .andExpect(jsonPath("$[0].specialty", is("Veterinary Medicine")))
                 .andExpect(jsonPath("$[0].animalSpecialty", is("All Animals")))
+                .andExpect(jsonPath("$[0].active", is(true)))
                 .andExpect(jsonPath("$[1].id", is(2)))
                 .andExpect(jsonPath("$[1].name", is("Ellie")))
                 .andExpect(jsonPath("$[1].lastName", is("Sattler")))
                 .andExpect(jsonPath("$[1].rate", is(700)))
                 .andExpect(jsonPath("$[1].specialty", is("Paleobotany")))
                 .andExpect(jsonPath("$[1].animalSpecialty", is("Dinosaurs")))
+                .andExpect(jsonPath("$[1].active", is(true)))
                 .andExpect(jsonPath("$[2].id", is(3)))
                 .andExpect(jsonPath("$[2].name", is("Newt")))
                 .andExpect(jsonPath("$[2].lastName", is("Scamander")))
                 .andExpect(jsonPath("$[2].rate", is(450)))
                 .andExpect(jsonPath("$[2].specialty", is("Magizoology")))
                 .andExpect(jsonPath("$[2].animalSpecialty", is("Magical Creatures")))
+                .andExpect(jsonPath("$[2].active").value("true"))
                 .andExpect(jsonPath("$[3].id", is(4)))
                 .andExpect(jsonPath("$[3].name", is("Alan")))
                 .andExpect(jsonPath("$[3].lastName", is("Grant")))
                 .andExpect(jsonPath("$[3].rate", is(650)))
                 .andExpect(jsonPath("$[3].specialty", is("Paleontology")))
-                .andExpect(jsonPath("$[3].animalSpecialty", is("Dinosaurs")));
+                .andExpect(jsonPath("$[3].animalSpecialty", is("Dinosaurs")))
+                .andExpect(jsonPath("$[3].active").value("true"));
     }
-
+    @Test
+    void shouldFindById() throws Exception {
+        long doctorId = 1;
+        postman.perform(get("/doctors/" + doctorId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is((int) doctorId)))
+                .andExpect(jsonPath("$.name", is("John")))
+                .andExpect(jsonPath("$.lastName", is("Dolittle")))
+                .andExpect(jsonPath("$.rate", is(500)))
+                .andExpect(jsonPath("$.specialty", is("Veterinary Medicine")))
+                .andExpect(jsonPath("$.animalSpecialty", is("All Animals")))
+                .andExpect(jsonPath("$.active", is(true)));
+    }
     @Test
     void shouldCreate() throws Exception {
         CreateDoctorCommand command = CreateDoctorCommand.builder()
@@ -95,29 +105,43 @@ class DoctorControllerTest {
                 .build();
         String json = objectMapper.writeValueAsString(command);
 
-        // TODO puscic GET czy faktycznie doctor o tym ID  NIE jest w bazei
+        postman.perform(get("/doctors?name=" + command.getName()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(5)));
 
 
-        postman.perform(post("/doctors")
+        String response = postman.perform(post("/doctors")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id", notNullValue()))
                 .andExpect(jsonPath("$.name", is(command.getName())))
-                .andExpect(jsonPath("$.lastName", is(command.getLastName())));
+                .andExpect(jsonPath("$.lastName", is(command.getLastName())))
+                .andReturn().getResponse().getContentAsString();
 
-        // TODO puscic GET czy faktycznie doctor o tym ID jest w bazei
+        Integer newDoctorIdAsInteger = JsonPath.read(response, "$.id");
+        Long newDoctorId = newDoctorIdAsInteger.longValue();
+
+        postman.perform(get("/doctors/" + newDoctorId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(newDoctorId.intValue())))
+                .andExpect(jsonPath("$.name", is(command.getName())))
+                .andExpect(jsonPath("$.lastName", is(command.getLastName())));
     }
 
     @Test
     void shouldDelete() throws Exception {
         long doctorId = 1;
 
-        // TODO get czy to co usuwasz faktycznie najpierw istnieje
+        postman.perform(get("/doctors/" + doctorId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is((int) doctorId)));
 
         postman.perform(delete("/doctors/" + doctorId))
                 .andExpect(status().isNoContent());
-        // TODO rozbudowac sprawdzenie bledu
+
+        postman.perform(get("/doctors/" + doctorId))
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -125,7 +149,6 @@ class DoctorControllerTest {
         EditDoctorCommand command = EditDoctorCommand.builder()
                 .name("Updated Name")
                 .lastName("Updated LastName")
-
                 .rate(550)
                 .specialty("Updated Specialty")
                 .animalSpecialty("Updated Animals")
@@ -133,8 +156,11 @@ class DoctorControllerTest {
         String json = objectMapper.writeValueAsString(command);
         long doctorId = 1;
 
-        // TODO puscic GET czy faktycznie doctor o tym ID  NIE jest w bazei
-
+        postman.perform(get("/doctors/" + doctorId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is((int) doctorId)))
+                .andExpect(jsonPath("$.name", not(is(command.getName())))) // Check that the name is not already the updated value
+                .andExpect(jsonPath("$.lastName", not(is(command.getLastName())))); // Check that the last name is not already the updated value
 
         postman.perform(put("/doctors/" + doctorId)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -147,8 +173,15 @@ class DoctorControllerTest {
                 .andExpect(jsonPath("$.specialty", is(command.getSpecialty())))
                 .andExpect(jsonPath("$.animalSpecialty", is(command.getAnimalSpecialty())));
 
-        // TODO puscic GET czy faktycznie doctor o tym ID jest w bazei
-
+        postman.perform(get("/doctors/" + doctorId))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is((int) doctorId)))
+                .andExpect(jsonPath("$.name", is(command.getName())))
+                .andExpect(jsonPath("$.lastName",
+                        is(command.getLastName())))
+                .andExpect(jsonPath("$.rate", is(command.getRate())))
+                .andExpect(jsonPath("$.specialty", is(command.getSpecialty())))
+                .andExpect(jsonPath("$.animalSpecialty", is(command.getAnimalSpecialty())));
     }
 
     @Test

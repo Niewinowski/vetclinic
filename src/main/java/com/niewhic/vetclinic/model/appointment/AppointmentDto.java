@@ -18,6 +18,7 @@ public class AppointmentDto {
     private LocalDateTime dateTime;
     private String notes;
     private String prescription;
+    private boolean active;
 
 
 }
