@@ -1,7 +1,6 @@
 package com.niewhic.vetclinic.service;
 
 import com.niewhic.vetclinic.exception.PatientNotFoundException;
-import com.niewhic.vetclinic.model.appointment.Appointment;
 import com.niewhic.vetclinic.model.patient.Patient;
 import com.niewhic.vetclinic.repository.PatientRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,6 +9,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -53,14 +56,14 @@ class PatientServiceTest {
                 .breed("breed")
                 .build();
 
-        when(patientRepository.findAll()).thenReturn(List.of(patient, patient1));
+        when(patientRepository.findAll(any(Pageable.class))).thenReturn(new PageImpl<>(List.of(patient, patient1)));
 
         // when
-        List<Patient> patientList = patientService.findAll();
+        Page<Patient> patientPage = patientService.findAll(PageRequest.of(0, 5));
 
         // then
-        assertNotNull(patientList);
-        assertEquals(2, patientList.size());
+        assertNotNull(patientPage);
+        assertEquals(2, patientPage.getTotalElements());
     }
 
     @Test
