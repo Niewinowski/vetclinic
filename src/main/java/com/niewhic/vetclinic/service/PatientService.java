@@ -4,6 +4,8 @@ import com.niewhic.vetclinic.exception.PatientNotFoundException;
 import com.niewhic.vetclinic.repository.PatientRepository;
 import com.niewhic.vetclinic.model.patient.Patient;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,8 +45,8 @@ public class PatientService {
 
     private final PatientRepository patientRepository;
 
-    public List<Patient> findAll() {
-        return patientRepository.findAll();
+    public Page<Patient> findAll(Pageable pageable) {
+        return patientRepository.findAll(pageable);
     }
 
     public Patient findById(long id) {
