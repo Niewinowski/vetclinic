@@ -4,6 +4,7 @@ import com.niewhic.vetclinic.exception.AppointmentNotFoundException;
 import com.niewhic.vetclinic.model.appointment.Appointment;
 import com.niewhic.vetclinic.model.appointment.command.CreateAppointmentCommand;;
 import com.niewhic.vetclinic.model.appointment.command.EditAppointmentCommand;
+import com.niewhic.vetclinic.model.doctor.Doctor;
 import com.niewhic.vetclinic.repository.AppointmentRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -28,8 +29,15 @@ public class AppointmentService {
 
     public Appointment save(CreateAppointmentCommand command) {
         Appointment appointmentToSave = modelMapper.map(command, Appointment.class);
-        System.out.println("szukaj");
-        System.out.println(appointmentToSave);
+        Doctor doctor = appointmentToSave.getDoctor();
+        for (Appointment appointment : findByDoctorId(doctor.getId())) {
+            // TODO Przetestować to, dodatkowo zrobić tą samą walidację czasową dla Pacjenta.
+            if (appointmentToSave.getDateTime().isBefore(appointment.getDateTime().plusMinutes(16))){
+                throw new RuntimeException("There is other appointment in this time.");
+            }
+
+        }
+
         return appointmentRepository.save(appointmentToSave);
     }
 
@@ -62,4 +70,7 @@ public class AppointmentService {
                     return appointmentToEdit;
                 }).orElseThrow(() -> new AppointmentNotFoundException(String.format("Appointment with id %s not found", id)));
     }
+   public List <Appointment> findByDoctorId(long doctorId) {
+        return appointmentRepository.findByDoctorId(doctorId);
+   }
 }

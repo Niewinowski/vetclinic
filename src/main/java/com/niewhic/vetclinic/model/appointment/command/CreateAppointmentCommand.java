@@ -18,7 +18,7 @@ public class CreateAppointmentCommand {
     private Long patientId;
 
     @NotNull(message = "Date and time cannot be null")
-    @PastOrPresent(message = "Date and time must be in the past or future")
+    @Future(message = "Date and time must be in the past or future")
     private LocalDateTime dateTime;
 
     @NotBlank(message = "Notes cannot be blank")

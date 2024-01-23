@@ -5,6 +5,7 @@ import com.niewhic.vetclinic.model.appointment.AppointmentDto;
 import com.niewhic.vetclinic.model.appointment.command.CreateAppointmentCommand;
 import com.niewhic.vetclinic.model.appointment.command.EditAppointmentCommand;
 import com.niewhic.vetclinic.service.AppointmentService;;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 import org.modelmapper.ModelMapper;
@@ -35,7 +36,7 @@ public class AppointmentController {
     }
 
     @PostMapping
-    public ResponseEntity<AppointmentDto> addAppointment(@RequestBody CreateAppointmentCommand command) {
+    public ResponseEntity<AppointmentDto> addAppointment(@Valid @RequestBody CreateAppointmentCommand command) {
         Appointment savedAppointment = appointmentService.save(command);
         return new ResponseEntity<>(modelMapper.map(savedAppointment, AppointmentDto.class), HttpStatus.CREATED);
     }

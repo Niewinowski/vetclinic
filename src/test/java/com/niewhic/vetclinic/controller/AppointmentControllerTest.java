@@ -17,8 +17,6 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
 
-import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -67,7 +65,7 @@ class AppointmentControllerTest {
         CreateAppointmentCommand command = CreateAppointmentCommand.builder()
                 .doctorId(1L)
                 .patientId(1L)
-                .dateTime(LocalDateTime.of(2020, 10, 10, 0, 0, 0))
+                .dateTime(LocalDateTime.of(2025, 10, 10, 0, 0, 0))
                 .notes("notes")
                 .prescription("prescription")
                 .build();
@@ -88,7 +86,7 @@ class AppointmentControllerTest {
                 .andExpect(jsonPath("$.id").value(6L))
                 .andExpect(jsonPath("$.doctor.id").value(command.getDoctorId()))
                 .andExpect(jsonPath("$.patient.id").value(command.getPatientId()))
-                .andExpect(jsonPath("$.dateTime").value("2020-10-10T00:00:00"))
+                .andExpect(jsonPath("$.dateTime").value("2025-10-10T00:00:00"))
                 .andExpect(jsonPath("$.notes").value(command.getNotes()))
                 .andExpect(jsonPath("$.prescription").value(command.getPrescription()));
 
@@ -97,7 +95,7 @@ class AppointmentControllerTest {
                 .andExpect(jsonPath("$.id").value(6L))
                 .andExpect(jsonPath("$.doctor.id").value(command.getDoctorId()))
                 .andExpect(jsonPath("$.patient.id").value(command.getPatientId()))
-                .andExpect(jsonPath("$.dateTime").value("2020-10-10T00:00:00"))
+                .andExpect(jsonPath("$.dateTime").value("2025-10-10T00:00:00"))
                 .andExpect(jsonPath("$.notes").value(command.getNotes()))
                 .andExpect(jsonPath("$.prescription").value(command.getPrescription()));
     }

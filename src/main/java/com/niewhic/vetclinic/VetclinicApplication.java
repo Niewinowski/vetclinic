@@ -88,4 +88,11 @@ public class VetclinicApplication {
 	// 					i inną dla jego aktualizacji (Update).
 
 	// TODO 2024-01-22 |
+	// Zadanie domowe - dodać do Appointmentu Encję Gabinet i umieszczać wizyty w Gabinecie. Walidacja czy jest dostępny
+	// gabinet w czasie wizyty. Danego dnia w przedzialach czasowych jaki Doctor przyjmuje w jakim gabicnie. Do przemyślenia
+	// rozwiązanie.
+
+	// Zaimplementować @Validated - przykład.
+
+
 }
