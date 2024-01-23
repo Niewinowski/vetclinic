@@ -5,6 +5,7 @@ import com.niewhic.vetclinic.model.appointment.Appointment;
 import com.niewhic.vetclinic.model.appointment.command.CreateAppointmentCommand;;
 import com.niewhic.vetclinic.model.appointment.command.EditAppointmentCommand;
 import com.niewhic.vetclinic.model.doctor.Doctor;
+import com.niewhic.vetclinic.model.patient.Patient;
 import com.niewhic.vetclinic.repository.AppointmentRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -31,11 +32,16 @@ public class AppointmentService {
         Appointment appointmentToSave = modelMapper.map(command, Appointment.class);
         Doctor doctor = appointmentToSave.getDoctor();
         for (Appointment appointment : findByDoctorId(doctor.getId())) {
-            // TODO Przetestować to, dodatkowo zrobić tą samą walidację czasową dla Pacjenta.
+            // TODO Przetestować to
             if (appointmentToSave.getDateTime().isBefore(appointment.getDateTime().plusMinutes(16))){
-                throw new RuntimeException("There is other appointment in this time.");
+                throw new RuntimeException("Doctor has other appointment in this time.");
             }
-
+        }
+        Patient patient = appointmentToSave.getPatient();
+        for (Appointment appointment : findByPatientId(patient.getId())) {
+            if (appointmentToSave.getDateTime().isBefore(appointment.getDateTime().plusMinutes(16))) {
+                throw new RuntimeException("Paient has other appointment in this time.");
+            }
         }
 
         return appointmentRepository.save(appointmentToSave);
@@ -73,4 +79,8 @@ public class AppointmentService {
    public List <Appointment> findByDoctorId(long doctorId) {
         return appointmentRepository.findByDoctorId(doctorId);
    }
+
+   public List <Appointment> findByPatientId(long patientId) {
+        return appointmentRepository.findByDoctorId(patientId);
+    }
 }
