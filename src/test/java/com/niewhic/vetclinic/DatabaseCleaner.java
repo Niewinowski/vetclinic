@@ -8,7 +8,6 @@ import liquibase.exception.DatabaseException;
 import liquibase.exception.LiquibaseException;
 import liquibase.resource.ClassLoaderResourceAccessor;
 import lombok.Value;
-import org.springframework.boot.autoconfigure.batch.BatchProperties;
 import org.springframework.stereotype.Service;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -35,6 +34,6 @@ public class DatabaseCleaner {
 
     public void cleanUp() throws LiquibaseException {
         liquibase.dropAll();
-        liquibase.update(new Contexts());
+        liquibase.update(null,new Contexts());
     }
 }

@@ -41,19 +41,51 @@ public class VetclinicApplication {
 	// TODO dodac konkretne wyjatki pod model: DoctorNotFoundException, PatientNotFoundException, AppointmentNotFoundException
 	// TODO i obsluzyc je w globalExceptionHandler
 
-	//TODO 2023-12-19 | Update, Add, FindById - Janek, Delete, FindAllEditPartially - Wojciech
+	// TODO 2023-12-19 | Update, Add, FindById - Janek, Delete, FindAllEditPartially - Wojciech
 
-	// TODO 09012024 - zaimplementowac softDelete w patient i w appointment
+	// TODO 2024-01-09 | zaimplementowac softDelete w patient i w appointment
 	// naprawic dane testowe - stworzyc nowe changesety do modyfikacji istniejacych tabel
 	// zmodyfikowac pliki csv z ktorych ladujemy dane
 	// changesets naming convention modify-table-patient.xml, modify-table-doctor.xml, modify-table-appointment.xml
 
-
-	// TODO 16.01.2024
+	// TODO 2024-01-16 |
 	// dokonczyc paginacje i sortowanie w pozostalych klasach, naprawic sortDirection :)
 	// TESTY TESTY TESTY
-	//popraqwic testy
+	// poprawic testy
 	// dodac walidacje danych w commandach - wszystkie/wiekszosc (do waszego uznania) pol np nie powinno byc puste
 	// adnotacje @NotBlank/@NotEmpty/@NotNull - poczytajcie
 	// @Validated/@Valid w controllerze - tez poczytajcie
+
+	//	1. Adnotacje @NotBlank, @NotEmpty, @NotNull:
+	//
+	//		 @NotNull:  Adnotacja ta jest stosowana do pól w klasach Java i wskazuje, że dane pole nie może być null.
+	//					Jest to podstawowa walidacja sprawdzająca, czy wartość została w ogóle podana.
+
+	//		 @NotEmpty: Ta adnotacja jest używana głównie dla kolekcji, tablic i ciągów znaków (String).
+	//					Wskazuje ona, że pole nie może być null i nie może być puste. W przypadku stringów oznacza to,
+	//					że string musi zawierać co najmniej jeden znak.
+
+	//		 @NotBlank: Jest podobna do @NotEmpty, ale dodatkowo sprawdza, czy ciąg znaków nie składa się wyłącznie
+	//					z białych znaków (spacje, tabulacje itp.). Jest to użyteczne w przypadku walidacji tekstów,
+	//					gdzie nie chcemy akceptować ciągów składających się tylko z białych znaków.
+
+	//	2. @Valid i @Validated w kontrolerze:
+	//
+	//		@Valid: 	Ta adnotacja jest stosowana do argumentów metod w kontrolerze Spring MVC lub REST,
+	//					aby włączyć walidację dla przekazywanych obiektów (np. modeli formularzy, DTO).
+	//					Gdy używamy @Valid przed argumentem metody, Spring automatycznie sprawdza,
+	//					czy obiekt spełnia kryteria walidacyjne zdefiniowane w jego klasie
+	//					(np. za pomocą adnotacji @NotBlank, @NotEmpty itd.). Jeśli walidacja nie powiedzie się,
+	//					metoda nie zostanie wykonana, a zamiast tego zostanie zgłoszony wyjątek.
+
+	//		@Validated: Jest to bardziej zaawansowana wersja @Valid, która pochodzi z pakietu Springa
+	//					i oferuje dodatkową elastyczność, np. grupy walidacyjne.
+	//					Pozwala to na bardziej szczegółową kontrolę nad procesem walidacji.
+
+	// 					Grupy walidacyjne pozwalają na określenie, kiedy konkretne warunki walidacji mają być stosowane.
+	// 					Dzięki temu możesz mieć różne zasady walidacji dla różnych operacji w tej samej klasie.
+	// 					Na przykład, możesz mieć jedną grupę walidacyjną dla procesu tworzenia obiektu (Create)
+	// 					i inną dla jego aktualizacji (Update).
+
+	// TODO 2024-01-22 |
 }

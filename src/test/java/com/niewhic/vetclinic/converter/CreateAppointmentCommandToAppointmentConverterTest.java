@@ -1,13 +1,12 @@
 package com.niewhic.vetclinic.converter;
 
 import com.niewhic.vetclinic.model.appointment.Appointment;
-import com.niewhic.vetclinic.model.appointment.CreateAppointmentCommand;
+import com.niewhic.vetclinic.model.appointment.command.CreateAppointmentCommand;
 import com.niewhic.vetclinic.model.doctor.Doctor;
 import com.niewhic.vetclinic.model.patient.Patient;
 import com.niewhic.vetclinic.service.DoctorService;
 import com.niewhic.vetclinic.service.PatientService;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -15,7 +14,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.spi.MappingContext;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.stream.Stream;
 

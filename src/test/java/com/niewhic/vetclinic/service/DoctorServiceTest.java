@@ -8,6 +8,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -121,6 +125,8 @@ class DoctorServiceTest {
 
     @Test
     void findAllDoctors() {
+        Pageable pageable = PageRequest.of(0, 5);
+
         Doctor doctor1 = Doctor.builder()
                 .id(1L)
                 .name("John")
@@ -139,13 +145,15 @@ class DoctorServiceTest {
                 .animalSpecialty("Cats")
                 .build();
 
+        Page<Doctor> page = new PageImpl<>(List.of(doctor1, doctor2));
 
-        when(doctorRepository.findAll()).thenReturn(List.of(doctor1, doctor2));
+        when(doctorRepository.findAll(pageable)).thenReturn(page);
 
-        List<Doctor> doctorList = doctorService.findAll();
+        Page<Doctor> result = doctorService.findAll(pageable);
 
-        assertNotNull(doctorList);
-        assertEquals(2, doctorList.size());
+        assertNotNull(result);
+        assertEquals(2, result.getContent().size());
+        verify(doctorRepository).findAll(pageable);
     }
 
     @Test
@@ -159,11 +167,15 @@ class DoctorServiceTest {
 
     @Test
     void findAllDoctors_whenNoDoctorsExist() {
-        when(doctorRepository.findAll()).thenReturn(List.of());
+        Pageable pageable = Pageable.unpaged();
+        Page<Doctor> emptyPage = new PageImpl<>(List.of());
 
-        List<Doctor> doctorList = doctorService.findAll();
+        when(doctorRepository.findAll(pageable)).thenReturn(emptyPage);
 
-        assertTrue(doctorList.isEmpty());
+        Page<Doctor> result = doctorService.findAll(pageable);
+
+        assertTrue(result.getContent().isEmpty());
+        verify(doctorRepository).findAll(pageable);
     }
     @Test
     void deleteNonExistingDoctor() {

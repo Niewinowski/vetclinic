@@ -1,8 +1,7 @@
 package com.niewhic.vetclinic.converter;
 
 import com.niewhic.vetclinic.model.appointment.Appointment;
-import com.niewhic.vetclinic.model.appointment.CreateAppointmentCommand;
-import com.niewhic.vetclinic.model.appointment.EditAppointmentCommand;
+import com.niewhic.vetclinic.model.appointment.command.EditAppointmentCommand;
 import com.niewhic.vetclinic.model.patient.Patient;
 import com.niewhic.vetclinic.service.DoctorService;
 import lombok.RequiredArgsConstructor;

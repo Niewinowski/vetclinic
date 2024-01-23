@@ -2,8 +2,8 @@ package com.niewhic.vetclinic.controller;
 
 import com.niewhic.vetclinic.model.appointment.Appointment;
 import com.niewhic.vetclinic.model.appointment.AppointmentDto;
-import com.niewhic.vetclinic.model.appointment.CreateAppointmentCommand;
-import com.niewhic.vetclinic.model.appointment.EditAppointmentCommand;
+import com.niewhic.vetclinic.model.appointment.command.CreateAppointmentCommand;
+import com.niewhic.vetclinic.model.appointment.command.EditAppointmentCommand;
 import com.niewhic.vetclinic.service.AppointmentService;;
 import lombok.RequiredArgsConstructor;
 

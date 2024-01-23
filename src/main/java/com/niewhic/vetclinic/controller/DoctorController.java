@@ -11,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,7 +40,7 @@ public class DoctorController {
     }
 
     @PostMapping
-    public ResponseEntity<DoctorDto> addDoctor(@RequestBody CreateDoctorCommand command) {
+    public ResponseEntity<DoctorDto> addDoctor(@Validated @RequestBody CreateDoctorCommand command) {
         Doctor doctor = modelMapper.map(command, Doctor.class);
         Doctor savedDoctor = doctorService.save(doctor);
         DoctorDto doctorDto = modelMapper.map(savedDoctor, DoctorDto.class);

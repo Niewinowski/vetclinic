@@ -4,11 +4,11 @@ import com.niewhic.vetclinic.model.doctor.Doctor;
 import com.niewhic.vetclinic.repository.DoctorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -18,6 +18,8 @@ import java.util.Optional;
 public class DoctorService {
 
     private final DoctorRepository doctorRepository;
+
+
     public Page<Doctor> findAll(Pageable pageable) {
         return doctorRepository.findAll(pageable);
     }

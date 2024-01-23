@@ -2,8 +2,8 @@ package com.niewhic.vetclinic.service;
 
 import com.niewhic.vetclinic.exception.AppointmentNotFoundException;
 import com.niewhic.vetclinic.model.appointment.Appointment;
-import com.niewhic.vetclinic.model.appointment.CreateAppointmentCommand;;
-import com.niewhic.vetclinic.model.appointment.EditAppointmentCommand;
+import com.niewhic.vetclinic.model.appointment.command.CreateAppointmentCommand;;
+import com.niewhic.vetclinic.model.appointment.command.EditAppointmentCommand;
 import com.niewhic.vetclinic.repository.AppointmentRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;

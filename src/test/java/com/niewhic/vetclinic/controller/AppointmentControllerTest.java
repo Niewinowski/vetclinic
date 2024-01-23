@@ -1,12 +1,10 @@
 package com.niewhic.vetclinic.controller;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.niewhic.vetclinic.DatabaseCleaner;
 import com.niewhic.vetclinic.VetclinicApplication;
-import com.niewhic.vetclinic.model.appointment.AppointmentDto;
-import com.niewhic.vetclinic.model.appointment.CreateAppointmentCommand;
-import com.niewhic.vetclinic.model.appointment.EditAppointmentCommand;
+import com.niewhic.vetclinic.model.appointment.command.CreateAppointmentCommand;
+import com.niewhic.vetclinic.model.appointment.command.EditAppointmentCommand;
 import liquibase.exception.LiquibaseException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -16,10 +14,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.web.servlet.MvcResult;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertTrue;
