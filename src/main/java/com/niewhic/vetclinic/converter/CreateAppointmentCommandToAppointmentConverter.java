@@ -3,7 +3,6 @@ package com.niewhic.vetclinic.converter;
 import com.niewhic.vetclinic.model.appointment.Appointment;
 import com.niewhic.vetclinic.model.appointment.command.CreateAppointmentCommand;
 import com.niewhic.vetclinic.service.DoctorService;
-import com.niewhic.vetclinic.service.OfficeService;
 import com.niewhic.vetclinic.service.PatientService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.Converter;
@@ -21,9 +20,6 @@ public class CreateAppointmentCommandToAppointmentConverter implements Converter
     private final DoctorService doctorService;
     private final PatientService patientService;
 
-    private final OfficeService officeService;
-
-
     @Override
     public Appointment convert(MappingContext<CreateAppointmentCommand, Appointment> mappingContext) {
         CreateAppointmentCommand command = mappingContext.getSource();
@@ -34,7 +30,6 @@ public class CreateAppointmentCommandToAppointmentConverter implements Converter
                     .notes(command.getNotes())
                     .dateTime(command.getDateTime())
                     .prescription(command.getPrescription())
-                    .office(command.getOfficeId() != null ? officeService.findById(command.getOfficeId()) : null)
                     .build();
 
             LOGGER.info("Successfully converted CreateAppointmentCommand to Appointment");

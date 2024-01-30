@@ -31,11 +31,6 @@ public class GlobalExceptionHandler {
         return createErrorResponse(NOT_FOUND, ex.getMessage(), request);
     }
 
-    @ExceptionHandler(AppointmentNotFoundException.class)
-    public ResponseEntity<ErrorMessage> officeNotFoundException(AppointmentNotFoundException ex, HttpServletRequest request) {
-        return createErrorResponse(NOT_FOUND, ex.getMessage(), request);
-    }
-
     private ResponseEntity<ErrorMessage> createErrorResponse(HttpStatus status, String message, HttpServletRequest request) {
         return new ResponseEntity<>(ErrorMessage.builder()
                 .timestamp(LocalDateTime.now())

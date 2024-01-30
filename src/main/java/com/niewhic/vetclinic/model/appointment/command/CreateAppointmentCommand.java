@@ -27,7 +27,4 @@ public class CreateAppointmentCommand {
 
     @Size(max = 500, message = "Prescription cannot exceed 500 characters")
     private String prescription;
-
-    @Size(max = 500, message = "Prescription cannot exceed 500 characters")
-    private Long officeId;
 }

@@ -2,7 +2,6 @@ package com.niewhic.vetclinic.model.appointment;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.niewhic.vetclinic.model.doctor.Doctor;
-import com.niewhic.vetclinic.model.office.Office;
 import com.niewhic.vetclinic.model.patient.Patient;
 import jakarta.persistence.*;
 import lombok.*;
@@ -40,8 +39,4 @@ public class Appointment {
     private String prescription;
     @Builder.Default
     private boolean active = true;
-
-    //@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    //@JoinColumn(name = "office_id", nullable = false)
-    private Office office;
 }

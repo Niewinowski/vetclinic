@@ -6,12 +6,8 @@
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
     <include file="/changesets/create-test-tables.xml"/>
-    <include file="/changesets/create-table-office.xml"/>
     <include file="/changesets/modify-table-patient.xml"/>
     <include file="/changesets/modify-table-doctor.xml"/>
     <include file="/changesets/modify-table-appointment.xml"/>
-    <include file="/changesets/modify-table-appointment2.xml"/>
-    <include file="/changesets/insert-test-office.xml"/>
     <include file="/changesets/insert-test-data.xml"/>
-
 </databaseChangeLog>

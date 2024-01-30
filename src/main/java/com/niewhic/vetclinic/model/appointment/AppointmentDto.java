@@ -1,7 +1,6 @@
 package com.niewhic.vetclinic.model.appointment;
 
 import com.niewhic.vetclinic.model.doctor.DoctorDto;
-import com.niewhic.vetclinic.model.office.OfficeDto;
 import com.niewhic.vetclinic.model.patient.PatientDto;
 import lombok.*;
 
@@ -19,7 +18,6 @@ public class AppointmentDto {
     private LocalDateTime dateTime;
     private String notes;
     private String prescription;
-    private OfficeDto office;
 
 
 }
