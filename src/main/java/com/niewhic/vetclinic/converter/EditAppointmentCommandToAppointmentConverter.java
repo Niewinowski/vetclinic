@@ -4,6 +4,7 @@ import com.niewhic.vetclinic.model.appointment.Appointment;
 import com.niewhic.vetclinic.model.appointment.command.EditAppointmentCommand;
 import com.niewhic.vetclinic.model.patient.Patient;
 import com.niewhic.vetclinic.service.DoctorService;
+import com.niewhic.vetclinic.service.OfficeService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.Converter;
 import org.modelmapper.spi.MappingContext;
@@ -17,6 +18,7 @@ import java.util.NoSuchElementException;
 public class EditAppointmentCommandToAppointmentConverter implements Converter<EditAppointmentCommand, Appointment> {
     private static final Logger LOGGER = LoggerFactory.getLogger(EditAppointmentCommandToAppointmentConverter.class);
     private final DoctorService doctorService;
+    private final OfficeService officeService;
     @Override
     public Appointment convert(MappingContext<EditAppointmentCommand, Appointment> mappingContext) {
         EditAppointmentCommand command = mappingContext.getSource();
@@ -27,6 +29,7 @@ public class EditAppointmentCommandToAppointmentConverter implements Converter<E
                     .notes(command.getNotes())
                     .dateTime(command.getDateTime())
                     .prescription(command.getPrescription())
+                    .office(command.getOfficeId() != null ? officeService.findById(command.getOfficeId()) : null)
                     .build();
 
             LOGGER.info("Successfully converted EditAppointmentCommand to Appointment");

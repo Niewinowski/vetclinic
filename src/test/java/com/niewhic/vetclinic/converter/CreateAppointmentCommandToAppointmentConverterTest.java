@@ -3,8 +3,10 @@ package com.niewhic.vetclinic.converter;
 import com.niewhic.vetclinic.model.appointment.Appointment;
 import com.niewhic.vetclinic.model.appointment.command.CreateAppointmentCommand;
 import com.niewhic.vetclinic.model.doctor.Doctor;
+import com.niewhic.vetclinic.model.office.Office;
 import com.niewhic.vetclinic.model.patient.Patient;
 import com.niewhic.vetclinic.service.DoctorService;
+import com.niewhic.vetclinic.service.OfficeService;
 import com.niewhic.vetclinic.service.PatientService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,10 +33,12 @@ class CreateAppointmentCommandToAppointmentConverterTest {
     private DoctorService doctorService;
     @Mock
     private PatientService patientService;
+    @Mock
+    private OfficeService officeService;
 
     @BeforeEach
     void setUp() {
-        testedConverter = new CreateAppointmentCommandToAppointmentConverter(doctorService, patientService);
+        testedConverter = new CreateAppointmentCommandToAppointmentConverter(doctorService, patientService,officeService);
     }
 
     @ParameterizedTest
@@ -49,8 +53,13 @@ class CreateAppointmentCommandToAppointmentConverterTest {
                 .id(command.getDoctorId())
                 .build();
 
+        Office office = Office.builder()
+                .id(command.getOfficeId())
+                .build();
+
         when(patientService.findById(patient.getId())).thenReturn(patient);
         when(doctorService.findById(doctor.getId())).thenReturn(doctor);
+        when(officeService.findById(office.getId())).thenReturn(office);
         when(mappingContext.getSource()).thenReturn(command);
 
         // when
@@ -65,7 +74,8 @@ class CreateAppointmentCommandToAppointmentConverterTest {
                 () -> assertEquals(appointment.getDoctor().getId(), command.getDoctorId()),
                 () -> assertEquals(appointment.getDateTime(), command.getDateTime()),
                 () -> assertEquals(appointment.getPrescription(), command.getPrescription()),
-                () -> assertEquals(appointment.getNotes(), command.getNotes())
+                () -> assertEquals(appointment.getNotes(), command.getNotes()),
+                () -> assertEquals(appointment.getOffice().getId(), command.getOfficeId())
         );
     }
 
@@ -77,6 +87,7 @@ class CreateAppointmentCommandToAppointmentConverterTest {
                         .dateTime(LocalDateTime.of(2022, 02, 02, 20,00,00))
                         .notes("testowo")
                         .prescription("cos")
+                        .officeId(1L)
                         .build(),
                 CreateAppointmentCommand.builder()
                         .patientId(2L)
@@ -84,10 +95,12 @@ class CreateAppointmentCommandToAppointmentConverterTest {
                         .dateTime(LocalDateTime.of(2023, 02, 02, 20,00,00))
                         .notes("testowo2")
                         .prescription("cos2")
+                        .officeId(2L)
                         .build(),
                 CreateAppointmentCommand.builder()
                         .patientId(3L)
                         .doctorId(3L)
+                        .officeId(3L)
                         .build()
         );
     }
