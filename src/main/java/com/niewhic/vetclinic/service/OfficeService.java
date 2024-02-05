@@ -1,9 +1,12 @@
 package com.niewhic.vetclinic.service;
 
+import com.niewhic.vetclinic.exception.OfficeNotFoundException;
 import com.niewhic.vetclinic.model.office.Office;
 import com.niewhic.vetclinic.repository.OfficeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,13 +18,13 @@ import java.util.NoSuchElementException;
 public class OfficeService {
     private final OfficeRepository officeRepository;
 
-    public List<Office> findAll(PageRequest of) {
-        return officeRepository.findAll();
+    public Page<Office> findAll(Pageable pageable) {
+        return officeRepository.findAll(pageable);
     }
 
     public Office findById(long id) {
         return officeRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException(String.format("Office with id %s not found", id)));
+                .orElseThrow(() -> new OfficeNotFoundException(String.format("Office with id %s not found", id)));
     }
 
     public Office save(Office office) {
@@ -39,7 +42,7 @@ public class OfficeService {
                     officeToEdit.setType(updatedOffice.getType());
                     return officeToEdit;
                 })
-                .orElseThrow(() -> new NoSuchElementException(String.format("Office with id %s not found", id)));
+                .orElseThrow(() -> new OfficeNotFoundException(String.format("Office with id %s not found", id)));
     }
 
     @Transactional
@@ -51,6 +54,6 @@ public class OfficeService {
                     }
                     return officeToEdit;
                 })
-                .orElseThrow(() -> new NoSuchElementException(String.format("Office with id %s not found", id)));
+                .orElseThrow(() -> new OfficeNotFoundException(String.format("Office with id %s not found", id)));
     }
 }

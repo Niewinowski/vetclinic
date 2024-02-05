@@ -269,6 +269,7 @@ class PatientControllerTest {
                 .breed("breed")
                 .build();
         String commandJson = objectMapper.writeValueAsString(command);
+
         postman.perform(get("/patients/6"))
                 .andDo(print())
                 .andExpect(status().isNotFound())

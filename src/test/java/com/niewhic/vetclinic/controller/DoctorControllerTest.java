@@ -17,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.hamcrest.Matchers.*;
@@ -100,28 +101,34 @@ class DoctorControllerTest {
                 .build();
         String json = objectMapper.writeValueAsString(command);
 
-        postman.perform(get("/doctors?name=" + command.getName()))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(5)));
-
-
-        String response = postman.perform(post("/doctors")
+        postman.perform(get("/doctors/6"))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.code").value(404))
+                .andExpect(jsonPath("$.status").value("Not Found"))
+                .andExpect(jsonPath("$.message").value("Doctor with id 6 not found"))
+                .andExpect(jsonPath("$.uri").value("/doctors/6"))
+                .andExpect(jsonPath("$.method").value("GET"));
+        postman.perform(post("/doctors")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
+                .andDo(print())
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id", notNullValue()))
-                .andExpect(jsonPath("$.name", is(command.getName())))
-                .andExpect(jsonPath("$.lastName", is(command.getLastName())))
-                .andReturn().getResponse().getContentAsString();
-
-        Integer newDoctorIdAsInteger = JsonPath.read(response, "$.id");
-        Long newDoctorId = newDoctorIdAsInteger.longValue();
-
-        postman.perform(get("/doctors/" + newDoctorId))
+                .andExpect(jsonPath("$.id").value(6))
+                .andExpect(jsonPath("$.name").value(command.getName()))
+                .andExpect(jsonPath("$.lastName").value(command.getLastName()))
+                .andExpect(jsonPath("$.animalSpecialty").value(command.getAnimalSpecialty()))
+                .andExpect(jsonPath("$.rate").value(command.getRate()))
+                .andExpect(jsonPath("$.active").value("true"));
+        postman.perform(get("/doctors/6"))
+                .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is(newDoctorId.intValue())))
-                .andExpect(jsonPath("$.name", is(command.getName())))
-                .andExpect(jsonPath("$.lastName", is(command.getLastName())));
+                .andExpect(jsonPath("$.id").value(6))
+                .andExpect(jsonPath("$.name").value("Puppy"))
+                .andExpect(jsonPath("$.lastName").value("Jan"))
+                .andExpect(jsonPath("$.animalSpecialty").value("Kowalski"))
+                .andExpect(jsonPath("$.rate").value(10))
+                .andExpect(jsonPath("$.active").value("true"));
     }
 
     @Test

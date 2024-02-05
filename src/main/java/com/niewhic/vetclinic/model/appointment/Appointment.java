@@ -41,7 +41,7 @@ public class Appointment {
     @Builder.Default
     private boolean active = true;
 
-    //@ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    //@JoinColumn(name = "office_id", nullable = false)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "office_id", nullable = false)
     private Office office;
 }

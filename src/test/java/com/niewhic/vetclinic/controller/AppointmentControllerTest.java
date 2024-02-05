@@ -68,6 +68,7 @@ class AppointmentControllerTest {
                 .dateTime(LocalDateTime.of(2025, 10, 10, 0, 0, 0))
                 .notes("notes")
                 .prescription("prescription")
+                .officeId(1L)
                 .build();
         String commandJson = objectMapper.writeValueAsString(command);
         postman.perform(get("/appointments/6"))
@@ -88,7 +89,8 @@ class AppointmentControllerTest {
                 .andExpect(jsonPath("$.patient.id").value(command.getPatientId()))
                 .andExpect(jsonPath("$.dateTime").value("2025-10-10T00:00:00"))
                 .andExpect(jsonPath("$.notes").value(command.getNotes()))
-                .andExpect(jsonPath("$.prescription").value(command.getPrescription()));
+                .andExpect(jsonPath("$.prescription").value(command.getPrescription()))
+                .andExpect(jsonPath("$.office.id").value(command.getOfficeId()));
 
         postman.perform(get("/appointments/6"))
                 .andDo(print())

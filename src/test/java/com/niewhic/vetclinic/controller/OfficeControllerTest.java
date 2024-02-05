@@ -47,7 +47,7 @@ class OfficeControllerTest {
     void shouldFindAllOffices() throws Exception {
         postman.perform(get("/offices"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(10))));
+                .andExpect(jsonPath("$", hasSize(lessThanOrEqualTo(10))));
     }
 
     @Test

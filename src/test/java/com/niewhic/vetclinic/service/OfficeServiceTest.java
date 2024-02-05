@@ -44,10 +44,11 @@ class OfficeServiceTest {
     void givenOfficesList_whenFindAll_thenReturnOfficesList() {
         when(officeRepository.findAll(any(Pageable.class))).thenReturn(new PageImpl<>(List.of(office)));
 
-        Page<Office> officePage = (Page<Office>) officeService.findAll(PageRequest.of(0, 5));
+        Page<Office> officePage = officeService.findAll(PageRequest.of(0, 5));
 
         assertNotNull(officePage);
         assertEquals(1, officePage.getTotalElements());
+        // TODO more assertions
     }
 
     @Test

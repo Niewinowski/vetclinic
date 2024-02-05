@@ -20,6 +20,4 @@ public class AppointmentDto {
     private String notes;
     private String prescription;
     private OfficeDto office;
-
-
 }
