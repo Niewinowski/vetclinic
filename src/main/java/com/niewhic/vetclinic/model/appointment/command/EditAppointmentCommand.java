@@ -14,4 +14,5 @@ public class EditAppointmentCommand {
     private LocalDateTime dateTime;
     private String notes;
     private String prescription;
+    private Long officeId;
 }
