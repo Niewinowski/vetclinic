@@ -1,6 +1,6 @@
-doctor_id,patient_id,date_time,notes,prescription,active,office_id
-1,1,2023-09-01T10:00:00,Regular check-up for Scooby after a mystery adventure.,Vitamin snacks for bravery.,true,1
-2,2,2023-09-02T11:00:00,Consultation for Garfield's dislike for Mondays.,Lasagna therapy.,true,2
-3,3,2023-09-03T09:30:00,Hedwig is in for a magical feather check-up.,Owl treats and a good flight exercise regimen.,true,3
-4,4,2023-09-04T13:00:00,Falkor's annual dragon scale polish.,Scale shine and a flight through the clouds.,true,4
-5,5,2023-09-05T15:00:00,Toothless needs a night fury energy boost.,Astral fish and relaxation under the stars.,true,5
+doctor_id,patient_id,date_time,notes,prescription,active,office_id,confirmed
+1,1,2023-09-01T10:00:00,Regular check-up for Scooby after a mystery adventure.,Vitamin snacks for bravery.,true,1,false
+2,2,2023-09-02T11:00:00,Consultation for Garfield's dislike for Mondays.,Lasagna therapy.,true,2,false
+3,3,2023-09-03T09:30:00,Hedwig is in for a magical feather check-up.,Owl treats and a good flight exercise regimen.,true,3,false
+4,4,2023-09-04T13:00:00,Falkor's annual dragon scale polish.,Scale shine and a flight through the clouds.,true,4,false
+5,5,2023-09-05T15:00:00,Toothless needs a night fury energy boost.,Astral fish and relaxation under the stars.,true,5,false

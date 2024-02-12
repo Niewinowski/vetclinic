@@ -15,24 +15,24 @@ import org.springframework.web.bind.annotation.*;
 public class ConfirmEmailController {
 
     private final EmailService emailService;
-    private final MessageService messageService; // Załóżmy, że to jest serwis opisany wyżej
+//    private final MessageService messageService; // Załóżmy, że to jest serwis opisany wyżej
     private final TokenService tokenService;
 
 
-    @GetMapping("/confirmEmail/{appointmentId}/{language}")
-    public String confirmEmail2(@PathVariable Long appointmentId, @PathVariable String language) {
-        // Tutaj logika do pobrania danych potrzebnych do wiadomości e-mail
-        String patientName = "Jan Kowalski";
-        String confirmationLink = "http://jakStrona.pl/confirm?appointmentId=" + appointmentId;
-
-        String emailBody = messageService.getConfirmationEmailBody(language, patientName, confirmationLink);
-        String subject = messageService.getSubject(language, "appointment.confirmation.subject");
-
-        // Do wyslania emaila ???
-        //emailService.sendEmail(patientName, subject, emailBody);
-
-        return "Email sent";
-    }
+//    @GetMapping("/confirmEmail/{appointmentId}/{language}")
+//    public String confirmEmail2(@PathVariable Long appointmentId, @PathVariable String language) {
+//        // Tutaj logika do pobrania danych potrzebnych do wiadomości e-mail
+//        String patientName = "Jan Kowalski";
+//        String confirmationLink = "http://jakStrona.pl/confirm?appointmentId=" + appointmentId;
+//
+//        String emailBody = messageService.getConfirmationEmailBody(language, patientName, confirmationLink);
+//        String subject = messageService.getSubject(language, "appointment.confirmation.subject");
+//
+//        // Do wyslania emaila ???
+//        //emailService.sendEmail(patientName, subject, emailBody);
+//
+//        return "Email sent";
+//    }
 
     @GetMapping
     public ResponseEntity<Void> confirmEmail(@RequestParam("token") String token) {

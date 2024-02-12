@@ -16,7 +16,4 @@ import org.springframework.boot.test.context.SpringBootTest;
 	// appointment(id, doctor, patient, localDateTime, notes, prescription)
 
 
-
-
-
 //}
