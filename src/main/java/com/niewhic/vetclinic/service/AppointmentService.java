@@ -32,7 +32,7 @@ public class AppointmentService {
         Appointment appointmentToSave = modelMapper.map(command, Appointment.class);
         Doctor doctor = appointmentToSave.getDoctor();
         for (Appointment appointment : findByDoctorId(doctor.getId())) {
-            // TODO Przetestować to
+
             if (appointmentToSave.getDateTime().isBefore(appointment.getDateTime().plusMinutes(16))){
                 throw new RuntimeException("Doctor has other appointment in this time.");
             }
