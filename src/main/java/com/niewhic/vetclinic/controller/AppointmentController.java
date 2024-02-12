@@ -4,7 +4,10 @@ import com.niewhic.vetclinic.model.appointment.Appointment;
 import com.niewhic.vetclinic.model.appointment.AppointmentDto;
 import com.niewhic.vetclinic.model.appointment.command.CreateAppointmentCommand;
 import com.niewhic.vetclinic.model.appointment.command.EditAppointmentCommand;
+import com.niewhic.vetclinic.model.token.Token;
 import com.niewhic.vetclinic.service.AppointmentService;;
+import com.niewhic.vetclinic.service.EmailService;
+import com.niewhic.vetclinic.service.TokenService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -21,6 +24,8 @@ import java.util.stream.Collectors;
 @RequestMapping("/appointments")
 public class AppointmentController {
     private final AppointmentService appointmentService;
+    private final TokenService tokenService;
+    private final EmailService emailService;
     private final ModelMapper modelMapper;
 
     @GetMapping
@@ -38,6 +43,8 @@ public class AppointmentController {
     @PostMapping
     public ResponseEntity<AppointmentDto> addAppointment(@Valid @RequestBody CreateAppointmentCommand command) {
         Appointment savedAppointment = appointmentService.save(command);
+        Token token = tokenService.generate(savedAppointment);
+        emailService.sendEmail(savedAppointment.getPatient().getOwnerEmail(), "Confirm email", "Confirmation link: " + tokenService.generateConfirmationUrl(token));
         return new ResponseEntity<>(modelMapper.map(savedAppointment, AppointmentDto.class), HttpStatus.CREATED);
     }
 

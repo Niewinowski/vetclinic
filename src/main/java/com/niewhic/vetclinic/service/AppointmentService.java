@@ -33,7 +33,7 @@ public class AppointmentService {
         Doctor doctor = appointmentToSave.getDoctor();
         for (Appointment appointment : findByDoctorId(doctor.getId())) {
             // TODO Przetestować to
-            if (appointmentToSave.getDateTime().isBefore(appointment.getDateTime().plusMinutes(16))){
+            if (appointmentToSave.getDateTime().isBefore(appointment.getDateTime().plusMinutes(16))) {
                 throw new RuntimeException("Doctor has other appointment in this time.");
             }
         }
@@ -55,13 +55,13 @@ public class AppointmentService {
     public Appointment edit(long id, EditAppointmentCommand updatedCommand) {
         Appointment updatedAppointment = modelMapper.map(updatedCommand, Appointment.class);
         return appointmentRepository.findById(id)
-                        .map(appointmentToEdit -> {
-                            appointmentToEdit.setDoctor(updatedAppointment.getDoctor());
-                            appointmentToEdit.setDateTime(updatedAppointment.getDateTime());
-                            appointmentToEdit.setNotes(updatedAppointment.getNotes());
-                            appointmentToEdit.setPrescription(updatedAppointment.getPrescription());
-                            return appointmentToEdit;
-                        }).orElseThrow(() -> new AppointmentNotFoundException(String.format("Appointment with id %s not found", id)));
+                .map(appointmentToEdit -> {
+                    appointmentToEdit.setDoctor(updatedAppointment.getDoctor());
+                    appointmentToEdit.setDateTime(updatedAppointment.getDateTime());
+                    appointmentToEdit.setNotes(updatedAppointment.getNotes());
+                    appointmentToEdit.setPrescription(updatedAppointment.getPrescription());
+                    return appointmentToEdit;
+                }).orElseThrow(() -> new AppointmentNotFoundException(String.format("Appointment with id %s not found", id)));
     }
 
     @Transactional
@@ -76,11 +76,17 @@ public class AppointmentService {
                     return appointmentToEdit;
                 }).orElseThrow(() -> new AppointmentNotFoundException(String.format("Appointment with id %s not found", id)));
     }
-   public List <Appointment> findByDoctorId(long doctorId) {
-        return appointmentRepository.findByDoctorId(doctorId);
-   }
 
-   public List <Appointment> findByPatientId(long patientId) {
+    public List<Appointment> findByDoctorId(long doctorId) {
+        return appointmentRepository.findByDoctorId(doctorId);
+    }
+
+    public List<Appointment> findByPatientId(long patientId) {
         return appointmentRepository.findByDoctorId(patientId);
+    }
+
+    @Transactional
+    public void updateConfirmed(boolean confirmed, long appointmentId) {
+        appointmentRepository.updateConfirmed(confirmed, appointmentId);
     }
 }
