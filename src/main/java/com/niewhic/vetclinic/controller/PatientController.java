@@ -2,6 +2,7 @@ package com.niewhic.vetclinic.controller;
 
 import com.niewhic.vetclinic.model.patient.*;
 import com.niewhic.vetclinic.service.PatientService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +19,7 @@ public class PatientController {
     private final PatientService patientService;
     private final ModelMapper modelMapper;
     @GetMapping
-    public ResponseEntity<List<PatientDto>> getAllPatients(CreatePatientPageCommand command) {
+    public ResponseEntity<List<PatientDto>> getAllPatients(@Valid CreatePatientPageCommand command) {
         Pageable pageable = modelMapper.map(command, Pageable.class);
         List<PatientDto> patientDtoList = patientService.findAll(pageable)
                 .stream()
@@ -34,7 +35,7 @@ public class PatientController {
     }
 
     @PostMapping
-    public ResponseEntity<PatientDto> addPatient(@RequestBody CreatePatientCommand command) {
+    public ResponseEntity<PatientDto> addPatient(@Valid @RequestBody CreatePatientCommand command) {
         Patient savedPatient = patientService.save(modelMapper.map(command, Patient.class));
         return new ResponseEntity<>(modelMapper.map(savedPatient, PatientDto.class), HttpStatus.CREATED);
     }

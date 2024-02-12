@@ -17,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import static org.hamcrest.Matchers.*;
@@ -55,25 +56,25 @@ class DoctorControllerTest {
                 .andExpect(jsonPath("$[0].id", is(1)))
                 .andExpect(jsonPath("$[0].name", is("John")))
                 .andExpect(jsonPath("$[0].lastName", is("Dolittle")))
-                .andExpect(jsonPath("$[0].rate", is(500)))
+                .andExpect(jsonPath("$[0].rate", is(50)))
                 .andExpect(jsonPath("$[0].specialty", is("Veterinary Medicine")))
                 .andExpect(jsonPath("$[0].animalSpecialty", is("All Animals")))
                 .andExpect(jsonPath("$[1].id", is(2)))
                 .andExpect(jsonPath("$[1].name", is("Ellie")))
                 .andExpect(jsonPath("$[1].lastName", is("Sattler")))
-                .andExpect(jsonPath("$[1].rate", is(700)))
+                .andExpect(jsonPath("$[1].rate", is(70)))
                 .andExpect(jsonPath("$[1].specialty", is("Paleobotany")))
                 .andExpect(jsonPath("$[1].animalSpecialty", is("Dinosaurs")))
                 .andExpect(jsonPath("$[2].id", is(3)))
                 .andExpect(jsonPath("$[2].name", is("Newt")))
                 .andExpect(jsonPath("$[2].lastName", is("Scamander")))
-                .andExpect(jsonPath("$[2].rate", is(450)))
+                .andExpect(jsonPath("$[2].rate", is(45)))
                 .andExpect(jsonPath("$[2].specialty", is("Magizoology")))
                 .andExpect(jsonPath("$[2].animalSpecialty", is("Magical Creatures")))
                 .andExpect(jsonPath("$[3].id", is(4)))
                 .andExpect(jsonPath("$[3].name", is("Alan")))
                 .andExpect(jsonPath("$[3].lastName", is("Grant")))
-                .andExpect(jsonPath("$[3].rate", is(650)))
+                .andExpect(jsonPath("$[3].rate", is(65)))
                 .andExpect(jsonPath("$[3].specialty", is("Paleontology")))
                 .andExpect(jsonPath("$[3].animalSpecialty", is("Dinosaurs")));
     }
@@ -85,7 +86,7 @@ class DoctorControllerTest {
                 .andExpect(jsonPath("$.id", is((int) doctorId)))
                 .andExpect(jsonPath("$.name", is("John")))
                 .andExpect(jsonPath("$.lastName", is("Dolittle")))
-                .andExpect(jsonPath("$.rate", is(500)))
+                .andExpect(jsonPath("$.rate", is(50)))
                 .andExpect(jsonPath("$.specialty", is("Veterinary Medicine")))
                 .andExpect(jsonPath("$.animalSpecialty", is("All Animals")));
     }
@@ -94,34 +95,39 @@ class DoctorControllerTest {
         CreateDoctorCommand command = CreateDoctorCommand.builder()
                 .name("Remy")
                 .lastName("Ratatouille")
-                .rate(300)
+                .rate(30)
                 .specialty("Gastronomy")
                 .animalSpecialty("Gourmet Rats")
                 .build();
         String json = objectMapper.writeValueAsString(command);
 
-        postman.perform(get("/doctors?name=" + command.getName()))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(5)));
-
-
-        String response = postman.perform(post("/doctors")
+        postman.perform(get("/doctors/6"))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.code").value(404))
+                .andExpect(jsonPath("$.status").value("Not Found"))
+                .andExpect(jsonPath("$.message").value("Doctor with id 6 not found"))
+                .andExpect(jsonPath("$.uri").value("/doctors/6"))
+                .andExpect(jsonPath("$.method").value("GET"));
+        postman.perform(post("/doctors")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
+                .andDo(print())
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id", notNullValue()))
-                .andExpect(jsonPath("$.name", is(command.getName())))
-                .andExpect(jsonPath("$.lastName", is(command.getLastName())))
-                .andReturn().getResponse().getContentAsString();
-
-        Integer newDoctorIdAsInteger = JsonPath.read(response, "$.id");
-        Long newDoctorId = newDoctorIdAsInteger.longValue();
-
-        postman.perform(get("/doctors/" + newDoctorId))
+                .andExpect(jsonPath("$.id").value(6))
+                .andExpect(jsonPath("$.name").value(command.getName()))
+                .andExpect(jsonPath("$.lastName").value(command.getLastName()))
+                .andExpect(jsonPath("$.animalSpecialty").value(command.getAnimalSpecialty()))
+                .andExpect(jsonPath("$.rate").value(command.getRate()));
+        postman.perform(get("/doctors/6"))
+                .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", is(newDoctorId.intValue())))
-                .andExpect(jsonPath("$.name", is(command.getName())))
-                .andExpect(jsonPath("$.lastName", is(command.getLastName())));
+                .andExpect(jsonPath("$.id").value(6))
+                .andExpect(jsonPath("$.name").value("Remy"))
+                .andExpect(jsonPath("$.lastName").value("Ratatouille"))
+                .andExpect(jsonPath("$.animalSpecialty").value("Gourmet Rats"))
+                .andExpect(jsonPath("$.rate").value(30));
+
     }
 
     @Test
@@ -193,7 +199,7 @@ class DoctorControllerTest {
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.name").value("John"))
                 .andExpect(jsonPath("$.lastName").value("Dolittle"))
-                .andExpect(jsonPath("$.rate").value(500))
+                .andExpect(jsonPath("$.rate").value(50))
                 .andExpect(jsonPath("$.specialty").value("Veterinary Medicine"))
                 .andExpect(jsonPath("$.animalSpecialty").value("All Animals"));
 

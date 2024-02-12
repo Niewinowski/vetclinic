@@ -87,12 +87,20 @@ public class VetclinicApplication {
 	// 					Na przykład, możesz mieć jedną grupę walidacyjną dla procesu tworzenia obiektu (Create)
 	// 					i inną dla jego aktualizacji (Update).
 
-	// TODO 2024-01-22 |
+
+	// TODO 2024-01-22
 	// Zadanie domowe - dodać do Appointmentu Encję Gabinet i umieszczać wizyty w Gabinecie. Walidacja czy jest dostępny
 	// gabinet w czasie wizyty. Danego dnia w przedzialach czasowych jaki Doctor przyjmuje w jakim gabicnie. Do przemyślenia
 	// rozwiązanie.
 
 	// Zaimplementować @Validated - przykład.
+
+	// TODO 30.01.2024 - wysylka maili
+	// stworzenie appointmentu powinno wyslac do pacjenta maila z prosba o potwierdzenie.
+	// dajmy w appointmencie flage, np confirmed, na poczatku jest false, jak potwierdzi to jest true
+	// w tresci maila powinien byc link do potiwerdzenia konkretnej wizyty
+	// testy testy testy :)
+	// bonus: zaimplementowac slownik, tzn mozliwosc wysylki maila po polsku lub po angielsku, wypelnianego zmiennymi typu id wizyty, dane pacjenta itp
 
 
 }

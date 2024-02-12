@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet author="Admin" id="20">
+        <loadData encoding="UTF-8" file="data/tokens.csv" quotchar="&quot;" separator="," tableName="token">
+            <column header="id" name="id"/>
+            <column header="token" name="token"/>
+            <column header="appointment_id" name="appointment_id"/>
+            <column header="expiry_date" name="expiry_date"/>
+        </loadData>
+    </changeSet>
+
+</databaseChangeLog>
