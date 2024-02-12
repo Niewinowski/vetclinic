@@ -48,7 +48,6 @@ class OfficeServiceTest {
 
         assertNotNull(officePage);
         assertEquals(1, officePage.getTotalElements());
-        // TODO more assertions
     }
 
     @Test
