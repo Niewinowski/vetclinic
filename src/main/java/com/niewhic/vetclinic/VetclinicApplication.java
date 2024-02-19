@@ -103,4 +103,8 @@ public class VetclinicApplication {
 	// bonus: zaimplementowac slownik, tzn mozliwosc wysylki maila po polsku lub po angielsku, wypelnianego zmiennymi typu id wizyty, dane pacjenta itp
 
 
+	// TODO dokonczyc powyzsze
+	// TODO postawic liquibase dla glownej aplikacji, a nie tylko dla testow. To w 90% bedzie copy-paste
+
+	// poczytac o Spring Basic Security
 }
