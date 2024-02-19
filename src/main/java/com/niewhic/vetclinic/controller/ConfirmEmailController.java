@@ -11,10 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/confirm-email")
 public class ConfirmEmailController {
-
-    private final EmailService emailService;
     private final TokenService tokenService;
-
 
     @GetMapping
     public ResponseEntity<Void> confirmEmail(@RequestParam("token") String token) {

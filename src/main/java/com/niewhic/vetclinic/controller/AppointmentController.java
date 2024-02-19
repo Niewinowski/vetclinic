@@ -42,6 +42,7 @@ public class AppointmentController {
 
     @PostMapping
     public ResponseEntity<AppointmentDto> addAppointment(@Valid @RequestBody CreateAppointmentCommand command) {
+        // TODO wyniesc logike biznesowa do service
         Appointment savedAppointment = appointmentService.save(command);
         Token token = tokenService.generate(savedAppointment);
         String languagePreference = "en";

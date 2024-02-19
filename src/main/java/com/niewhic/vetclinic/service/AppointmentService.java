@@ -8,6 +8,8 @@ import com.niewhic.vetclinic.model.doctor.Doctor;
 import com.niewhic.vetclinic.model.patient.Patient;
 import com.niewhic.vetclinic.repository.AppointmentRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +19,8 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class AppointmentService {
+
+    private static Logger LOGGER = LogManager.getLogger(AppointmentService.class);
     private final AppointmentRepository appointmentRepository;
     private final ModelMapper modelMapper;
 
@@ -29,7 +33,9 @@ public class AppointmentService {
     }
 
     public Appointment save(CreateAppointmentCommand command) {
+        LOGGER.info("zapisujemy appointment");
         Appointment appointmentToSave = modelMapper.map(command, Appointment.class);
+        LOGGER.info("walidujemy doctor");
         Doctor doctor = appointmentToSave.getDoctor();
         for (Appointment appointment : findByDoctorId(doctor.getId())) {
 
@@ -37,13 +43,14 @@ public class AppointmentService {
                 throw new RuntimeException("Doctor has other appointment in this time.");
             }
         }
+        LOGGER.info("walidujemy patient");
         Patient patient = appointmentToSave.getPatient();
         for (Appointment appointment : findByPatientId(patient.getId())) {
             if (appointmentToSave.getDateTime().isBefore(appointment.getDateTime().plusMinutes(16))) {
                 throw new RuntimeException("Paient has other appointment in this time.");
             }
         }
-
+        LOGGER.info("zapisujemy appointment");
         return appointmentRepository.save(appointmentToSave);
     }
 
@@ -82,7 +89,7 @@ public class AppointmentService {
     }
 
     public List<Appointment> findByPatientId(long patientId) {
-        return appointmentRepository.findByDoctorId(patientId);
+        return appointmentRepository.findByPatientId(patientId);
     }
 
     @Transactional
