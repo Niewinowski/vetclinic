@@ -1,0 +1,6 @@
+name,last_name,nip,rate,specialty,animal_specialty,active
+John,Dolittle,ANM-COM-001,50,Veterinary Medicine,All Animals,true
+Ellie,Sattler,DINO-PLT-002,70,Paleobotany,Dinosaurs,true
+Newt,Scamander,MGZL-ZOO-003,45,Magizoology,Magical Creatures,true
+Alan,Grant,FOSSIL-EXP-004,65,Paleontology,Dinosaurs,true
+Remy,Ratatouille,CHEF-GAST-005,30,Gastronomy,Gourmet Rats,true

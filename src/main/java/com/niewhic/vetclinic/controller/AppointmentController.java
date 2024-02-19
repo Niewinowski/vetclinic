@@ -44,7 +44,10 @@ public class AppointmentController {
     public ResponseEntity<AppointmentDto> addAppointment(@Valid @RequestBody CreateAppointmentCommand command) {
         Appointment savedAppointment = appointmentService.save(command);
         Token token = tokenService.generate(savedAppointment);
-        emailService.sendEmail(savedAppointment.getPatient().getOwnerEmail(), "Confirm email", "Confirmation link: " + tokenService.generateConfirmationUrl(token));
+        String languagePreference = "en";
+        String confirmationLink = tokenService.generateConfirmationUrl(token);
+        emailService.sendConfirmationEmail(savedAppointment.getPatient().getOwnerEmail(), languagePreference, savedAppointment.getPatient().getName(), savedAppointment.getId(), confirmationLink);
+        //emailService.sendEmail(savedAppointment.getPatient().getOwnerEmail(), "Confirm email", "Confirmation link: " + tokenService.generateConfirmationUrl(token));
         return new ResponseEntity<>(modelMapper.map(savedAppointment, AppointmentDto.class), HttpStatus.CREATED);
     }
 

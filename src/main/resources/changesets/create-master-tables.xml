@@ -1,0 +1,122 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <!-- Table creation for office, token, appointment, patient, and doctor -->
+    <changeSet id="1-create-tables" author="Admin">
+        <createTable tableName="office">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="type" type="VARCHAR(255)"/>
+            <column name="active" type="BOOLEAN"/>
+        </createTable>
+        <createTable tableName="patient">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="owner_name" type="VARCHAR(255)"/>
+            <column name="owner_last_name" type="VARCHAR(255)"/>
+            <column name="date_of_birth" type="DATE"/>
+            <column name="owner_email" type="VARCHAR(255)"/>
+            <column name="species" type="VARCHAR(255)"/>
+            <column name="breed" type="VARCHAR(255)"/>
+            <column name="active" type="BOOLEAN"/>
+        </createTable>
+
+        <createTable tableName="doctor">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="last_name" type="VARCHAR(255)"/>
+            <column name="nip" type="VARCHAR(255)"/>
+            <column name="rate" type="INT"/>
+            <column name="specialty" type="VARCHAR(255)"/>
+            <column name="animal_specialty" type="VARCHAR(255)"/>
+            <column name="active" type="BOOLEAN"/>
+        </createTable>
+        <createTable tableName="token">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="token" type="VARCHAR(255)"/>
+            <column name="appointment_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expiry_date" type="DATE"/>
+        </createTable>
+
+        <createTable tableName="appointment">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="doctor_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="patient_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_time" type="DATE"/>
+            <column name="notes" type="VARCHAR(255)"/>
+            <column name="prescription" type="VARCHAR(255)"/>
+            <column name="active" type="BOOLEAN"/>
+            <column name="office_id" type="BIGINT"/>
+            <column name="confirmed" type="BOOLEAN"/>
+        </createTable>
+
+
+    </changeSet>
+
+    <!-- CSV data loading for offices, tokens, patients, doctors, and appointments -->
+    <changeSet id="2-load-data" author="Admin">
+        <loadData encoding="UTF-8" file="data/offices.csv" quotchar="&quot;" separator="," tableName="office">
+            <column header="id" name="id"/>
+            <column header="type" name="type"/>
+            <column header="active" name="active"/>
+        </loadData>
+
+        <loadData encoding="UTF-8" file="data/tokens.csv" quotchar="&quot;" separator="," tableName="token">
+            <column header="id" name="id"/>
+            <column header="token" name="token"/>
+            <column header="appointment_id" name="appointment_id"/>
+            <column header="expiry_date" name="expiry_date"/>
+        </loadData>
+
+        <loadData encoding="UTF-8" file="data/patients.csv" quotchar="&quot;" separator="," tableName="patient">
+            <column header="id" name="id"/>
+            <column header="name" name="name"/>
+            <column header="owner_name" name="owner_name"/>
+            <column header="owner_last_name" name="owner_last_name"/>
+            <column header="dateOfBirth" name="date_of_birth"/>
+            <column header="ownerEmail" name="owner_email"/>
+            <column header="species" name="species"/>
+            <column header="breed" name="breed"/>
+            <column header="active" name="active"/>
+        </loadData>
+
+        <loadData encoding="UTF-8" file="data/doctors.csv" quotchar="&quot;" separator="," tableName="doctor">
+            <column header="id" name="id"/>
+            <column header="name" name="name"/>
+            <column header="last_name" name="last_name"/>
+            <column header="NIP" name="NIP"/>
+            <column header="rate" name="rate"/>
+            <column header="specialty" name="specialty"/>
+            <column header="animalSpecialty" name="animalSpecialty"/>
+            <column header="active" name="active"/>
+        </loadData>
+
+        <loadData encoding="UTF-8" file="data/appointments.csv" quotchar="&quot;" separator="," tableName="appointment">
+            <column header="id" name="id"/>
+            <column header="doctor_id" name="doctor_id"/>
+            <column header="patient_id" name="patient_id"/>
+            <column header="dateTime" name="dateTime"/>
+            <column header="notes" name="notes"/>
+            <column header="prescription" name="prescription"/>
+            <column header="active" name="active"/>
+        </loadData>
+    </changeSet>
+
+</databaseChangeLog>
