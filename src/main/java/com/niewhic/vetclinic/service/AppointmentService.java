@@ -1,6 +1,7 @@
 package com.niewhic.vetclinic.service;
 
 import com.niewhic.vetclinic.exception.AppointmentNotFoundException;
+import com.niewhic.vetclinic.exception.DateIsBusyException;
 import com.niewhic.vetclinic.model.appointment.Appointment;
 import com.niewhic.vetclinic.model.appointment.command.CreateAppointmentCommand;;
 import com.niewhic.vetclinic.model.appointment.command.EditAppointmentCommand;
@@ -38,14 +39,14 @@ public class AppointmentService {
         for (Appointment appointment : findByDoctorId(doctor.getId())) {
             if (appointmentToSave.getDateTime().isBefore(appointment.getDateTime().plusMinutes(16)) &&
                     appointmentToSave.getDateTime().isAfter(appointment.getDateTime().minusMinutes(15))) {
-                throw new RuntimeException("Doctor has other appointment in this time.");
+                throw new DateIsBusyException("Doctor has other appointment in this time.");
             }
         }
         Patient patient = appointmentToSave.getPatient();
         for (Appointment appointment : findByPatientId(patient.getId())) {
             if (appointmentToSave.getDateTime().isBefore(appointment.getDateTime().plusMinutes(16)) &&
                     appointmentToSave.getDateTime().isAfter(appointment.getDateTime().minusMinutes(15))) {
-                throw new RuntimeException("Patient has other appointment in this time.");
+                throw new DateIsBusyException("Patient has other appointment in this time.");
             }
         }
         return appointmentRepository.save(appointmentToSave);

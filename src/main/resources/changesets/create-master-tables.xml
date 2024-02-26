@@ -78,14 +78,14 @@
             <column header="active" name="active"/>
         </loadData>
 
-        <loadData encoding="UTF-8" file="data/tokens.csv" quotchar="&quot;" separator="," tableName="token">
+        <loadData encoding="UTF-8" file="changesets/data/tokens.csv" quotchar="&quot;" separator="," tableName="token">
             <column header="id" name="id"/>
             <column header="token" name="token"/>
             <column header="appointment_id" name="appointment_id"/>
             <column header="expiry_date" name="expiry_date"/>
         </loadData>
 
-        <loadData encoding="UTF-8" file="data/patients.csv" quotchar="&quot;" separator="," tableName="patient">
+        <loadData encoding="UTF-8" file="changesets/data/patients.csv" quotchar="&quot;" separator="," tableName="patient">
             <column header="id" name="id"/>
             <column header="name" name="name"/>
             <column header="owner_name" name="owner_name"/>
@@ -97,7 +97,7 @@
             <column header="active" name="active"/>
         </loadData>
 
-        <loadData encoding="UTF-8" file="data/doctors.csv" quotchar="&quot;" separator="," tableName="doctor">
+        <loadData encoding="UTF-8" file="changesets/data/doctors.csv" quotchar="&quot;" separator="," tableName="doctor">
             <column header="id" name="id"/>
             <column header="name" name="name"/>
             <column header="last_name" name="last_name"/>
@@ -108,7 +108,7 @@
             <column header="active" name="active"/>
         </loadData>
 
-        <loadData encoding="UTF-8" file="data/appointments.csv" quotchar="&quot;" separator="," tableName="appointment">
+        <loadData encoding="UTF-8" file="changesets/data/appointments.csv" quotchar="&quot;" separator="," tableName="appointment">
             <column header="id" name="id"/>
             <column header="doctor_id" name="doctor_id"/>
             <column header="patient_id" name="patient_id"/>
