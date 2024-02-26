@@ -48,7 +48,6 @@ public class AppointmentController {
         String languagePreference = "en";
         String confirmationLink = tokenService.generateConfirmationUrl(token);
         emailService.sendConfirmationEmail(savedAppointment.getPatient().getOwnerEmail(), languagePreference, savedAppointment.getPatient().getName(), savedAppointment.getId(), confirmationLink);
-        //emailService.sendEmail(savedAppointment.getPatient().getOwnerEmail(), "Confirm email", "Confirmation link: " + tokenService.generateConfirmationUrl(token));
         return new ResponseEntity<>(modelMapper.map(savedAppointment, AppointmentDto.class), HttpStatus.CREATED);
     }
 

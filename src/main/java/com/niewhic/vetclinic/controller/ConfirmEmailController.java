@@ -1,6 +1,5 @@
 package com.niewhic.vetclinic.controller;
 
-import com.niewhic.vetclinic.service.EmailService;
 import com.niewhic.vetclinic.service.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

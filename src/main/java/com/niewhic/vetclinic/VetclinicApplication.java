@@ -106,5 +106,34 @@ public class VetclinicApplication {
 	// TODO dokonczyc powyzsze
 	// TODO postawic liquibase dla glownej aplikacji, a nie tylko dla testow. To w 90% bedzie copy-paste
 
+	// TODO 19.02.2024
+	// AppointmentController - wyniesc logike biznesowa dotyczaca wysylki maila do service
 	// poczytac o Spring Basic Security
+
+	//	### Kluczowe cechy Spring Basic Security:
+	//
+	//	1. Uwierzytelnianie: 	Polega na potwierdzeniu tożsamości użytkownika. W przypadku Basic Security, Spring używa podstawowego uwierzytelniania HTTP,
+	//							gdzie użytkownik musi dostarczyć nazwę użytkownika i hasło, które są przesyłane w nagłówku żądania HTTP w postaci zakodowanej w Base64.
+	//
+	//	2. Autoryzacja: 		Określa, co uwierzytelniony użytkownik może robić w aplikacji. Spring Security umożliwia określenie,
+	//							które zasoby są dostępne dla różnych użytkowników lub ról.
+	//
+	//	3. Ochrona przed atakami CSRF: Spring Security oferuje ochronę przed atakami CSRF, generując token CSRF, który musi być dołączony do każdego żądania modyfikującego stan,
+	//									co zapobiega nieautoryzowanym działaniom w imieniu uwierzytelnionego użytkownika.
+	//
+	//	4. Sesje: 				Spring Security zarządza sesjami użytkowników, oferując mechanizmy ich tworzenia, utrzymania oraz zakończenia po uwierzytelnieniu.
+	//
+	//	### Dlaczego warto używać Spring Basic Security?
+	//
+	//	+ Szybka konfiguracja: 		Dla wielu aplikacji, podstawowa konfiguracja bezpieczeństwa jest wystarczająca do ochrony przed powszechnymi zagrożeniami.
+	//	+ Elastyczność: 			Chociaż jest to "podstawowy" poziom bezpieczeństwa, Spring Security umożliwia jego dostosowanie i rozszerzenie w miarę rosnących wymagań aplikacji.
+	//	+ Wsparcie społeczności: 	Spring Security jest szeroko stosowany i wspierany przez dużą społeczność, co ułatwia znalezienie rozwiązań potencjalnych problemów.
+	//
+	//	### Jak zacząć? ###
+	//
+	//	Aby skonfigurować Spring Basic Security, należy dodać zależność Spring Security do pliku konfiguracyjnego projektu (np. pom.xml dla Mavena lub build.gradle dla Gradle).
+	//	Następnie, konfiguracja bezpieczeństwa może być realizowana za pomocą klas konfiguracyjnych Java (z adnotacjami @Configuration i @EnableWebSecurity) lub za pomocą konfiguracji XML.
+	//
+	//	Podstawowa konfiguracja wymaga zdefiniowania co najmniej jednego użytkownika (z nazwą użytkownika i hasłem) oraz określenia,
+	//	które ścieżki w aplikacji są chronione i które wymagają uwierzytelnienia.
 }
