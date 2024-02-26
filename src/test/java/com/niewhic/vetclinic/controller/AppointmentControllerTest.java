@@ -53,54 +53,54 @@ class AppointmentControllerTest {
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.doctor.id").value(1))
                 .andExpect(jsonPath("$.patient.id").value(1))
-                .andExpect(jsonPath("$.dateTime").value("2023-09-01T00:00:00"))
+                .andExpect(jsonPath("$.dateTime").value("2023-09-01T10:00:00"))
                 .andExpect(jsonPath("$.notes").value("Regular check-up for Scooby after a mystery adventure."))
                 .andExpect(jsonPath("$.prescription").value("Vitamin snacks for bravery."));
 
 
     }
 
-//    @Test
-//    void shouldSaveAppointment() throws Exception {
-//        CreateAppointmentCommand command = CreateAppointmentCommand.builder()
-//                .doctorId(1L)
-//                .patientId(1L)
-//                .dateTime(LocalDateTime.of(2025, 10, 10, 0, 0, 0))
-//                .notes("notes")
-//                .prescription("prescription")
-//                .officeId(1L)
-//                .build();
-//        String commandJson = objectMapper.writeValueAsString(command);
-//        postman.perform(get("/appointments/6"))
-//                .andDo(print())
-//                .andExpect(status().isNotFound())
-//                .andExpect(jsonPath("$.code").value(404))
-//                .andExpect(jsonPath("$.status").value("Not Found"))
-//                .andExpect(jsonPath("$.message").value("Appointment with id 6 not found"))
-//                .andExpect(jsonPath("$.uri").value("/appointments/6"))
-//                .andExpect(jsonPath("$.method").value("GET"));
-//        postman.perform(post("/appointments")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(commandJson))
-//                .andDo(print())
-//                .andExpect(status().isCreated())
-//                .andExpect(jsonPath("$.id").value(6L))
-//                .andExpect(jsonPath("$.doctor.id").value(command.getDoctorId()))
-//                .andExpect(jsonPath("$.patient.id").value(command.getPatientId()))
-//                .andExpect(jsonPath("$.dateTime").value("2025-10-10T00:00:00"))
-//                .andExpect(jsonPath("$.notes").value(command.getNotes()))
-//                .andExpect(jsonPath("$.prescription").value(command.getPrescription()))
-//                .andExpect(jsonPath("$.office.id").value(command.getOfficeId()));
-//
-//        postman.perform(get("/appointments/6"))
-//                .andDo(print())
-//                .andExpect(jsonPath("$.id").value(6L))
-//                .andExpect(jsonPath("$.doctor.id").value(command.getDoctorId()))
-//                .andExpect(jsonPath("$.patient.id").value(command.getPatientId()))
-//                .andExpect(jsonPath("$.dateTime").value("2025-10-10T00:00:00"))
-//                .andExpect(jsonPath("$.notes").value(command.getNotes()))
-//                .andExpect(jsonPath("$.prescription").value(command.getPrescription()));
-//    }
+    @Test
+    void shouldSaveAppointment() throws Exception {
+        CreateAppointmentCommand command = CreateAppointmentCommand.builder()
+                .doctorId(1L)
+                .patientId(1L)
+                .dateTime(LocalDateTime.of(2025, 10, 10, 0, 0, 0))
+                .notes("notes")
+                .prescription("prescription")
+                .officeId(1L)
+                .build();
+        String commandJson = objectMapper.writeValueAsString(command);
+        postman.perform(get("/appointments/6"))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.code").value(404))
+                .andExpect(jsonPath("$.status").value("Not Found"))
+                .andExpect(jsonPath("$.message").value("Appointment with id 6 not found"))
+                .andExpect(jsonPath("$.uri").value("/appointments/6"))
+                .andExpect(jsonPath("$.method").value("GET"));
+        postman.perform(post("/appointments")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(commandJson))
+                .andDo(print())
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.id").value(6L))
+                .andExpect(jsonPath("$.doctor.id").value(command.getDoctorId()))
+                .andExpect(jsonPath("$.patient.id").value(command.getPatientId()))
+                .andExpect(jsonPath("$.dateTime").value("2025-10-10T00:00:00"))
+                .andExpect(jsonPath("$.notes").value(command.getNotes()))
+                .andExpect(jsonPath("$.prescription").value(command.getPrescription()))
+                .andExpect(jsonPath("$.office.id").value(command.getOfficeId()));
+
+        postman.perform(get("/appointments/6"))
+                .andDo(print())
+                .andExpect(jsonPath("$.id").value(6L))
+                .andExpect(jsonPath("$.doctor.id").value(command.getDoctorId()))
+                .andExpect(jsonPath("$.patient.id").value(command.getPatientId()))
+                .andExpect(jsonPath("$.dateTime").value("2025-10-10T00:00:00"))
+                .andExpect(jsonPath("$.notes").value(command.getNotes()))
+                .andExpect(jsonPath("$.prescription").value(command.getPrescription()));
+    }
     @Test
     void shouldDelete() throws Exception {
         // Given
@@ -136,7 +136,7 @@ class AppointmentControllerTest {
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.doctor.id").value(1))
                 .andExpect(jsonPath("$.patient.id").value(1))
-                .andExpect(jsonPath("$.dateTime").value("2023-09-01T00:00:00"))
+                .andExpect(jsonPath("$.dateTime").value("2023-09-01T10:00:00"))
                 .andExpect(jsonPath("$.notes").value("Regular check-up for Scooby after a mystery adventure."))
                 .andExpect(jsonPath("$.prescription").value("Vitamin snacks for bravery."));
         postman.perform(put("/appointments/1")
@@ -183,6 +183,52 @@ class AppointmentControllerTest {
                 .andExpect(jsonPath("$.message").value("Appointment with id 6 not found"))
                 .andExpect(jsonPath("$.uri").value("/appointments/6"))
                 .andExpect(jsonPath("$.method").value("PUT"));
+    }
+    @Test
+    void shouldNotSaveAppointmentPatientBusy() throws Exception {
+        CreateAppointmentCommand command = CreateAppointmentCommand.builder()
+                .doctorId(4L)
+                .patientId(5L)
+                .dateTime(LocalDateTime.of(2024, 9, 5, 15, 0, 0))
+                .notes("notes")
+                .prescription("prescription")
+                .officeId(1L)
+                .build();
+        String commandJson = objectMapper.writeValueAsString(command);
+
+        postman.perform(post("/appointments")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(commandJson))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value(400))
+                .andExpect(jsonPath("$.status").value("Bad Request"))
+                .andExpect(jsonPath("$.message").value("Patient has other appointment in this time."))
+                .andExpect(jsonPath("$.uri").value("/appointments"))
+                .andExpect(jsonPath("$.method").value("POST"));
+    }
+    @Test
+    void shouldNotSaveAppointmentDoctorBusy() throws Exception {
+        CreateAppointmentCommand command = CreateAppointmentCommand.builder()
+                .doctorId(5L)
+                .patientId(4L)
+                .dateTime(LocalDateTime.of(2024, 9, 5, 15, 0, 0))
+                .notes("notes")
+                .prescription("prescription")
+                .officeId(1L)
+                .build();
+        String commandJson = objectMapper.writeValueAsString(command);
+
+        postman.perform(post("/appointments")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(commandJson))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value(400))
+                .andExpect(jsonPath("$.status").value("Bad Request"))
+                .andExpect(jsonPath("$.message").value("Doctor has other appointment in this time."))
+                .andExpect(jsonPath("$.uri").value("/appointments"))
+                .andExpect(jsonPath("$.method").value("POST"));
     }
 }
 

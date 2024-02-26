@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @ControllerAdvice
@@ -38,7 +39,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(DateIsBusyException.class)
     public ResponseEntity<ErrorMessage> dateIsBusyException(DateIsBusyException ex, HttpServletRequest request) {
-        return createErrorResponse(NOT_FOUND, ex.getMessage(), request);
+        return createErrorResponse(BAD_REQUEST, ex.getMessage(), request);
     }
 
     private ResponseEntity<ErrorMessage> createErrorResponse(HttpStatus status, String message, HttpServletRequest request) {
