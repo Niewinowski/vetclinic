@@ -72,7 +72,7 @@
 
     <!-- CSV data loading for offices, tokens, patients, doctors, and appointments -->
     <changeSet id="2-load-data" author="Admin">
-        <loadData encoding="UTF-8" file="data/offices.csv" quotchar="&quot;" separator="," tableName="office">
+        <loadData encoding="UTF-8" file="changesets/data/offices.csv" quotchar="&quot;" separator="," tableName="office">
             <column header="id" name="id"/>
             <column header="type" name="type"/>
             <column header="active" name="active"/>

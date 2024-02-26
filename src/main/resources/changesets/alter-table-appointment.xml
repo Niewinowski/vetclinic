@@ -1,0 +1,19 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <!-- Table creation for office, token, appointment, patient, and doctor -->
+    <changeSet id="unikalny_id_zmiany" author="autor_zmiany">
+        <preConditions onFail="MARK_RAN">
+            <columnExists tableName="appointment" columnName="date_time"/>
+            <sqlCheck expectedResult="0">
+                SELECT COUNT(*) FROM information_schema.columns
+                WHERE table_name = 'appointment' AND column_name = 'date_time' AND data_type = 'datetime';
+            </sqlCheck>
+        </preConditions>
+        <comment>Zmiana typu kolumny date_time na DATETIME</comment>
+        <modifyDataType tableName="appointment" columnName="date_time" newDataType="DATETIME"/>
+    </changeSet>
+
+</databaseChangeLog>
