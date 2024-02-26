@@ -33,24 +33,21 @@ public class AppointmentService {
     }
 
     public Appointment save(CreateAppointmentCommand command) {
-        LOGGER.info("zapisujemy appointment");
         Appointment appointmentToSave = modelMapper.map(command, Appointment.class);
-        LOGGER.info("walidujemy doctor");
         Doctor doctor = appointmentToSave.getDoctor();
         for (Appointment appointment : findByDoctorId(doctor.getId())) {
-
-            if (appointmentToSave.getDateTime().isBefore(appointment.getDateTime().plusMinutes(16))){
+            if (appointmentToSave.getDateTime().isBefore(appointment.getDateTime().plusMinutes(16)) &&
+                    appointmentToSave.getDateTime().isAfter(appointment.getDateTime().minusMinutes(15))) {
                 throw new RuntimeException("Doctor has other appointment in this time.");
             }
         }
-        LOGGER.info("walidujemy patient");
         Patient patient = appointmentToSave.getPatient();
         for (Appointment appointment : findByPatientId(patient.getId())) {
-            if (appointmentToSave.getDateTime().isBefore(appointment.getDateTime().plusMinutes(16))) {
-                throw new RuntimeException("Paient has other appointment in this time.");
+            if (appointmentToSave.getDateTime().isBefore(appointment.getDateTime().plusMinutes(16)) &&
+                    appointmentToSave.getDateTime().isAfter(appointment.getDateTime().minusMinutes(15))) {
+                throw new RuntimeException("Patient has other appointment in this time.");
             }
         }
-        LOGGER.info("zapisujemy appointment");
         return appointmentRepository.save(appointmentToSave);
     }
 
