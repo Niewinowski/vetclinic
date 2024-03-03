@@ -2,6 +2,13 @@ package com.niewhic.vetclinic.controller;
 
 import com.niewhic.vetclinic.model.patient.*;
 import com.niewhic.vetclinic.service.PatientService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -15,6 +22,9 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/patients")
+
+@ApiResponse(description = "VetClinic's Patients ")
+
 public class PatientController {
     private final PatientService patientService;
     private final ModelMapper modelMapper;
@@ -28,6 +38,19 @@ public class PatientController {
         return ResponseEntity.ok(patientDtoList);
     }
 
+    @Operation(summary = "Gets Patient by ID",
+            description= "Patient must exist")
+    @Parameters(value = {
+            @Parameter(name = "id", description = "ID of patient that needs to be fetched")
+    })
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found the patient",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Patient.class)) }),
+            @ApiResponse(responseCode = "400", description = "Invalid id supplied",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Patient not found",
+                    content = @Content) })
     @GetMapping("/{id}")
     public ResponseEntity<PatientDto> getPatientById(@PathVariable long id) {
         Patient patient = patientService.findById(id);

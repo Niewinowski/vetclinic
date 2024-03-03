@@ -142,4 +142,6 @@ public class VetclinicApplication {
 	// wzor jak to ma wygladac:
 	// popatrzcie, oprocz uruchomienia swaggera, jak dodawac adnotacje do controllerow - ednpointow- aby je odpowiednio opisac (co przyjmuja, co zwracaja)
 //	https://petstore.swagger.io/
+
+	// Patient, Appointamen - Jan, Office, Doctor - Wojtek
 }
