@@ -141,7 +141,6 @@ public class VetclinicApplication {
 	// macie springboota 3, wiec swaggera tez wezcie w wersji 3 :)
 	// wzor jak to ma wygladac:
 	// popatrzcie, oprocz uruchomienia swaggera, jak dodawac adnotacje do controllerow - ednpointow- aby je odpowiednio opisac (co przyjmuja, co zwracaja)
-//	https://petstore.swagger.io/
-
-	// Patient, Appointamen - Jan, Office, Doctor - Wojtek
+	//	https://petstore.swagger.io/
+	// Patient & Appointment - Jan, Office & Doctor - Wojtek
 }
