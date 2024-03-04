@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class TokenService {
     private final TokenRepository tokenRepository;
+
+    // TODO zamiast AppointmentService pozwolmy sobie uzyc repo i tak ominiemy circular dependency
     private final AppointmentService appointmentService;
 
     public Token findByToken(String token) {

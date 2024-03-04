@@ -143,4 +143,17 @@ public class VetclinicApplication {
 	// popatrzcie, oprocz uruchomienia swaggera, jak dodawac adnotacje do controllerow - ednpointow- aby je odpowiednio opisac (co przyjmuja, co zwracaja)
 	//	https://petstore.swagger.io/
 	// Patient & Appointment - Jan, Office & Doctor - Wojtek
+
+
+	// TODO 04.03.2024 - rozbudowa security
+	// Chcemy trzymac userow i ich role w bazie i z tych trzymanych userow korzystac przy logowaniu i/lub ustawianiu kto co moze
+
+	// UserRole to USER oraz ADMIN
+	// rola USER ma pozwolenie UserPermission.READ
+	// rola ADMIN ma pozwolenie UserPermission.READ, UserPermission.WRITE, UserPermission.DELETE
+
+	// UserService musi implementowac UserDetailsService:
+//	import org.springframework.security.core.userdetails.UserDetailsService;
+
+
 }
