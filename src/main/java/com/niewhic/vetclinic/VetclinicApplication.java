@@ -153,7 +153,7 @@ public class VetclinicApplication {
 	// rola ADMIN ma pozwolenie UserPermission.READ, UserPermission.WRITE, UserPermission.DELETE
 
 	// UserService musi implementowac UserDetailsService:
-//	import org.springframework.security.core.userdetails.UserDetailsService;
+ 	// import org.springframework.security.core.userdetails.UserDetailsService;
 
 
 }
