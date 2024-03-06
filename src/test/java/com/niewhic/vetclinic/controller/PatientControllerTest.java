@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -47,7 +48,8 @@ class PatientControllerTest {
         // Given
         // When
         // Then
-        postman.perform(get("/patients/1"))
+        postman.perform(get("/patients/1")
+                .with(httpBasic("admin", "admin")))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
@@ -62,7 +64,8 @@ class PatientControllerTest {
 
     @Test
     void shouldFindPatientsSortedByIdAscendingAsDefault() throws Exception {
-        postman.perform(get("/patients?pageSize=10&pageNumber=0"))
+        postman.perform(get("/patients?pageSize=10&pageNumber=0")
+                        .with(httpBasic("admin", "admin")))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.[0].id").value(1))
@@ -109,7 +112,8 @@ class PatientControllerTest {
 
     @Test
     void shouldGetTeachersSortedDescendingById() throws Exception {
-        postman.perform(get("/patients?pageSize=10&pageNumber=0&sortDirection=desc"))
+        postman.perform(get("/patients?pageSize=10&pageNumber=0&sortDirection=desc")
+                        .with(httpBasic("admin", "admin")))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.[0].id").value(5))
@@ -156,7 +160,8 @@ class PatientControllerTest {
 
     @Test
     void shouldFindPatientsSortedAscendingByIdAsDefaultAndSplitIntoTwoElementPages() throws Exception {
-        postman.perform(get("/patients?pageSize=2&pageNumber=0"))
+        postman.perform(get("/patients?pageSize=2&pageNumber=0")
+                        .with(httpBasic("admin", "admin")))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.[0].id").value(1))
@@ -176,7 +181,8 @@ class PatientControllerTest {
                 .andExpect(jsonPath("$.[1].species").value("Cat"))
                 .andExpect(jsonPath("$.[1].breed").value("Exotic Shorthair"));
 
-        postman.perform(get("/patients?pageSize=2&pageNumber=1"))
+        postman.perform(get("/patients?pageSize=2&pageNumber=1")
+                        .with(httpBasic("admin", "admin")))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.[0].id").value(3))
@@ -196,7 +202,8 @@ class PatientControllerTest {
                 .andExpect(jsonPath("$.[1].species").value("Dragon"))
                 .andExpect(jsonPath("$.[1].breed").value("Luck Dragon"));
 
-        postman.perform(get("/patients?pageSize=2&pageNumber=2"))
+        postman.perform(get("/patients?pageSize=2&pageNumber=2")
+                        .with(httpBasic("admin", "admin")))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.[0].id").value(5))
@@ -211,7 +218,8 @@ class PatientControllerTest {
 
     @Test
     void shouldFindPatientsSortedByName() throws Exception {
-        postman.perform(get("/patients?pageSize=10&pageNumber=0&sortBy=name"))
+        postman.perform(get("/patients?pageSize=10&pageNumber=0&sortBy=name")
+                        .with(httpBasic("admin", "admin")))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.[0].id").value(4))
@@ -269,8 +277,9 @@ class PatientControllerTest {
                 .breed("breed")
                 .build();
         String commandJson = objectMapper.writeValueAsString(command);
-
-        postman.perform(get("/patients/6"))
+        System.out.println(commandJson);
+        postman.perform(get("/patients/6")
+                        .with(httpBasic("admin", "admin")))
                 .andDo(print())
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.code").value(404))
@@ -279,6 +288,7 @@ class PatientControllerTest {
                 .andExpect(jsonPath("$.uri").value("/patients/6"))
                 .andExpect(jsonPath("$.method").value("GET"));
         postman.perform(post("/patients")
+                        .with(httpBasic("admin", "admin"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(commandJson))
                 .andDo(print())
@@ -292,7 +302,8 @@ class PatientControllerTest {
                 .andExpect(jsonPath("$.species").value(command.getSpecies()))
                 .andExpect(jsonPath("$.breed").value(command.getBreed()))
                 .andExpect(jsonPath("$.active").value("true"));
-        postman.perform(get("/patients/6"))
+        postman.perform(get("/patients/6")
+                        .with(httpBasic("admin", "admin")))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(6))
@@ -308,7 +319,8 @@ class PatientControllerTest {
 
     @Test
     void shouldDeletePatient() throws Exception {
-        postman.perform(get("/patients/1"))
+        postman.perform(get("/patients/1")
+                        .with(httpBasic("admin", "admin")))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
@@ -320,10 +332,12 @@ class PatientControllerTest {
                 .andExpect(jsonPath("$.species").value("Dog"))
                 .andExpect(jsonPath("$.breed").value("Great Dane"))
                 .andExpect(jsonPath("$.active").value("true"));
-        postman.perform(delete("/patients/1"))
+        postman.perform(delete("/patients/1")
+                        .with(httpBasic("admin", "admin")))
                 .andDo(print())
                 .andExpect(status().isNoContent());
-        postman.perform(get("/patients/1"))
+        postman.perform(get("/patients/1")
+                        .with(httpBasic("admin", "admin")))
                 .andDo(print())
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.code").value(404))
@@ -344,7 +358,8 @@ class PatientControllerTest {
                 .breed("breed")
                 .build();
         String commandJson = objectMapper.writeValueAsString(command);
-        postman.perform(get("/patients/1"))
+        postman.perform(get("/patients/1")
+                        .with(httpBasic("admin", "admin")))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
@@ -357,6 +372,7 @@ class PatientControllerTest {
                 .andExpect(jsonPath("$.breed").value("Great Dane"))
                 .andExpect(jsonPath("$.active").value("true"));
         postman.perform(put("/patients/1")
+                        .with(httpBasic("admin", "admin"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(commandJson))
                 .andDo(print())
@@ -368,7 +384,8 @@ class PatientControllerTest {
                 .andExpect(jsonPath("$.species").value(command.getSpecies()))
                 .andExpect(jsonPath("$.breed").value(command.getBreed()))
                 .andExpect(jsonPath("$.active").value("true"));
-        postman.perform(get("/patients/1"))
+        postman.perform(get("/patients/1")
+                        .with(httpBasic("admin", "admin")))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value(command.getName()))
@@ -391,7 +408,8 @@ class PatientControllerTest {
                 .breed("breed")
                 .build();
         String commandJson = objectMapper.writeValueAsString(command);
-        postman.perform(get("/patients/6"))
+        postman.perform(get("/patients/6")
+                        .with(httpBasic("admin", "admin")))
                 .andDo(print())
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.code").value(404))
@@ -400,6 +418,7 @@ class PatientControllerTest {
                 .andExpect(jsonPath("$.uri").value("/patients/6"))
                 .andExpect(jsonPath("$.method").value("GET"));
         postman.perform(put("/patients/6")
+                        .with(httpBasic("admin", "admin"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(commandJson))
                 .andDo(print())
@@ -419,7 +438,8 @@ class PatientControllerTest {
                 .breed("breed")
                 .build();
         String commandJson = objectMapper.writeValueAsString(command);
-        postman.perform(get("/patients/1"))
+        postman.perform(get("/patients/1")
+                        .with(httpBasic("admin", "admin")))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
@@ -432,6 +452,7 @@ class PatientControllerTest {
                 .andExpect(jsonPath("$.breed").value("Great Dane"))
                 .andExpect(jsonPath("$.active").value("true"));
         postman.perform(patch("/patients/1")
+                        .with(httpBasic("admin", "admin"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(commandJson))
                 .andDo(print())
@@ -443,7 +464,8 @@ class PatientControllerTest {
                 .andExpect(jsonPath("$.species").value(command.getSpecies()))
                 .andExpect(jsonPath("$.breed").value(command.getBreed()))
                 .andExpect(jsonPath("$.active").value("true"));
-        postman.perform(get("/patients/1"))
+        postman.perform(get("/patients/1")
+                        .with(httpBasic("admin", "admin")))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name").value(command.getName()))
@@ -463,7 +485,8 @@ class PatientControllerTest {
                 .breed("breed")
                 .build();
         String commandJson = objectMapper.writeValueAsString(command);
-        postman.perform(get("/patients/6"))
+        postman.perform(get("/patients/6")
+                        .with(httpBasic("admin", "admin")))
                 .andDo(print())
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.code").value(404))
@@ -472,6 +495,7 @@ class PatientControllerTest {
                 .andExpect(jsonPath("$.uri").value("/patients/6"))
                 .andExpect(jsonPath("$.method").value("GET"));
         postman.perform(patch("/patients/6")
+                        .with(httpBasic("admin", "admin"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(commandJson))
                 .andDo(print())

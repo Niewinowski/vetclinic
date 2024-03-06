@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Optional;
 
 import static org.hamcrest.Matchers.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -45,7 +46,8 @@ class OfficeControllerTest {
 
     @Test
     void shouldFindAllOffices() throws Exception {
-        postman.perform(get("/offices"))
+        postman.perform(get("/offices")
+                        .with(httpBasic("admin", "admin")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(lessThanOrEqualTo(10))));
     }
@@ -53,7 +55,8 @@ class OfficeControllerTest {
     @Test
     void shouldFindOfficeById() throws Exception {
         long officeId = 1;
-        postman.perform(get("/offices/" + officeId))
+        postman.perform(get("/offices/" + officeId)
+                        .with(httpBasic("admin", "admin")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is((int) officeId)))
                 .andExpect(jsonPath("$.type", isOneOf("CONSULTING", "SURGERY")));
@@ -68,6 +71,7 @@ class OfficeControllerTest {
         String json = objectMapper.writeValueAsString(createOfficeCommand);
 
         String responseContent = postman.perform(post("/offices")
+                        .with(httpBasic("admin", "admin"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isCreated())
@@ -77,7 +81,8 @@ class OfficeControllerTest {
 
         Long newOfficeId = JsonPath.parse(responseContent).read("$.id", Long.class);
 
-        postman.perform(get("/offices/" + newOfficeId))
+        postman.perform(get("/offices/" + newOfficeId)
+                        .with(httpBasic("admin", "admin")))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", is(newOfficeId.intValue())))
                 .andExpect(jsonPath("$.type", is(createOfficeCommand.getType())));
@@ -87,10 +92,12 @@ class OfficeControllerTest {
     void shouldDeleteOffice() throws Exception {
         long officeId = 1;
 
-        postman.perform(delete("/offices/" + officeId))
+        postman.perform(delete("/offices/" + officeId)
+                        .with(httpBasic("admin", "admin")))
                 .andExpect(status().isNoContent());
 
-        postman.perform(get("/offices/" + officeId))
+        postman.perform(get("/offices/" + officeId)
+                        .with(httpBasic("admin", "admin")))
                 .andExpect(status().isNotFound());
     }
 
@@ -104,6 +111,7 @@ class OfficeControllerTest {
         String json = objectMapper.writeValueAsString(editOfficeCommand);
 
         postman.perform(put("/offices/" + officeId)
+                        .with(httpBasic("admin", "admin"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isOk())
@@ -120,6 +128,7 @@ class OfficeControllerTest {
         String json = objectMapper.writeValueAsString(partialCommand);
 
         postman.perform(patch("/offices/" + officeId)
+                        .with(httpBasic("admin", "admin"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isOk())
@@ -130,7 +139,8 @@ class OfficeControllerTest {
     @Test
     void shouldHandleNotFoundForNonExistingOffice() throws Exception {
         long invalidOfficeId = 9999;
-        postman.perform(get("/offices/" + invalidOfficeId))
+        postman.perform(get("/offices/" + invalidOfficeId)
+                        .with(httpBasic("admin", "admin")))
                 .andExpect(status().isNotFound());
     }
 }

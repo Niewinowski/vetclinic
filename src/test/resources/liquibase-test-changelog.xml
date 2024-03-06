@@ -6,6 +6,7 @@
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
     <include file="/changesets/create-test-tables.xml"/>
+    <include file="/changesets/create-table-users.xml"/>
     <include file="/changesets/create-table-office.xml"/>
     <include file="/changesets/create-table-token.xml"/>
     <include file="/changesets/modify-table-patient.xml"/>
@@ -16,5 +17,6 @@
     <include file="/changesets/insert-data-office.xml"/>
     <include file="/changesets/insert-data-token.xml"/>
     <include file="/changesets/insert-test-data.xml"/>
+    <include file="/changesets/insert-user-data.xml"/>
 
 </databaseChangeLog>
