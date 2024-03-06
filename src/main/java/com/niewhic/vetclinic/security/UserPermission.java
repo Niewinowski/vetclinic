@@ -1,4 +1,7 @@
 package com.niewhic.vetclinic.security;
 
-public class UserPermission {
+public enum UserPermission {
+    READ,
+    WRITE,
+    DELETE
 }

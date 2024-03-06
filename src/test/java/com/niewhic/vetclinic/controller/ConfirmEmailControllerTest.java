@@ -12,6 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -45,7 +46,8 @@ class ConfirmEmailControllerTest {
         String invalidToken = "invalidToken";
         when(tokenService.confirmEmail(invalidToken)).thenReturn(false);
 
-        postman.perform(get("/confirm-email?token=" + invalidToken))
+        postman.perform(get("/confirm-email?token=" + invalidToken)
+                        .with(httpBasic("admin", "admin")))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
     }

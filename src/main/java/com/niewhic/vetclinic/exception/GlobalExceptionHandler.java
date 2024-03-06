@@ -3,17 +3,20 @@ package com.niewhic.vetclinic.exception;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.*;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -73,6 +76,18 @@ public class GlobalExceptionHandler {
                 .collect(Collectors.joining(", "));
 
         return createErrorResponse(HttpStatus.BAD_REQUEST, message, request);
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ErrorMessage> handleAuthenticationException(AuthenticationException ex, HttpServletRequest request) {
+        return new ResponseEntity<>(ErrorMessage.builder()
+                .timestamp(LocalDateTime.now())
+                .code(UNAUTHORIZED.value())
+                .status(UNAUTHORIZED.getReasonPhrase())
+                .message(ex.getMessage())
+                .uri(request.getRequestURI())
+                .method(request.getMethod())
+                .build(), UNAUTHORIZED);
     }
 
 }

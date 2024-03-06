@@ -17,6 +17,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
 
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -47,13 +48,14 @@ class AppointmentControllerTest {
         // Given
         // When
         // Then
-        postman.perform(get("/appointments/1"))
+        postman.perform(get("/appointments/1")
+                        .with(httpBasic("admin", "admin")))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.doctor.id").value(1))
                 .andExpect(jsonPath("$.patient.id").value(1))
-                .andExpect(jsonPath("$.dateTime").value("2023-09-01T10:00:00"))
+                .andExpect(jsonPath("$.dateTime").value("2024-09-01T10:00:00"))
                 .andExpect(jsonPath("$.notes").value("Regular check-up for Scooby after a mystery adventure."))
                 .andExpect(jsonPath("$.prescription").value("Vitamin snacks for bravery."));
 
@@ -71,7 +73,8 @@ class AppointmentControllerTest {
                 .officeId(1L)
                 .build();
         String commandJson = objectMapper.writeValueAsString(command);
-        postman.perform(get("/appointments/6"))
+        postman.perform(get("/appointments/6")
+                        .with(httpBasic("admin", "admin")))
                 .andDo(print())
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.code").value(404))
@@ -80,6 +83,7 @@ class AppointmentControllerTest {
                 .andExpect(jsonPath("$.uri").value("/appointments/6"))
                 .andExpect(jsonPath("$.method").value("GET"));
         postman.perform(post("/appointments")
+                        .with(httpBasic("admin", "admin"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(commandJson))
                 .andDo(print())
@@ -92,7 +96,8 @@ class AppointmentControllerTest {
                 .andExpect(jsonPath("$.prescription").value(command.getPrescription()))
                 .andExpect(jsonPath("$.office.id").value(command.getOfficeId()));
 
-        postman.perform(get("/appointments/6"))
+        postman.perform(get("/appointments/6")
+                        .with(httpBasic("admin", "admin")))
                 .andDo(print())
                 .andExpect(jsonPath("$.id").value(6L))
                 .andExpect(jsonPath("$.doctor.id").value(command.getDoctorId()))
@@ -107,12 +112,14 @@ class AppointmentControllerTest {
         long appointmentId = 1;
 
         // When
-        postman.perform(delete("/appointments/" + appointmentId))
+        postman.perform(delete("/appointments/" + appointmentId)
+                        .with(httpBasic("admin", "admin")))
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
         // Then
-        postman.perform(get("/appointments/" + appointmentId))
+        postman.perform(get("/appointments/" + appointmentId)
+                        .with(httpBasic("admin", "admin")))
                 .andDo(print())
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.code").value(404))
@@ -130,16 +137,18 @@ class AppointmentControllerTest {
                 .prescription("new prescription")
                 .build();
         String commandJson = objectMapper.writeValueAsString(command);
-        postman.perform(get("/appointments/1"))
+        postman.perform(get("/appointments/1")
+                        .with(httpBasic("admin", "admin")))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.doctor.id").value(1))
                 .andExpect(jsonPath("$.patient.id").value(1))
-                .andExpect(jsonPath("$.dateTime").value("2023-09-01T10:00:00"))
+                .andExpect(jsonPath("$.dateTime").value("2024-09-01T10:00:00"))
                 .andExpect(jsonPath("$.notes").value("Regular check-up for Scooby after a mystery adventure."))
                 .andExpect(jsonPath("$.prescription").value("Vitamin snacks for bravery."));
         postman.perform(put("/appointments/1")
+                        .with(httpBasic("admin", "admin"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(commandJson))
                 .andDo(print())
@@ -148,7 +157,8 @@ class AppointmentControllerTest {
                 .andExpect(jsonPath("$.dateTime").value("2022-10-10T00:00:00"))
                 .andExpect(jsonPath("$.notes").value(command.getNotes()))
                 .andExpect(jsonPath("$.prescription").value(command.getPrescription()));
-        postman.perform(get("/appointments/1"))
+        postman.perform(get("/appointments/1")
+                        .with(httpBasic("admin", "admin")))
                 .andDo(print())
                 .andExpect(jsonPath("$.doctor.id").value(command.getDoctorId()))
                 .andExpect(jsonPath("$.dateTime").value("2022-10-10T00:00:00"))
@@ -165,7 +175,8 @@ class AppointmentControllerTest {
                 .prescription("new prescription")
                 .build();
         String commandJson = objectMapper.writeValueAsString(command);
-        postman.perform(get("/appointments/6"))
+        postman.perform(get("/appointments/6")
+                        .with(httpBasic("admin", "admin")))
                 .andDo(print())
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.code").value(404))
@@ -174,6 +185,7 @@ class AppointmentControllerTest {
                 .andExpect(jsonPath("$.uri").value("/appointments/6"))
                 .andExpect(jsonPath("$.method").value("GET"));
         postman.perform(put("/appointments/6")
+                        .with(httpBasic("admin", "admin"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(commandJson))
                 .andDo(print())
@@ -197,6 +209,7 @@ class AppointmentControllerTest {
         String commandJson = objectMapper.writeValueAsString(command);
 
         postman.perform(post("/appointments")
+                        .with(httpBasic("admin", "admin"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(commandJson))
                 .andDo(print())
@@ -220,6 +233,7 @@ class AppointmentControllerTest {
         String commandJson = objectMapper.writeValueAsString(command);
 
         postman.perform(post("/appointments")
+                        .with(httpBasic("admin", "admin"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(commandJson))
                 .andDo(print())
