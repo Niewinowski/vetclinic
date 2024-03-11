@@ -35,7 +35,8 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(req -> req.getServletPath().startsWith("/user")).permitAll()
-                        .requestMatchers(req -> req.getServletPath().startsWith("/swagger-ui")).permitAll()
+                        .requestMatchers("/swagger-ui/**").permitAll()
+                        .requestMatchers("/v3/api-docs/**").permitAll()
                         .requestMatchers(req -> req.getMethod().equals("GET")).hasAuthority(UserPermission.READ.name())
                         .requestMatchers(req -> req.getMethod().equals("POST")
                                 || req.getMethod().equals("PUT")
