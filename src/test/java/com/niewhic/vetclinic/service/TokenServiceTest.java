@@ -5,6 +5,7 @@ import com.niewhic.vetclinic.model.doctor.Doctor;
 import com.niewhic.vetclinic.model.office.Office;
 import com.niewhic.vetclinic.model.patient.Patient;
 import com.niewhic.vetclinic.model.token.Token;
+import com.niewhic.vetclinic.repository.AppointmentRepository;
 import com.niewhic.vetclinic.repository.TokenRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,7 +27,7 @@ class TokenServiceTest {
     @Mock
     private TokenRepository tokenRepository;
     @Mock
-    private AppointmentService appointmentService;
+    private AppointmentRepository appointmentRepository;
     private Token token;
     private Appointment appointment;
 
@@ -122,7 +123,7 @@ class TokenServiceTest {
         boolean result = tokenService.confirmEmail("token");
 
         assertTrue(result);
-        verify(appointmentService, times(1)).updateConfirmed(true, appointment.getId());
+        verify(appointmentRepository, times(1)).updateConfirmed(true, appointment.getId());
     }
 
     @Test
