@@ -6,6 +6,7 @@ import com.niewhic.vetclinic.model.appointment.command.CreateAppointmentCommand;
 import com.niewhic.vetclinic.model.appointment.command.EditAppointmentCommand;
 import com.niewhic.vetclinic.model.doctor.Doctor;
 import com.niewhic.vetclinic.model.patient.Patient;
+import com.niewhic.vetclinic.model.token.Token;
 import com.niewhic.vetclinic.repository.AppointmentRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,10 +29,15 @@ class AppointmentServiceTest {
     Patient patient;
     Doctor doctor;
     Appointment appointment;
+    Token token;
     @InjectMocks
     AppointmentService appointmentService;
     @Mock
     AppointmentRepository appointmentRepository;
+    @Mock
+    TokenService tokenService;
+    @Mock
+    EmailService emailService;
     @Mock
     ModelMapper modelMapper;
     @BeforeEach
@@ -98,9 +104,12 @@ class AppointmentServiceTest {
                 .notes("notes")
                 .prescription("prescription")
                 .build();
+        String confirmationLink = "confirmationLink";
 
         when(modelMapper.map(command, Appointment.class)).thenReturn(appointment);
         when(appointmentRepository.save(appointment)).thenReturn(appointment);
+        when(tokenService.generate(appointment)).thenReturn(token);
+        when(tokenService.generateConfirmationUrl(token)).thenReturn(confirmationLink);
 
         Appointment appointmentToSave = modelMapper.map(command, Appointment.class);
         Appointment resultAppointment = appointmentService.save(command);
@@ -109,6 +118,7 @@ class AppointmentServiceTest {
         assertNotNull(resultAppointment);
         assertEquals(1, resultAppointment.getDoctor().getId());
         assertEquals(1, resultAppointment.getPatient().getId());
+        verify(emailService, times(1)).sendConfirmationEmail(appointment, "en", confirmationLink);
     }
 
     @Test

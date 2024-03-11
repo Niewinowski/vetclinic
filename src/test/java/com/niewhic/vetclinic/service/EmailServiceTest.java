@@ -1,5 +1,8 @@
 package com.niewhic.vetclinic.service;
 
+import com.niewhic.vetclinic.model.appointment.Appointment;
+import com.niewhic.vetclinic.model.patient.Patient;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -9,32 +12,44 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import static org.assertj.core.api.Assertions.assertThat;
 
-import static org.mockito.Mockito.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class EmailServiceTest {
     @InjectMocks
     private EmailService emailService;
-
     @Mock
     private JavaMailSender javaMailSender;
     @Captor
     private ArgumentCaptor<SimpleMailMessage> simpleMailMessageCaptor;
+    private Patient patient;
+    private Appointment appointment;
+
+    @BeforeEach
+    void setUp() {
+        patient = Patient.builder()
+                .ownerEmail("patient@email.com")
+                .ownerName("John")
+                .build();
+        appointment = Appointment.builder()
+                .id(1)
+                .patient(patient)
+                .build();
+    }
+
     @Test
     void sendConfirmationEmailInEnglish() {
         // Given
-        String to = "patient@email.com";
         String language = "en";
-        String patientName = "John";
-        Long appointmentId = 123L;
         String tokenUrl = "http://example.com/confirm?token=xyz";
         String expectedSubject = "Appointment Confirmation";
         String expectedBody = "Dear John,\nPlease confirm your appointment by clicking the following link: http://example.com/confirm?token=xyz";
 
         // When
-        emailService.sendConfirmationEmail(to, language, patientName, appointmentId, tokenUrl);
+        emailService.sendConfirmationEmail(appointment, language, tokenUrl);
 
         // Then
         verify(javaMailSender, times(1)).send(simpleMailMessageCaptor.capture());
@@ -47,16 +62,13 @@ class EmailServiceTest {
     @Test
     void sendConfirmationEmailInPolish() {
         // Given
-        String to = "patient@email.com";
         String language = "pl";
-        String patientName = "Jan";
-        Long appointmentId = 456L;
         String tokenUrl = "http://example.com/confirm?token=abc";
         String expectedSubject = "Potwierdzenie wizyty";
-        String expectedBody = "Drogi Jan,\nProsze potwierdzic swoja wizyte, klikajac w ponizszy link: http://example.com/confirm?token=abc";
+        String expectedBody = "Drogi John,\nProsze potwierdzic swoja wizyte, klikajac w ponizszy link: http://example.com/confirm?token=abc";
 
         // When
-        emailService.sendConfirmationEmail(to, language, patientName, appointmentId, tokenUrl);
+        emailService.sendConfirmationEmail(appointment, language, tokenUrl);
 
         // Then
         verify(javaMailSender, times(1)).send(simpleMailMessageCaptor.capture());

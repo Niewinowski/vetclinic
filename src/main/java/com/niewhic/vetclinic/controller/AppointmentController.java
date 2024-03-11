@@ -75,12 +75,7 @@ public class AppointmentController {
             @ApiResponse(responseCode = "400", description = "Invalid Appointment details supplied", content = @Content)})
     @PostMapping
     public ResponseEntity<AppointmentDto> addAppointment(@Valid @RequestBody CreateAppointmentCommand command) {
-        // TODO wyniesc logike biznesowa do service
         Appointment savedAppointment = appointmentService.save(command);
-        Token token = tokenService.generate(savedAppointment);
-        String languagePreference = "en";
-        String confirmationLink = tokenService.generateConfirmationUrl(token);
-        emailService.sendConfirmationEmail(savedAppointment.getPatient().getOwnerEmail(), languagePreference, savedAppointment.getPatient().getName(), savedAppointment.getId(), confirmationLink);
         return new ResponseEntity<>(modelMapper.map(savedAppointment, AppointmentDto.class), HttpStatus.CREATED);
     }
 

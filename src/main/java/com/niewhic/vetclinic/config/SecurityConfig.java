@@ -5,8 +5,6 @@ import com.niewhic.vetclinic.security.UserPermission;
 import com.niewhic.vetclinic.service.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -37,6 +35,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(req -> req.getServletPath().startsWith("/user")).permitAll()
+                        .requestMatchers(req -> req.getServletPath().startsWith("/swagger-ui")).permitAll()
                         .requestMatchers(req -> req.getMethod().equals("GET")).hasAuthority(UserPermission.READ.name())
                         .requestMatchers(req -> req.getMethod().equals("POST")
                                 || req.getMethod().equals("PUT")

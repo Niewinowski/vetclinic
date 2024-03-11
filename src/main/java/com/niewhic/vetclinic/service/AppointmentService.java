@@ -7,6 +7,7 @@ import com.niewhic.vetclinic.model.appointment.command.CreateAppointmentCommand;
 import com.niewhic.vetclinic.model.appointment.command.EditAppointmentCommand;
 import com.niewhic.vetclinic.model.doctor.Doctor;
 import com.niewhic.vetclinic.model.patient.Patient;
+import com.niewhic.vetclinic.model.token.Token;
 import com.niewhic.vetclinic.repository.AppointmentRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
@@ -23,6 +24,8 @@ public class AppointmentService {
 
     private static Logger LOGGER = LogManager.getLogger(AppointmentService.class);
     private final AppointmentRepository appointmentRepository;
+    private final TokenService tokenService;
+    private final EmailService emailService;
     private final ModelMapper modelMapper;
 
     public List<Appointment> findAll() {
@@ -35,8 +38,10 @@ public class AppointmentService {
 
     public Appointment save(CreateAppointmentCommand command) {
         Appointment appointmentToSave = modelMapper.map(command, Appointment.class);
+
         Doctor doctor = appointmentToSave.getDoctor();
         for (Appointment appointment : findByDoctorId(doctor.getId())) {
+            System.out.println(appointment.getDateTime());
             if (appointmentToSave.getDateTime().isBefore(appointment.getDateTime().plusMinutes(16)) &&
                     appointmentToSave.getDateTime().isAfter(appointment.getDateTime().minusMinutes(15))) {
                 throw new DateIsBusyException("Doctor has other appointment in this time.");
@@ -49,7 +54,14 @@ public class AppointmentService {
                 throw new DateIsBusyException("Patient has other appointment in this time.");
             }
         }
-        return appointmentRepository.save(appointmentToSave);
+
+        Appointment savedAppointment = appointmentRepository.save(appointmentToSave);
+        Token token = tokenService.generate(savedAppointment);
+        String languagePreference = "en";
+        String confirmationLink = tokenService.generateConfirmationUrl(token);
+        emailService.sendConfirmationEmail(savedAppointment, languagePreference, confirmationLink);
+
+        return savedAppointment;
     }
 
     public void delete(long id) {

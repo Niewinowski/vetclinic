@@ -17,7 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 import java.util.List;
 
@@ -66,7 +65,7 @@ public class PatientController {
                     content = {@Content(mediaType = "application/json", schema = @Schema(implementation = PatientDto.class))}),
             @ApiResponse(responseCode = "400", description = "Invalid Patient details supplied", content = @Content)})
     @PostMapping
-    public ResponseEntity<PatientDto> addPatient(@Valid @RequestBody(description = "CreatePatientCommand object that is converted to Patient object") CreatePatientCommand command) {
+    public ResponseEntity<PatientDto> addPatient(@Valid @RequestBody CreatePatientCommand command) {
         Patient savedPatient = patientService.save(modelMapper.map(command, Patient.class));
         return new ResponseEntity<>(modelMapper.map(savedPatient, PatientDto.class), HttpStatus.CREATED);
     }
@@ -95,8 +94,7 @@ public class PatientController {
             @ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content),
             @ApiResponse(responseCode = "404", description = "Patient not found", content = @Content)})
     @PutMapping("/{id}")
-    public ResponseEntity<PatientDto> updatePatient(@PathVariable long id,
-                                                    @RequestBody(description = "EditPatientCommand object that is converted to Patient object") EditPatientCommand command) {
+    public ResponseEntity<PatientDto> updatePatient(@PathVariable long id, @RequestBody EditPatientCommand command) {
         Patient updatedPatient = patientService.edit(id, modelMapper.map(command, Patient.class));
         return ResponseEntity.ok(modelMapper.map(patientService.edit(id, updatedPatient), PatientDto.class));
     }
@@ -111,8 +109,7 @@ public class PatientController {
             @ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content),
             @ApiResponse(responseCode = "404", description = "Patient not found", content = @Content)})
     @PatchMapping("/{id}")
-    public ResponseEntity<PatientDto> editPatient(@PathVariable long id,
-                                                  @RequestBody(required = true, description = "EditPatientCommand object that is converted to Patient object") EditPatientCommand command) {
+    public ResponseEntity<PatientDto> editPatient(@PathVariable long id, @RequestBody EditPatientCommand command) {
         Patient editedPatient = patientService.editPartially(id, modelMapper.map(command, Patient.class));
         return ResponseEntity.ok(modelMapper.map(patientService.editPartially(id, editedPatient), PatientDto.class));
     }

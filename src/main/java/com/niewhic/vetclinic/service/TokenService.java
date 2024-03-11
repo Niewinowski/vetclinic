@@ -2,6 +2,7 @@ package com.niewhic.vetclinic.service;
 
 import com.niewhic.vetclinic.model.appointment.Appointment;
 import com.niewhic.vetclinic.model.token.Token;
+import com.niewhic.vetclinic.repository.AppointmentRepository;
 import com.niewhic.vetclinic.repository.TokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,9 +11,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class TokenService {
     private final TokenRepository tokenRepository;
-
-    // TODO zamiast AppointmentService pozwolmy sobie uzyc repo i tak ominiemy circular dependency
-    private final AppointmentService appointmentService;
+    private final AppointmentRepository appointmentRepository;
 
     public Token findByToken(String token) {
         return tokenRepository.findByToken(token);
@@ -35,7 +34,7 @@ public class TokenService {
     public boolean confirmEmail(String token) {
         Token confirmationToken = findByToken(token);
         if (confirmationToken != null && !confirmationToken.isExpired()) {
-            appointmentService.updateConfirmed(true, confirmationToken.getAppointment().getId());
+            appointmentRepository.updateConfirmed(true, confirmationToken.getAppointment().getId());
             deleteToken(confirmationToken);
             return true;
         }

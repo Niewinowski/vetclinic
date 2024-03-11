@@ -277,7 +277,6 @@ class PatientControllerTest {
                 .breed("breed")
                 .build();
         String commandJson = objectMapper.writeValueAsString(command);
-        System.out.println(commandJson);
         postman.perform(get("/patients/6")
                         .with(httpBasic("admin", "admin")))
                 .andDo(print())
@@ -306,7 +305,7 @@ class PatientControllerTest {
                         .with(httpBasic("admin", "admin")))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(5))
+                .andExpect(jsonPath("$.id").value(6))
                 .andExpect(jsonPath("$.name").value("Puppy"))
                 .andExpect(jsonPath("$.ownerName").value("Jan"))
                 .andExpect(jsonPath("$.ownerLastName").value("Kowalski"))
