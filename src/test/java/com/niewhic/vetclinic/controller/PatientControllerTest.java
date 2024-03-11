@@ -306,7 +306,7 @@ class PatientControllerTest {
                         .with(httpBasic("admin", "admin")))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(6))
+                .andExpect(jsonPath("$.id").value(5))
                 .andExpect(jsonPath("$.name").value("Puppy"))
                 .andExpect(jsonPath("$.ownerName").value("Jan"))
                 .andExpect(jsonPath("$.ownerLastName").value("Kowalski"))
@@ -350,12 +350,12 @@ class PatientControllerTest {
     @Test
     void shouldEditPatient() throws Exception {
         EditPatientCommand command = EditPatientCommand.builder()
-                .name("Puppy")
-                .ownerName("Jan")
-                .ownerLastName("Kowalski")
-                .ownerEmail("jan@kowalski.com")
-                .species("species")
-                .breed("breed")
+                .name("Scooby")
+                .ownerName("Shaggy")
+                .ownerLastName("Rogers")
+                .ownerEmail("shaggy@mysterymachine.com")
+                .species("Dog")
+                .breed("Great Dane")
                 .build();
         String commandJson = objectMapper.writeValueAsString(command);
         postman.perform(get("/patients/1")
@@ -433,9 +433,9 @@ class PatientControllerTest {
     @Test
     void shouldEditPartially() throws Exception {
         EditPatientCommand command = EditPatientCommand.builder()
-                .name("Puppy")
-                .species("species")
-                .breed("breed")
+                .name("Scooby")
+                .species("Dog")
+                .breed("Great Dane")
                 .build();
         String commandJson = objectMapper.writeValueAsString(command);
         postman.perform(get("/patients/1")

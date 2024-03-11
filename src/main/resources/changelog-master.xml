@@ -8,6 +8,8 @@
 
         <include file="/changesets/create-master-tables.xml"/>
         <include file="/changesets/alter-table-appointment.xml"/>
+        <include file="/changesets/create-user-table.xml" />
+
 
 
 </databaseChangeLog>
