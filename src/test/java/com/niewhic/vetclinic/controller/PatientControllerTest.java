@@ -372,7 +372,7 @@ class PatientControllerTest {
                 .andExpect(jsonPath("$.breed").value("Great Dane"))
                 .andExpect(jsonPath("$.active").value("true"));
         postman.perform(put("/patients/1")
-                        .with(httpBasic("admin", "admin"))
+                        .with(httpBasic("admin2", "admin"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(commandJson))
                 .andDo(print())
